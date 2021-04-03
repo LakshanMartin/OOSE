@@ -1,7 +1,6 @@
 package org.lucky.electricityNetwork.controller;
 
-import java.util.*;
-import org.lucky.electricityNetwork.view.ValidationChecks;
+import org.lucky.electricityNetwork.view.ValidationOutput;
 
 /**
  * An application that models a city's electricity usage.
@@ -14,7 +13,7 @@ public class MainApp
         //Validation of command line arguments
         if(args.length == 0)
         {
-            System.out.println(ValidationChecks.getInstructionsMsg());
+            ValidationOutput.instructionsMsg();
         }
         else if(args.length == 2)
         {
@@ -24,7 +23,7 @@ public class MainApp
             }
             else
             {
-                System.out.println(ValidationChecks.getInvalidArgsMsg());
+                ValidationOutput.invalidArgsMsg();
             }            
         }
         else if(args.length == 3)
@@ -35,7 +34,7 @@ public class MainApp
             }
             else
             {
-                System.out.println(ValidationChecks.getInvalidArgsMsg());
+                ValidationOutput.invalidArgsMsg();
             }
         }
         else if(args.length == 4)
@@ -46,12 +45,12 @@ public class MainApp
             }
             else
             {
-                System.out.println(ValidationChecks.getInvalidArgsMsg());
+                ValidationOutput.invalidArgsMsg();
             }
         }
         else
         {
-            System.out.println(ValidationChecks.getInvalidNumArgsMsg());
+            ValidationOutput.invalidNumArgsMsg();
         }
     }
 
