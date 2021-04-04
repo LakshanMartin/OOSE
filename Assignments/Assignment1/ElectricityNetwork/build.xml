@@ -4,7 +4,7 @@
     <property name="resources.dir"  value="resources"/>
     <property name="build.dir"      value="build"/>
     <property name="dist.dir"       value="dist"/>
-    <property name="main-class"     value="org.lucky.electricityNetwork.controller.MainApp"/>
+    <property name="main-class"     value="org.lucky.electricityNetwork.MainApp"/>
 
     <target name="clean">
         <delete dir="${build.dir}"/>

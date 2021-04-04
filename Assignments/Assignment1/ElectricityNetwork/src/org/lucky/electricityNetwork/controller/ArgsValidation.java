@@ -2,55 +2,49 @@ package org.lucky.electricityNetwork.controller;
 
 import org.lucky.electricityNetwork.view.ValidationOutput;
 
-/**
- * An application that models a city's electricity usage.
- * @author Lakshan Martin   Student ID: 13983521
- */
-public class MainApp
+
+public class ArgsValidation
 {
-    public static void main(String[] args)
+    /**
+     * Read and validate the arguments entered
+     * @param args
+     */
+    public static void readCLArgs(String[] args)
     {
-        //Validation of command line arguments
-        if(args.length == 0)
+        switch(args.length)
         {
-            ValidationOutput.instructionsMsg();
-        }
-        else if(args.length == 2)
-        {
-            if(validateTwoArgs(args))
-            {
-                System.out.println("Valid");
-            }
-            else
-            {
-                ValidationOutput.invalidArgsMsg();
-            }            
-        }
-        else if(args.length == 3)
-        {
-            if(validateThreeArgs(args))
-            {
-                System.out.println("Valid");
-            }
-            else
-            {
-                ValidationOutput.invalidArgsMsg();
-            }
-        }
-        else if(args.length == 4)
-        {
-            if(validateFourArgs(args))
-            {
-                System.out.println("Valid");
-            }
-            else
-            {
-                ValidationOutput.invalidArgsMsg();
-            }
-        }
-        else
-        {
-            ValidationOutput.invalidNumArgsMsg();
+            case 2:
+                if(validateTwoArgs(args))
+                {
+                    System.out.println("Valid");
+                }
+                else
+                {
+                    ValidationOutput.invalidArgsMsg();
+                }
+            break;
+
+            case 3:
+                if(validateThreeArgs(args))
+                {
+                    System.out.println("Valid");
+                }
+                else
+                {
+                    ValidationOutput.invalidArgsMsg();
+                }
+            break;
+
+            case 4:
+                if(validateFourArgs(args))
+                {
+                    System.out.println("Valid");
+                }
+                else
+                {
+                    ValidationOutput.invalidArgsMsg();
+                }
+            break;
         }
     }
 
