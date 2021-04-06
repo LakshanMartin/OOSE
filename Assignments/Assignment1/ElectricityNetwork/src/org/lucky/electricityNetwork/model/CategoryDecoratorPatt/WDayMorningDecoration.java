@@ -17,6 +17,6 @@ public class WDayMorningDecoration extends CategoryDecorator
 
     private String addUsage()
     {
-        return ", dm=" + usage;
+        return ",dm=" + usage;
     }
 }

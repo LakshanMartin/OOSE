@@ -17,6 +17,6 @@ public class WEndANoonDecoration extends CategoryDecorator
 
     private String addUsage()
     {
-        return ", ea=" + usage;
+        return ",ea=" + usage;
     }     
 }

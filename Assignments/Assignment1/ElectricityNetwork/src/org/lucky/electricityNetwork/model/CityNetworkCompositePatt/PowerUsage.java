@@ -1,8 +1,8 @@
-package org.lucky.electricityNetwork.model;
+package org.lucky.electricityNetwork.model.CityNetworkCompositePatt;
 
 import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.PowerCategory;
 
-public class PowerUsage implements PowerNode
+public class PowerUsage implements Node
 {
     private String name;
     private String parent;
@@ -16,19 +16,12 @@ public class PowerUsage implements PowerNode
     }
 
     @Override
-    public String getName() 
+    public String getNodeValues() 
     {
-        return name;
-    }
-    
-    @Override
-    public String getParent()
-    {
-        return parent;
+        return name + "," + parent + getPower();
     }
 
-    @Override
-    public String getPower() 
+    private String getPower() 
     {        
         return usage.getCategory();
     }

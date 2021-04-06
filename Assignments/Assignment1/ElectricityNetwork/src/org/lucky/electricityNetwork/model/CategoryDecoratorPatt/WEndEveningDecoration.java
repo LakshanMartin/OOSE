@@ -17,6 +17,6 @@ public class WEndEveningDecoration extends CategoryDecorator
 
     private String addUsage()
     {
-        return ", ee=" + usage;
+        return ",ee=" + usage;
     }     
 }

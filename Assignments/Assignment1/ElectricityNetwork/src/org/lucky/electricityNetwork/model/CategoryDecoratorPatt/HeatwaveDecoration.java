@@ -17,6 +17,6 @@ public class HeatwaveDecoration extends CategoryDecorator
 
     private String addUsage()
     {
-        return ", h=" + usage;
+        return ",h=" + usage;
     }     
 }

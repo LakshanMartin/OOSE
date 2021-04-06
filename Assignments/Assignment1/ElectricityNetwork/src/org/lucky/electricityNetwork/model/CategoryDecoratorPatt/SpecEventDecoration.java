@@ -17,6 +17,6 @@ public class SpecEventDecoration extends CategoryDecorator
 
     private String addUsage()
     {
-        return ", s=" + usage;
+        return ",s=" + usage;
     }     
 }
