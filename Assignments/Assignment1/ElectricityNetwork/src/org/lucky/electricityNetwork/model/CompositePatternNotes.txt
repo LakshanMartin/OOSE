@@ -1,0 +1,18 @@
+INFO REQUIRED:
+- Node name
+- Node's children
+- Leaf's power consumption
+
+
+BASE NODE:
+- get children
+- get power consumption
+
+LEAF NODE:
+- get children
+- get power consumption
+
+COMPOSITE NODE:
+- get children
+- get power consumption
+- add children

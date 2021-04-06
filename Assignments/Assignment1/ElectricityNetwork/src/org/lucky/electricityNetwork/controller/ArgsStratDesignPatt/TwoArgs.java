@@ -1,20 +1,20 @@
-package org.lucky.electricityNetwork.controller.ArgsStratPattDesign;
+package org.lucky.electricityNetwork.controller.ArgsStratDesignPatt;
 
 import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsException;
 import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsValidation;
 
-public class ThreeArgs implements ReadArgs
+public class TwoArgs implements ReadArgs
 {
     @Override
-    public void validateArgs(String[] args, ArgsValidation check) throws ArgsException 
+    public void validateArgs(String[] args, ArgsValidation check) throws ArgsException
     {
         try
         {
-            check.validateThreeArgs(args);
+            check.validateTwoArgs(args);
         }
         catch(ArgsException exception)
         {
             throw exception;
         }
-    }        
+    }
 }

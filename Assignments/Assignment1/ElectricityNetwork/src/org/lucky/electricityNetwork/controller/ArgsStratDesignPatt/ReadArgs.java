@@ -1,4 +1,4 @@
-package org.lucky.electricityNetwork.controller.ArgsStratPattDesign;
+package org.lucky.electricityNetwork.controller.ArgsStratDesignPatt;
 
 import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsException;
 import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsValidation;

@@ -1,11 +1,11 @@
 package org.lucky.electricityNetwork;
 
+import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.FourArgs;
+import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.ReadArgs;
+import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.ThreeArgs;
+import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.TwoArgs;
 import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsException;
 import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsValidation;
-import org.lucky.electricityNetwork.controller.ArgsStratPattDesign.FourArgs;
-import org.lucky.electricityNetwork.controller.ArgsStratPattDesign.ReadArgs;
-import org.lucky.electricityNetwork.controller.ArgsStratPattDesign.ThreeArgs;
-import org.lucky.electricityNetwork.controller.ArgsStratPattDesign.TwoArgs;
 
 /**
  * An application that models a city's electricity usage.
