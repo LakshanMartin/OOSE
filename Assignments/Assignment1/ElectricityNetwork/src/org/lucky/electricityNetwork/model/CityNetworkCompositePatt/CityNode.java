@@ -4,65 +4,78 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.lucky.electricityNetwork.controller.CityNodeController;
+
 public class CityNode implements Node
 {
     private String name;
     private List<Node> network;
+    private CityNodeController controller;
+    private String networkStr;
     private Double[] totalPower;
 
     public CityNode(String name)
     {
         this.name = name;
         network = new ArrayList<>();
+        
+        controller = new CityNodeController();
         totalPower = new Double[8];
         Arrays.fill(totalPower, 0.0);
+
+        /*
+        Initial totalPower array is setup as follows to represent power 
+        consumption by category:
+            totalPower[0] = 0.0     Weekday morning
+            totalPower[1] = 0.0     Weekday afternoon
+            totalPower[2] = 0.0     Weekday evening
+            totalPower[3] = 0.0     Weekend morning
+            totalPower[4] = 0.0     Weekend afternoon
+            totalPower[5] = 0.0     Weekend evening
+            totalPower[6] = 0.0     Heatwave
+            totalPower[7] = 0.0     Special event
+        */
+    }
+
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
+    public String getParent()
+    {
+        return null;
+    }
+
+    @Override
+    public int getDepth()
+    {
+        return 1;
     }
 
     @Override
     public String getNodeValues() 
     {
         return name;
-    }
-
-    public String getPower() 
-    {
-        return null;
-    }    
+    }  
 
     public void addNode(Node newNode)
     {
         network.add(newNode);
-        updateTotalPower(newNode.getNodeValues());
+        totalPower = controller.updateTotalPower(newNode.getNodeValues(), totalPower);
     }
 
-    private void updateTotalPower(String nodeValues)
+    public String getNetworkStr()
     {
-        String[] line, powerValues;
+        
 
-        line = nodeValues.split(",");
-
-        if(line.length > 2)
-        {
-            for(int i = 2; i < line.length; i++)
-            {
-                powerValues = line[i].split("=");
-
-                switch(powerValues[0])
-                {
-                    //List cases of categories
-                }
-            }
-        }
+        return networkStr;
     }
 
-    public String displayNetwork()
+    public Double[] getTotalPower()
     {
-        StringBuilder network;
-
-        network = new StringBuilder();
-
-        //Loop through network list to build string
-
-        return network.toString();
+        return totalPower;
     }
 }
