@@ -4,8 +4,9 @@ public class WEndANoonDecoration extends CategoryDecorator
 {
     private Double usage;
     
-    public WEndANoonDecoration(Double usage)
+    public WEndANoonDecoration(PowerCategory powCat, Double usage)
     {
+        super(powCat);
         this.usage = usage;
     }
 

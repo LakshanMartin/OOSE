@@ -15,7 +15,8 @@ public class CityNode implements Node
     //private Map<String,Node> network;
     private CityNodeController controller;
     private String networkStr;
-    private Double[] totalPower;
+    private double[] totalPower;
+    //private Map<String,Double> totalPower;
 
     public CityNode(String name)
     {
@@ -24,8 +25,9 @@ public class CityNode implements Node
         //network = new HashMap<>();
         
         controller = new CityNodeController();
-        totalPower = new Double[8];
+        totalPower = new double[8];
         Arrays.fill(totalPower, 0.0);
+        //defaultTotalPower();
 
         /*
         Initial totalPower array is setup as follows to represent power 
@@ -66,6 +68,42 @@ public class CityNode implements Node
         return rootName;
     }  
 
+    public List<Node> getNetworkList()
+    {
+        return network;
+    }
+
+    //Remove from Model 
+    public String getNetworkStr()
+    {
+        networkStr = controller.buildNetworkStr(rootName, network);
+
+        return networkStr;
+    }
+
+    //Remove from Model
+    //public Map<String,Double> getTotalPower()
+    public double[] getTotalPower()
+    {
+        return totalPower;
+    }
+
+    //SUPPORTING METHODS
+    /*private void defaultTotalPower()
+    {
+        totalPower = new HashMap<>();
+
+        totalPower.put("Weekday morning", 0.0);
+        totalPower.put("Weekday afternoon", 0.0);
+        totalPower.put("Weekday evening", 0.0);
+        totalPower.put("Weekend morning", 0.0);
+        totalPower.put("Weekend afternoon", 0.0);
+        totalPower.put("Weekend evening", 0.0);
+        totalPower.put("Heatwave", 0.0);
+        totalPower.put("Special event", 0.0);
+    }*/
+
+
     /**
      * Find and return specific node by name
      * REFERENCE: Cooper, David. Lecture 4: Object Relationships. Slide 43.
@@ -84,12 +122,7 @@ public class CityNode implements Node
         }
 
         return null;
-    }
-
-    public List<Node> getNetworkList()
-    {
-        return network;
-    }
+    }    
 
     public boolean checkParentNodes(String input)
     {
@@ -117,24 +150,9 @@ public class CityNode implements Node
         return exists;
     }
 
-    //MUTATORS
     public void addNode(Node newNode)
     {
         network.add(newNode);
         totalPower = controller.updateTotalPower(newNode.getNodeValues(), totalPower);
-    }
-
-    //Remove from Model 
-    public String getNetworkStr()
-    {
-        networkStr = controller.buildNetworkStr(rootName, network);
-
-        return networkStr;
-    }
-
-    //Remove from Model
-    public Double[] getTotalPower()
-    {
-        return totalPower;
-    }
+    }    
 }

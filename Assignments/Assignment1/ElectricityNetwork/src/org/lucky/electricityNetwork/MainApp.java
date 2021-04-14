@@ -2,14 +2,12 @@ package org.lucky.electricityNetwork;
 
 import java.util.Random;
 
-import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.FourArgs;
-import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.ReadArgs;
-import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.ThreeArgs;
-import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.TwoArgs;
-import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsException;
-import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsValidation;
+import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.*;
+import org.lucky.electricityNetwork.controller.ArgsValidation.*;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.CityNode;
 import org.lucky.electricityNetwork.model.DataGen.DataGeneration;
+import org.lucky.electricityNetwork.view.Display;
+
 
 /**
  * An application that models a city's electricity usage.
@@ -21,6 +19,7 @@ public class MainApp
     {
         ReadArgs readArgs;
         ArgsValidation check = new ArgsValidation();
+        Display display;
         CityNode cityNetwork;
 
         switch(args.length)
@@ -43,10 +42,17 @@ public class MainApp
             case 2:
                 try 
                 {
+                    //Validate arguments
                     readArgs = new TwoArgs();
                     readArgs.validateArgs(args, check);
+                    
+                    //Generate random data
                     cityNetwork = generateData();
-                    System.out.println(cityNetwork.getNetworkStr());
+                    
+                    //Display tree and power consumption table
+                    display = new Display(cityNetwork);
+                    display.displayNetwork();
+                    display.displayPowerConsumption();
                 } 
                 catch(ArgsException e) 
                 {

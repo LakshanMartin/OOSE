@@ -326,35 +326,35 @@ public class ReadFile
             switch(category[0])
             {
                 case "dm":
-                    consumption = new WDayMorningDecoration(power);
+                    consumption = new WDayMorningDecoration(consumption, power);
                 break;
 
                 case "da":
-                    consumption = new WDayANoonDecoration(power);
+                    consumption = new WDayANoonDecoration(consumption, power);
                 break;
 
                 case "de":
-                    consumption = new WDayEveningDecoration(power);
+                    consumption = new WDayEveningDecoration(consumption, power);
                 break;
 
                 case "em":
-                    consumption = new WEndMorningDecoration(power);
+                    consumption = new WEndMorningDecoration(consumption, power);
                 break;
 
                 case "ea":
-                    consumption = new WEndANoonDecoration(power);
+                    consumption = new WEndANoonDecoration(consumption, power);
                 break;
 
                 case "ee":
-                    consumption = new WEndEveningDecoration(power);
+                    consumption = new WEndEveningDecoration(consumption, power);
                 break;
 
                 case "h":
-                    consumption = new HeatwaveDecoration(power);
+                    consumption = new HeatwaveDecoration(consumption, power);
                 break;
 
                 case "s":
-                    consumption = new SpecEventDecoration(power);
+                    consumption = new SpecEventDecoration(consumption, power);
                 break;
 
                 default:

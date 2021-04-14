@@ -51,6 +51,7 @@ public class DataGeneration
         return rand.nextInt((max - min) + 1) + min;
     }
 
+    //SUPPORTING METHODS
     private void buildDepthOne()
     {
         Node newNode;
@@ -73,6 +74,9 @@ public class DataGeneration
 
         numChild = genRandInt(2, 5); //Random number of child nodes [2-5]
 
-        
+        for(int i = 0; i < numChild; i++)
+        {
+
+        }        
     }
 }

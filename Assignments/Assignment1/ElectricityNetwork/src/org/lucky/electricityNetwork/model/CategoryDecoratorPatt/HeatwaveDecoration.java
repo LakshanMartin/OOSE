@@ -4,8 +4,9 @@ public class HeatwaveDecoration extends CategoryDecorator
 {
     private Double usage;
     
-    public HeatwaveDecoration(Double usage)
+    public HeatwaveDecoration(PowerCategory powCat, Double usage)
     {
+        super(powCat);
         this.usage = usage;
     }
 

@@ -4,8 +4,9 @@ public class WDayEveningDecoration extends CategoryDecorator
 {
     private Double usage;
     
-    public WDayEveningDecoration(Double usage)
+    public WDayEveningDecoration(PowerCategory powCat, Double usage)
     {
+        super(powCat);
         this.usage = usage;
     }
 

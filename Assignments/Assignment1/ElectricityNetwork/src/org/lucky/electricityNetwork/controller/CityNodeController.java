@@ -10,9 +10,10 @@ public class CityNodeController
     //Empty Constructor
     public CityNodeController(){}
 
-    public Double[] updateTotalPower(String nodeValues, Double[] totalPower)
+    public double[] updateTotalPower(String nodeValues, double[] totalPower)
     {
         String[] line, powerValues;
+        double currCons, addCons;
 
         line = nodeValues.split(",");
 
@@ -21,38 +22,55 @@ public class CityNodeController
             for(int i = 2; i < line.length; i++)
             {
                 powerValues = line[i].split("=");
+                addCons = Double.parseDouble(powerValues[1]);
 
                 switch(powerValues[0])
                 {
                     case "dm":
+                        //currCons = totalPower.get("Weekday morning");
+                        //totalPower.replace("Weekday morning", currCons + addCons);
                         totalPower[0] += Double.parseDouble(powerValues[1]);
                     break;
 
                     case "da":
+                        //currCons = totalPower.get("Weekday afternoon");
+                        //totalPower.replace("Weekday afternoon", currCons + addCons);
                         totalPower[1] += Double.parseDouble(powerValues[1]);
                     break;
 
                     case "de":
+                        //currCons = totalPower.get("Weekday evening");
+                        //totalPower.replace("Weekday evening", currCons + addCons);   
                         totalPower[2] += Double.parseDouble(powerValues[1]);
                     break;
 
                     case "em":
+                        //currCons = totalPower.get("Weekend morning");
+                        //totalPower.replace("Weekend morning", currCons + addCons);    
                         totalPower[3] += Double.parseDouble(powerValues[1]);
                     break;
 
                     case "ea":
+                        //currCons = totalPower.get("Weekend afternoon");
+                        //totalPower.replace("Weekend afternoon", currCons + addCons);
                         totalPower[4] += Double.parseDouble(powerValues[1]);
                     break;
 
                     case "ee":
+                        //currCons = totalPower.get("Weekend evening");
+                        //totalPower.replace("Weekend evening", currCons + addCons);    
                         totalPower[5] += Double.parseDouble(powerValues[1]);
                     break;
 
                     case "h":
+                        //currCons = totalPower.get("Heatwave");
+                        //totalPower.replace("Heatwave", currCons + addCons);    
                         totalPower[6] += Double.parseDouble(powerValues[1]);
                     break;
 
                     case "s":
+                        //currCons = totalPower.get("Special event");
+                        //totalPower.replace("Special event", currCons + addCons);    
                         totalPower[7] += Double.parseDouble(powerValues[1]);
                     break;
                 }
@@ -71,17 +89,17 @@ public class CityNodeController
 
         for(int i = 0; i < network.size(); i++)
         {
-            buildFrom = network.get(i);
-            currName = buildFrom.getName();
-            currParent = buildFrom.getParent();
-            depth = buildFrom.getDepth();
+            buildFrom = network.get(i); //leaf node
+            currName = buildFrom.getName(); //Perth
+            currParent = buildFrom.getParent(); //Perth
+            depth = buildFrom.getDepth(); //1
 
             if(currParent.equals(root))
             {
                 //Add tabs based on depth of node
-                for(int j = 1; j < depth; j++)
+                for(int j = 0; j < depth; j++)
                 {
-                    networkStr.append("\t");
+                    networkStr.append("    "); //Indentation to represent child/leaf node
                 }
 
                 networkStr.append(currName + "\n");
@@ -101,17 +119,17 @@ public class CityNodeController
 
         for(int i = index; i < network.size(); i++)
         {
-            buildFrom = network.get(i);
-            currName = buildFrom.getName();
-            currParent = buildFrom.getParent();
-            depth = buildFrom.getDepth();
+            buildFrom = network.get(i); 
+            currName = buildFrom.getName(); 
+            currParent = buildFrom.getParent(); 
+            depth = buildFrom.getDepth(); 
 
             if(currParent.equals(parent))
             {
                 //Add tabs based on depth of node
                 for(int j = 1; j < depth; j++)
                 {
-                    networkStr.append("\t");
+                    networkStr.append("    ");  //Indentation to represent child/leaf node
                 }
 
                 networkStr.append(currName + "\n");

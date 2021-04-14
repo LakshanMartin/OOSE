@@ -73,21 +73,21 @@ public class DataPool
 
         consumption = new ConcretePowerCategory();
         usage = randUsage();
-        consumption = new WDayMorningDecoration(usage);
+        consumption = new WDayMorningDecoration(consumption, usage);
         usage = randUsage();       
-        consumption = new WDayANoonDecoration(usage);
+        consumption = new WDayANoonDecoration(consumption, usage);
         usage = randUsage();
-        consumption = new WDayEveningDecoration(usage);
+        consumption = new WDayEveningDecoration(consumption, usage);
         usage = randUsage();
-        consumption = new WEndMorningDecoration(usage);
+        consumption = new WEndMorningDecoration(consumption, usage);
         usage = randUsage();
-        consumption = new WEndANoonDecoration(usage);
+        consumption = new WEndANoonDecoration(consumption, usage);
         usage = randUsage();
-        consumption = new WEndEveningDecoration(usage);
+        consumption = new WEndEveningDecoration(consumption,usage);
         usage = randUsage();
-        consumption = new HeatwaveDecoration(usage);
+        consumption = new HeatwaveDecoration(consumption, usage);
         usage = randUsage();
-        consumption = new SpecEventDecoration(usage);
+        consumption = new SpecEventDecoration(consumption, usage);
     }
 
     //ACCESSORS

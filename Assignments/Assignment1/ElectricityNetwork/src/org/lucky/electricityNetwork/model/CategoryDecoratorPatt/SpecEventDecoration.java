@@ -4,8 +4,9 @@ public class SpecEventDecoration extends CategoryDecorator
 {
     private Double usage;
     
-    public SpecEventDecoration(Double usage)
+    public SpecEventDecoration(PowerCategory powCat, Double usage)
     {
+        super(powCat);
         this.usage = usage;
     }
 
