@@ -1,11 +1,15 @@
 package org.lucky.electricityNetwork;
 
+import java.util.Random;
+
 import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.FourArgs;
 import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.ReadArgs;
 import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.ThreeArgs;
 import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.TwoArgs;
 import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsException;
 import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsValidation;
+import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.CityNode;
+import org.lucky.electricityNetwork.model.DataGen.DataGeneration;
 
 /**
  * An application that models a city's electricity usage.
@@ -17,6 +21,7 @@ public class MainApp
     {
         ReadArgs readArgs;
         ArgsValidation check = new ArgsValidation();
+        CityNode cityNetwork;
 
         switch(args.length)
         {
@@ -40,7 +45,8 @@ public class MainApp
                 {
                     readArgs = new TwoArgs();
                     readArgs.validateArgs(args, check);
-                    System.out.println("Valid");
+                    cityNetwork = generateData();
+                    System.out.println(cityNetwork.getNetworkStr());
                 } 
                 catch(ArgsException e) 
                 {
@@ -54,6 +60,7 @@ public class MainApp
                     readArgs = new ThreeArgs();
                     readArgs.validateArgs(args, check);
                     System.out.println("Valid");
+                    
                 }
                 catch(ArgsException e)
                 {
@@ -81,5 +88,16 @@ public class MainApp
         }
 
         
+    }
+
+    private static CityNode generateData()
+    {
+        DataGeneration dataGen;
+        CityNode cityNetwork;
+
+        dataGen = new DataGeneration();
+        cityNetwork = dataGen.getCityNetwork();
+
+        return cityNetwork;
     }
 }

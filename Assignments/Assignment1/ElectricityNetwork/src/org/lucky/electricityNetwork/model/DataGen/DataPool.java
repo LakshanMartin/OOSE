@@ -1,0 +1,131 @@
+package org.lucky.electricityNetwork.model.DataGen;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.*;
+
+public class DataPool 
+{
+    private List<String> depthTwo;
+    private List<String> depthThree;
+    private List<String> depthFour;
+    private List<String> depthFive;
+    private PowerCategory consumption;
+
+    public DataPool()
+    {
+        genDepthTwoPool();
+        genDepthThreePool();
+        genDepthFourPool();
+        genDepthFivePool();
+    }
+
+    //MUTATORS
+    private void genDepthTwoPool()
+    {
+        depthTwo =  new ArrayList<>();
+
+        depthTwo.add("North");
+        depthTwo.add("South");
+        depthTwo.add("East");
+        depthTwo.add("West");
+        depthTwo.add("Central");
+    }
+
+    private void genDepthThreePool()
+    {
+        depthThree = new ArrayList<>();
+
+        depthThree.add("Shire1");
+        depthThree.add("Shire2");
+        depthThree.add("Shire3");
+        depthThree.add("Shire4");
+        depthThree.add("Shire5");
+    }
+
+    private void genDepthFourPool()
+    {
+        depthFour = new ArrayList<>();
+
+        depthFour.add("Suburb1");
+        depthFour.add("Suburb2");
+        depthFour.add("Suburb3");
+        depthFour.add("Suburb4");
+        depthFour.add("Suburb5");
+    }
+
+    private void genDepthFivePool()
+    {
+        depthFive = new ArrayList<>();
+
+        depthFive.add("Street1");
+        depthFive.add("Street2");
+        depthFive.add("Street3");
+        depthFive.add("Street4");
+        depthFive.add("Street5");
+    }
+
+    public void genPowerCategories()
+    {
+        double usage;
+
+        consumption = new ConcretePowerCategory();
+        usage = randUsage();
+        consumption = new WDayMorningDecoration(usage);
+        usage = randUsage();       
+        consumption = new WDayANoonDecoration(usage);
+        usage = randUsage();
+        consumption = new WDayEveningDecoration(usage);
+        usage = randUsage();
+        consumption = new WEndMorningDecoration(usage);
+        usage = randUsage();
+        consumption = new WEndANoonDecoration(usage);
+        usage = randUsage();
+        consumption = new WEndEveningDecoration(usage);
+        usage = randUsage();
+        consumption = new HeatwaveDecoration(usage);
+        usage = randUsage();
+        consumption = new SpecEventDecoration(usage);
+    }
+
+    //ACCESSORS
+    public List<String> getDepthTwo()
+    {
+        return depthTwo;
+    }
+
+    public List<String> getDepthThree()
+    {
+        return depthThree;
+    }
+
+    public List<String> getDepthFour()
+    {
+        return depthFour;
+    }
+
+    public List<String> getDepthFive()
+    {
+        return depthFive;
+    }
+
+    public PowerCategory getPowerUsage()
+    {
+        return consumption;
+    }
+
+    private double randUsage()
+    {
+        Random rand = new Random();
+        int max = 1000;
+        double result, decimal;
+
+        result = rand.nextInt(max + 1); //Random whole number [0-1000]
+        decimal = rand.nextInt(99 + 1) / 100.0; //Random decimal number [0.00-0.99]
+        result += decimal; //Add to create random real number
+
+        return result;
+    }
+}

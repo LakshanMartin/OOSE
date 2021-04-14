@@ -76,6 +76,8 @@ public class ArgsValidation
                     {
                         throw new ArgsException(error.getInvalidReadThreeArgMsg());
                     }
+
+                    
                 }
                 else
                 {

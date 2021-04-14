@@ -9,4 +9,6 @@ public interface Node
     public int getDepth();
 
     public String getNodeValues();
+
+    public Node findNode(String name);
 }

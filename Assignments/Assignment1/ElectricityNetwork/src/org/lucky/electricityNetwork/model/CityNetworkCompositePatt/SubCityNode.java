@@ -36,4 +36,23 @@ public class SubCityNode implements Node
     {
         return name + "," + parent;
     }
+
+    /**
+     * Find and return specific node by name
+     * @param name
+     * @return
+     * REFERENCE: Cooper, David. Lecture 4: Object Relationships. Slide 42.
+     */
+    @Override
+    public Node findNode(String name)
+    {
+        Node found = null;
+
+        if(this.name.equals(name))
+        {
+            found = this;
+        }
+
+        return found;
+    }
 }
