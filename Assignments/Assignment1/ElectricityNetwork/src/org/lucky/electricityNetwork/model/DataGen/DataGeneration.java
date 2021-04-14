@@ -1,5 +1,6 @@
 package org.lucky.electricityNetwork.model.DataGen;
 
+import java.util.List;
 import java.util.Random;
 
 import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.PowerCategory;
@@ -16,7 +17,7 @@ public class DataGeneration
 
     public DataGeneration()
     {
-        this.treeDepth = 1;//genRandInt(1, 5); //Random tree depth [1-5]
+        this.treeDepth = 2;//genRandInt(1, 5); //Random tree depth [1-5]
         cityNetwork = new CityNode("Perth");
         data = new DataPool();
         buildTree();
@@ -71,12 +72,46 @@ public class DataGeneration
     private void buildDepthTwo()
     {
         int numChild;
+        List<String> dTwoNames;
+        List<String> dThreeNames;
+        String name;
+        Node newNode;
+        String[] parents;
+        PowerCategory usage;
 
         numChild = genRandInt(2, 5); //Random number of child nodes [2-5]
+        dTwoNames = data.getDepthTwo(); //Get list of node names        
+        dThreeNames = data.getDepthThree(); //Get list of leaf node names
+        parents = new String[numChild]; //Track parent names to be used for leaf nodes
 
+        //Loop to add nodes to tree
         for(int i = 0; i < numChild; i++)
         {
+            name = dTwoNames.get(i); //Retrieve name           
+            parents[i] = name; //Add to list of parents
 
-        }        
+            //Create non-root node
+            newNode = new SubCityNode(name, "Perth", 1);            
+        
+            //Add node to tree
+            cityNetwork.addNode(newNode);
+        }
+
+        //Loop to add leaf nodes to tree
+        for(int i = 0; i < numChild; i++)
+        {
+            //Get name
+            name = dThreeNames.get(i);
+
+            //Generate power usage data
+            data.genPowerCategories();
+            usage = data.getPowerUsage();
+
+            //Create leaf node
+            newNode = new PowerUsage(name, parents[i], 3, usage);
+
+            //Add to tree
+            cityNetwork.addNode(newNode);
+        }
     }
 }

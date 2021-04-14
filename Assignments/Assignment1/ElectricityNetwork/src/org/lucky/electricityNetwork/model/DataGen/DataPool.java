@@ -119,9 +119,10 @@ public class DataPool
     private double randUsage()
     {
         Random rand = new Random();
-        int max = 1000;
+        int max;
         double result, decimal;
 
+        max = 1000;
         result = rand.nextInt(max + 1); //Random whole number [0-1000]
         decimal = rand.nextInt(99 + 1) / 100.0; //Random decimal number [0.00-0.99]
         result += decimal; //Add to create random real number

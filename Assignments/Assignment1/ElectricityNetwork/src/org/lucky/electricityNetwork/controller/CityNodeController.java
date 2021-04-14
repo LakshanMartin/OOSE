@@ -1,7 +1,6 @@
 package org.lucky.electricityNetwork.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.Node;
 
@@ -13,7 +12,7 @@ public class CityNodeController
     public double[] updateTotalPower(String nodeValues, double[] totalPower)
     {
         String[] line, powerValues;
-        double currCons, addCons;
+        Double addPower;
 
         line = nodeValues.split(",");
 
@@ -21,57 +20,75 @@ public class CityNodeController
         {
             for(int i = 2; i < line.length; i++)
             {
-                powerValues = line[i].split("=");
-                addCons = Double.parseDouble(powerValues[1]);
+                powerValues = line[i].split("=");                
+                addPower = Double.parseDouble(powerValues[1]);
 
                 switch(powerValues[0])
                 {
                     case "dm":
                         //currCons = totalPower.get("Weekday morning");
                         //totalPower.replace("Weekday morning", currCons + addCons);
-                        totalPower[0] += Double.parseDouble(powerValues[1]);
+                        System.out.println(powerValues[0] + ": " + powerValues[1]);
+                        totalPower[0] += addPower;
+                        
+                        //Attempt to fix precision errors with double arithmetic
+                        totalPower[0] = Math.round(totalPower[0] * 100.0) / 100.0;
                     break;
 
                     case "da":
                         //currCons = totalPower.get("Weekday afternoon");
                         //totalPower.replace("Weekday afternoon", currCons + addCons);
-                        totalPower[1] += Double.parseDouble(powerValues[1]);
+                        System.out.println(powerValues[0] + ": " + powerValues[1]);
+                        totalPower[1] += addPower;
+                        totalPower[1] = Math.round(totalPower[1] * 100.0) / 100.0;
                     break;
 
                     case "de":
                         //currCons = totalPower.get("Weekday evening");
                         //totalPower.replace("Weekday evening", currCons + addCons);   
-                        totalPower[2] += Double.parseDouble(powerValues[1]);
+                        System.out.println(powerValues[0] + ": " + powerValues[1]);
+                        totalPower[2] += addPower;
+                        totalPower[2] = Math.round(totalPower[2] * 100.0) / 100.0;
                     break;
 
                     case "em":
                         //currCons = totalPower.get("Weekend morning");
                         //totalPower.replace("Weekend morning", currCons + addCons);    
-                        totalPower[3] += Double.parseDouble(powerValues[1]);
+                        System.out.println(powerValues[0] + ": " + powerValues[1]);
+                        totalPower[3] += addPower;
+                        totalPower[3] = Math.round(totalPower[3] * 100.0) / 100.0;
                     break;
 
                     case "ea":
                         //currCons = totalPower.get("Weekend afternoon");
                         //totalPower.replace("Weekend afternoon", currCons + addCons);
-                        totalPower[4] += Double.parseDouble(powerValues[1]);
+                        System.out.println(powerValues[0] + ": " + powerValues[1]);
+                        totalPower[4] += addPower;
+                        totalPower[4] = Math.round(totalPower[4] * 100.0) / 100.0;
                     break;
 
                     case "ee":
                         //currCons = totalPower.get("Weekend evening");
                         //totalPower.replace("Weekend evening", currCons + addCons);    
-                        totalPower[5] += Double.parseDouble(powerValues[1]);
+                        System.out.println(powerValues[0] + ": " + powerValues[1]);
+                        totalPower[5] += addPower;
+                        totalPower[5] = Math.round(totalPower[5] * 100.0) / 100.0;
                     break;
 
                     case "h":
                         //currCons = totalPower.get("Heatwave");
                         //totalPower.replace("Heatwave", currCons + addCons);    
-                        totalPower[6] += Double.parseDouble(powerValues[1]);
+                        System.out.println(powerValues[0] + ": " + powerValues[1]);
+                        totalPower[6] += addPower;
+                        totalPower[6] = Math.round(totalPower[6] * 100.0) / 100.0;
                     break;
 
                     case "s":
                         //currCons = totalPower.get("Special event");
                         //totalPower.replace("Special event", currCons + addCons);    
-                        totalPower[7] += Double.parseDouble(powerValues[1]);
+                        System.out.println(powerValues[0] + ": " + powerValues[1]);
+                        totalPower[7] += addPower;
+                        totalPower[7] = Math.round(totalPower[7] * 100.0) / 100.0;
                     break;
                 }
             }
@@ -89,10 +106,10 @@ public class CityNodeController
 
         for(int i = 0; i < network.size(); i++)
         {
-            buildFrom = network.get(i); //leaf node
-            currName = buildFrom.getName(); //Perth
-            currParent = buildFrom.getParent(); //Perth
-            depth = buildFrom.getDepth(); //1
+            buildFrom = network.get(i); 
+            currName = buildFrom.getName(); 
+            currParent = buildFrom.getParent(); 
+            depth = buildFrom.getDepth(); 
 
             if(currParent.equals(root))
             {
