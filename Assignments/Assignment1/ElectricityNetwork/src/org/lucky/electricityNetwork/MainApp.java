@@ -20,6 +20,7 @@ public class MainApp
     {
         ReadArgs readArgs;
         ArgsValidation check = new ArgsValidation();
+        String input;
         Display display;
         CityNode cityNetwork;
 
@@ -55,8 +56,6 @@ public class MainApp
                     display.displayNetwork();
                     display.displayPowerConsumption();
                     display.displayData();
-
-                    writeFile(cityNetwork);
                 } 
                 catch(ArgsException e) 
                 {
@@ -68,9 +67,8 @@ public class MainApp
                 try
                 {
                     readArgs = new ThreeArgs();
-                    readArgs.validateArgs(args, check);
-                    System.out.println("Valid");
-                    
+                    input = readArgs.validateArgs(args, check);
+                    runThreeArgs(input, args);
                 }
                 catch(ArgsException e)
                 {
@@ -112,7 +110,37 @@ public class MainApp
         return cityNetwork;
     }
 
-    private static void writeFile(CityNode network)
+    /**
+     * This method identifies which arg contains the filenames based on 
+     * expected order of validated args entered. This is done by having input
+     * identify what was in arg[0].
+     * EXAMPLE:
+     *      if arg[0] = -g
+     *          Then except valid args entered would be in the format:
+     *              [-g -w outputdata.csv]
+     *      Therefore, filename will be found in arg[2].
+     * @param input Identify of first arg entered by user
+     * @param args Full array of args entered
+     */
+    private static void runThreeArgs(String input, String[] args)
+    {
+        CityNode cityNetwork;
+
+        switch(input)
+        {
+            case "g":
+                cityNetwork = generateData();
+                writeFile(cityNetwork, args[2]);
+            break;
+
+            case "w":
+                cityNetwork = generateData();
+                writeFile(cityNetwork, args[1]);
+            break;
+        }
+    }
+
+    private static void writeFile(CityNode network, String filename)
     {
         WriteFile wf;
 
@@ -120,7 +148,7 @@ public class MainApp
 
         try
         {
-            wf.writeFile("test.csv", network);
+            wf.writeFile(filename, network);
         }
         catch(IOException e)
         {

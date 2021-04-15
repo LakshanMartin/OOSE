@@ -1,7 +1,10 @@
 Perth
 North,Perth
 South,Perth
+East,Perth
+West,Perth
+Central,Perth
 Shire1,North
 Shire2,South
-Suburb1,Shire1,dm=757.48,da=642.51,de=456.1,em=585.92,ea=916.29,ee=501.78,h=527.64,s=523.58
-Suburb2,Shire2,dm=868.63,da=845.8,de=663.2,em=604.61,ea=367.95,ee=342.59,h=602.97,s=323.48
+Suburb1,Shire1,dm=348.0,da=924.95,de=977.49,em=555.87,ea=246.43,ee=268.36,h=935.22,s=931.28
+Suburb2,Shire2,dm=605.56,da=553.2,de=495.98,em=816.67,ea=697.88,ee=828.74,h=566.06,s=952.16

@@ -9,8 +9,10 @@ public class ArgsValidation
      * @param args
      * @throws ArgsException
      */
-    public void validateTwoArgs(String[] args) throws ArgsException
+    public String validateTwoArgs(String[] args) throws ArgsException
     {
+        String input;
+
         switch(args[0].toLowerCase())
         {
             case "-g":
@@ -18,6 +20,8 @@ public class ArgsValidation
                 {
                     throw new ArgsException(error.getInvalidTwoArgsMsg());
                 }
+
+                input = "g";
             break;
 
             case "-d":
@@ -25,11 +29,15 @@ public class ArgsValidation
                 {
                     throw new ArgsException(error.getInvalidTwoArgsMsg());
                 }
+
+                input = "d";
             break;
 
             default:
                 throw new ArgsException(error.getInvalidTwoArgsMsg());
         }
+
+        return input;
     }
 
     /**
@@ -37,8 +45,10 @@ public class ArgsValidation
      * @param args
      * @throws ArgsException
      */
-    public void validateThreeArgs(String[] args) throws ArgsException
+    public String validateThreeArgs(String[] args) throws ArgsException
     {
+        String input;
+
         switch(args[0].toLowerCase())
         {
             case "-g":
@@ -53,6 +63,8 @@ public class ArgsValidation
                 {
                     throw new ArgsException(error.getInvalidWriteThreeArgMsg());
                 }
+
+                input = "g";
             break;
 
             case "-w": 
@@ -67,6 +79,8 @@ public class ArgsValidation
                 {
                     throw new ArgsException(error.getInvalidWriteThreeArgMsg());
                 }
+
+                input = "w";
             break;
 
             case "-r":
@@ -83,6 +97,8 @@ public class ArgsValidation
                 {
                     throw new ArgsException(error.getInvalidReadThreeArgMsg());
                 }
+
+                input = "r";
             break;
 
             case "-d":
@@ -97,11 +113,15 @@ public class ArgsValidation
                 {
                     throw new ArgsException(error.getInvalidReadThreeArgMsg());
                 }
+
+                input = "d";
             break;
 
             default:
                 throw new ArgsException(error.getInvalidThreeArgMsg());                
         }
+
+        return input;
     }
 
     /**
@@ -109,8 +129,10 @@ public class ArgsValidation
      * @param args
      * @throws ArgsException
      */
-    public void validateFourArgs(String[] args) throws ArgsException
+    public String validateFourArgs(String[] args) throws ArgsException
     {
+        String input;
+
         switch(args[0].toLowerCase())
         {
             case "-r":
@@ -132,6 +154,8 @@ public class ArgsValidation
                 {
                     throw new ArgsException(error.getInvalidFourArgMsg());
                 }
+
+                input = "r";
             break;
 
             case "-w":
@@ -153,10 +177,14 @@ public class ArgsValidation
                 {
                     throw new ArgsException(error.getInvalidFourArgMsg());
                 }
+
+                input = "w";
             break;
 
             default:
                 throw new ArgsException(error.getInvalidFourArgMsg());
         }
+
+        return input;
     }
 }

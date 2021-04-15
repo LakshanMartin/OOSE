@@ -6,15 +6,19 @@ import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsValidation;
 public class TwoArgs implements ReadArgs
 {
     @Override
-    public void validateArgs(String[] args, ArgsValidation check) throws ArgsException
+    public String validateArgs(String[] args, ArgsValidation check) throws ArgsException
     {
+        String input;
+
         try
         {
-            check.validateTwoArgs(args);
+            input = check.validateTwoArgs(args);
         }
         catch(ArgsException exception)
         {
             throw exception;
         }
+
+        return input;
     }
 }

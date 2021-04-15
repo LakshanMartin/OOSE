@@ -5,5 +5,5 @@ import org.lucky.electricityNetwork.controller.ArgsValidation.ArgsValidation;
 
 public interface ReadArgs 
 {
-    public void validateArgs(String[] args, ArgsValidation check) throws ArgsException;    
+    public String validateArgs(String[] args, ArgsValidation check) throws ArgsException;    
 }
