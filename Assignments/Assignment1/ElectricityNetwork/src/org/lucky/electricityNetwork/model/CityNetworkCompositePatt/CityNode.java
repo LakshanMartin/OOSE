@@ -2,32 +2,24 @@ package org.lucky.electricityNetwork.model.CityNetworkCompositePatt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.lucky.electricityNetwork.controller.CityNodeController;
 
 public class CityNode implements Node
 {
     private String rootName;
     private List<Node> network;
-    //private Map<String,Node> network;
     private CityNodeController controller;
-    private String networkStr;
     private double[] totalPower;
-    //private Map<String,Double> totalPower;
 
     public CityNode(String name)
     {
         rootName = name;
         network = new ArrayList<>();
-        //network = new HashMap<>();
         
         controller = new CityNodeController();
         totalPower = new double[8];
         Arrays.fill(totalPower, 0.0);
-        //defaultTotalPower();
 
         /*
         Initial totalPower array is setup as follows to represent power 
@@ -53,7 +45,7 @@ public class CityNode implements Node
     @Override
     public String getParent()
     {
-        return null;
+        return rootName;
     }
 
     @Override
@@ -73,36 +65,10 @@ public class CityNode implements Node
         return network;
     }
 
-    //Remove from Model 
-    public String getNetworkStr()
-    {
-        networkStr = controller.buildNetworkStr(rootName, network);
-
-        return networkStr;
-    }
-
-    //Remove from Model
-    //public Map<String,Double> getTotalPower()
     public double[] getTotalPower()
     {
         return totalPower;
     }
-
-    //SUPPORTING METHODS
-    /*private void defaultTotalPower()
-    {
-        totalPower = new HashMap<>();
-
-        totalPower.put("Weekday morning", 0.0);
-        totalPower.put("Weekday afternoon", 0.0);
-        totalPower.put("Weekday evening", 0.0);
-        totalPower.put("Weekend morning", 0.0);
-        totalPower.put("Weekend afternoon", 0.0);
-        totalPower.put("Weekend evening", 0.0);
-        totalPower.put("Heatwave", 0.0);
-        totalPower.put("Special event", 0.0);
-    }*/
-
 
     /**
      * Find and return specific node by name

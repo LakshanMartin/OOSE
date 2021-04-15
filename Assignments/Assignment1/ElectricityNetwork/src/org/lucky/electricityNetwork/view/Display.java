@@ -1,42 +1,40 @@
 package org.lucky.electricityNetwork.view;
 
-import java.util.Map;
+import java.util.List;
 
+import org.lucky.electricityNetwork.controller.CityNodeController;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.CityNode;
+import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.Node;
 
 public class Display 
 {
     //CLASS FIELDS
     private CityNode cityNetwork;
-    //private Map<String,Double> totalPower;
-    
+    private CityNodeController cont;
 
     //CONSTRUCTOR
     public Display(CityNode cityNetwork) 
     {
         this.cityNetwork = cityNetwork;
-        //totalPower = cityNetwork.getTotalPower();
+        cont = new CityNodeController();
     }
     
     public void displayNetwork()
     {
+        String output, root;
+        List<Node> network;
+        
+        root = cityNetwork.getParent();
+        network = cityNetwork.getNetworkList();
+        output = cont.buildNetworkStr(root, network);
+
         System.out.println("\nTREE STRUCTURE OF CITY NETWORK");
         System.out.println("------------------------------");
-        System.out.println(cityNetwork.getNetworkStr());
+        System.out.println(output);
     }
 
     public void displayPowerConsumption()
     {
-        /*System.out.println("\nTOTAL POWER CONSUMPTION:");       
-        System.out.println("Weekday morning   : " + totalPower.get("Weekday morning"));
-        System.out.println("Weekday afternoon : " + totalPower.get("Weekday afternoon"));
-        System.out.println("Weekday evening   : " + totalPower.get("Weekday evening"));
-        System.out.println("Weekend morning   : " + totalPower.get("Weekend morning"));
-        System.out.println("Weekend afternoon : " + totalPower.get("Weekend afternoon"));
-        System.out.println("Weekend evening   : " + totalPower.get("Weekend evening"));
-        System.out.println("Heatwave          : " + totalPower.get("Heatwave"));
-        System.out.println("Special event     : " + totalPower.get("Special event"));*/
-
         double[] totalPower;
 
         totalPower = cityNetwork.getTotalPower();
@@ -51,5 +49,17 @@ public class Display
         System.out.println("Heatwave          : " + totalPower[6]);
         System.out.println("Special event     : " + totalPower[7] + "\n");
 
+    }
+
+    public void displayData()
+    {
+        List<Node> network = cityNetwork.getNetworkList();
+
+        System.out.println(cityNetwork.getParent());
+
+        for(int i = 0; i < network.size(); i++)
+        {
+            System.out.println(network.get(i).getNodeValues());
+        }        
     }
 }

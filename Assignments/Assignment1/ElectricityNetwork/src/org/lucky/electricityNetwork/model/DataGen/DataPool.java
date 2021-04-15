@@ -12,6 +12,7 @@ public class DataPool
     private List<String> depthThree;
     private List<String> depthFour;
     private List<String> depthFive;
+    private List<String> depthSix;
     private PowerCategory consumption;
 
     public DataPool()
@@ -20,6 +21,7 @@ public class DataPool
         genDepthThreePool();
         genDepthFourPool();
         genDepthFivePool();
+        genDepthSixPool();
     }
 
     //MUTATORS
@@ -67,6 +69,17 @@ public class DataPool
         depthFive.add("Street5");
     }
 
+    private void genDepthSixPool()
+    {
+        depthSix = new ArrayList<>();
+
+        depthSix.add("Building1");
+        depthSix.add("Building2");
+        depthSix.add("Building3");
+        depthSix.add("Building4");
+        depthSix.add("Building5");
+    }
+
     public void genPowerCategories()
     {
         double usage;
@@ -109,6 +122,11 @@ public class DataPool
     public List<String> getDepthFive()
     {
         return depthFive;
+    }
+
+    public List<String> getDepthSix()
+    {
+        return depthSix;
     }
 
     public PowerCategory getPowerUsage()

@@ -1,9 +1,10 @@
 package org.lucky.electricityNetwork;
 
-import java.util.Random;
+import java.io.IOException;
 
 import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.*;
 import org.lucky.electricityNetwork.controller.ArgsValidation.*;
+import org.lucky.electricityNetwork.controller.FileIO.WriteFile;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.CityNode;
 import org.lucky.electricityNetwork.model.DataGen.DataGeneration;
 import org.lucky.electricityNetwork.view.Display;
@@ -53,6 +54,9 @@ public class MainApp
                     display = new Display(cityNetwork);
                     display.displayNetwork();
                     display.displayPowerConsumption();
+                    display.displayData();
+
+                    writeFile(cityNetwork);
                 } 
                 catch(ArgsException e) 
                 {
@@ -101,9 +105,26 @@ public class MainApp
         DataGeneration dataGen;
         CityNode cityNetwork;
 
-        dataGen = new DataGeneration();
+        dataGen = new DataGeneration("Perth");
+        dataGen.buildTree();
         cityNetwork = dataGen.getCityNetwork();
 
         return cityNetwork;
+    }
+
+    private static void writeFile(CityNode network)
+    {
+        WriteFile wf;
+
+        wf = new WriteFile();
+
+        try
+        {
+            wf.writeFile("test.csv", network);
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -26,67 +26,43 @@ public class CityNodeController
                 switch(powerValues[0])
                 {
                     case "dm":
-                        //currCons = totalPower.get("Weekday morning");
-                        //totalPower.replace("Weekday morning", currCons + addCons);
-                        System.out.println(powerValues[0] + ": " + powerValues[1]);
                         totalPower[0] += addPower;
-                        
+
                         //Attempt to fix precision errors with double arithmetic
                         totalPower[0] = Math.round(totalPower[0] * 100.0) / 100.0;
                     break;
 
                     case "da":
-                        //currCons = totalPower.get("Weekday afternoon");
-                        //totalPower.replace("Weekday afternoon", currCons + addCons);
-                        System.out.println(powerValues[0] + ": " + powerValues[1]);
                         totalPower[1] += addPower;
                         totalPower[1] = Math.round(totalPower[1] * 100.0) / 100.0;
                     break;
 
                     case "de":
-                        //currCons = totalPower.get("Weekday evening");
-                        //totalPower.replace("Weekday evening", currCons + addCons);   
-                        System.out.println(powerValues[0] + ": " + powerValues[1]);
                         totalPower[2] += addPower;
                         totalPower[2] = Math.round(totalPower[2] * 100.0) / 100.0;
                     break;
 
                     case "em":
-                        //currCons = totalPower.get("Weekend morning");
-                        //totalPower.replace("Weekend morning", currCons + addCons);    
-                        System.out.println(powerValues[0] + ": " + powerValues[1]);
                         totalPower[3] += addPower;
                         totalPower[3] = Math.round(totalPower[3] * 100.0) / 100.0;
                     break;
 
                     case "ea":
-                        //currCons = totalPower.get("Weekend afternoon");
-                        //totalPower.replace("Weekend afternoon", currCons + addCons);
-                        System.out.println(powerValues[0] + ": " + powerValues[1]);
                         totalPower[4] += addPower;
                         totalPower[4] = Math.round(totalPower[4] * 100.0) / 100.0;
                     break;
 
                     case "ee":
-                        //currCons = totalPower.get("Weekend evening");
-                        //totalPower.replace("Weekend evening", currCons + addCons);    
-                        System.out.println(powerValues[0] + ": " + powerValues[1]);
                         totalPower[5] += addPower;
                         totalPower[5] = Math.round(totalPower[5] * 100.0) / 100.0;
                     break;
 
                     case "h":
-                        //currCons = totalPower.get("Heatwave");
-                        //totalPower.replace("Heatwave", currCons + addCons);    
-                        System.out.println(powerValues[0] + ": " + powerValues[1]);
                         totalPower[6] += addPower;
                         totalPower[6] = Math.round(totalPower[6] * 100.0) / 100.0;
                     break;
 
                     case "s":
-                        //currCons = totalPower.get("Special event");
-                        //totalPower.replace("Special event", currCons + addCons);    
-                        System.out.println(powerValues[0] + ": " + powerValues[1]);
                         totalPower[7] += addPower;
                         totalPower[7] = Math.round(totalPower[7] * 100.0) / 100.0;
                     break;
