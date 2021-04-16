@@ -60,6 +60,12 @@ public class PowerUsage implements Node
         return found;
     }
 
+    @Override
+    public boolean isLeaf()
+    {
+        return true;
+    }
+
     private String getPowerStr() 
     {        
         return usage.getCategory();

@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.*;
 import org.lucky.electricityNetwork.controller.ArgsValidation.*;
+import org.lucky.electricityNetwork.controller.FileIO.InvalidFormatException;
+import org.lucky.electricityNetwork.controller.FileIO.ReadFile;
 import org.lucky.electricityNetwork.controller.FileIO.WriteFile;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.CityNode;
 import org.lucky.electricityNetwork.model.DataGen.DataGeneration;
@@ -55,7 +57,6 @@ public class MainApp
                     display = new Display(cityNetwork);
                     display.displayNetwork();
                     display.displayPowerConsumption();
-                    display.displayData();
                 } 
                 catch(ArgsException e) 
                 {
@@ -80,8 +81,8 @@ public class MainApp
                 try
                 {
                     readArgs = new FourArgs();
-                    readArgs.validateArgs(args, check);
-                    System.out.println("Valid");
+                    input = readArgs.validateArgs(args, check);
+                    runFourArgs(input, args);
                 }
                 catch(ArgsException e)
                 {
@@ -125,6 +126,7 @@ public class MainApp
     private static void runThreeArgs(String input, String[] args)
     {
         CityNode cityNetwork;
+        Display display;
 
         switch(input)
         {
@@ -136,6 +138,54 @@ public class MainApp
             case "w":
                 cityNetwork = generateData();
                 writeFile(cityNetwork, args[1]);
+            break;
+
+            case "r":
+                cityNetwork = readFile(args[1]);
+
+                if(cityNetwork != null)
+                {
+                    display = new Display(cityNetwork);
+                    display.displayNetwork();
+                    display.displayPowerConsumption();
+                }
+            break;
+
+            case "d":
+                cityNetwork = readFile(args[2]);
+
+                if(cityNetwork != null)
+                {
+                    display = new Display(cityNetwork);
+                    display.displayNetwork();
+                    display.displayPowerConsumption();
+                }
+            break;
+        }
+    }
+
+    private static void runFourArgs(String input, String[] args)
+    {
+        CityNode cityNetwork;
+
+        switch(input)
+        {
+            case "r":
+                cityNetwork = readFile(args[1]);
+
+                if(cityNetwork != null)
+                {
+                    writeFile(cityNetwork, args[3]);
+                }
+            break;
+
+            case "w":
+                cityNetwork = readFile(args[3]);
+
+                if(cityNetwork != null)
+                {
+                    writeFile(cityNetwork, args[1]);
+                }
             break;
         }
     }
@@ -154,5 +204,31 @@ public class MainApp
         {
             System.out.println(e.getMessage());
         }
+    }
+
+    private static CityNode readFile(String filename)
+    {
+        ReadFile rf;
+        CityNode cityNetwork;
+
+        rf = new ReadFile();
+        cityNetwork = null;
+
+        try
+        {
+            rf.readFile(filename);
+            cityNetwork = rf.getCityNetwork();
+        }
+        catch(IOException e)
+        {
+            System.out.println("\nERROR: Problem reading input file." + 
+                                "\n       [" + e.getMessage() + "]\n");
+        }
+        catch(InvalidFormatException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        return cityNetwork;
     }
 }

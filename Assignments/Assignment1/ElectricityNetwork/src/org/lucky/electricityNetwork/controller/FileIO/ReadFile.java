@@ -1,54 +1,52 @@
 package org.lucky.electricityNetwork.controller.FileIO;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.ConcretePowerCategory;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.HeatwaveDecoration;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.PowerCategory;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.SpecEventDecoration;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.WDayANoonDecoration;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.WDayEveningDecoration;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.WDayMorningDecoration;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.WEndANoonDecoration;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.WEndEveningDecoration;
-import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.WEndMorningDecoration;
-import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.CityNode;
-import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.Node;
-import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.PowerUsage;
-import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.SubCityNode;
-import org.lucky.electricityNetwork.controller.FileIO.InvalidFormatException;
+import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.*;
+import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.*;
 
 public class ReadFile 
 {
-    private BufferedReader reader;
     private String defaultError;
     private String customError;
     private CityNode cityNetwork;
     private String root;
 
     //CONSTRUCTOR
-    public ReadFile(String filename) throws FileNotFoundException
+    public ReadFile()
     {
-        reader = new BufferedReader(new FileReader(filename));
         defaultError = "\nERROR: Input file is in an invalid format!";
         customError = null;
         cityNetwork = null;
         root = null;
     }
 
-    public void readFile() throws IOException, InvalidFormatException
+    //ACCESSOR
+    public CityNode getCityNetwork()
     {
-        String line = reader.readLine();
+        return cityNetwork;
+    }
+
+    public void readFile(String filename) throws IOException, InvalidFormatException
+    {
+        BufferedReader reader;
+        File dir, file;
+        String line;
         String[] parts;
         int treeDepth, len;
         Node newNode;
         PowerCategory power;
         boolean isRootLeafNode;
+
+        dir = new File("../resources/"); //Specify file location
+        file = new File(dir, filename);
+        reader = new BufferedReader(new FileReader(file));
+        
+        line = reader.readLine();
 
         parts = line.split(",");
         isRootLeafNode = false;
@@ -59,15 +57,17 @@ public class ReadFile
         }
         catch(InvalidFormatException e)
         {
+            reader.close();
             throw e;
         }        
 
         line = reader.readLine(); //Read following line
 
-        //VALIDATE AT LEAST 1 LINE FOLLOWS ROOT NODE
+        //VERIFY AT LEAST 1 LINE FOLLOWS ROOT NODE
         if(line == null)
         {
-            customError = "\n- Root Node must at least have power consumption values.\n";
+            reader.close();
+            customError = "\n- Root Node must at least have a leaf node with power consumption values.\n";
             throw new InvalidFormatException(defaultError + customError);
         }
 
@@ -84,7 +84,13 @@ public class ReadFile
                     {
                         //Validations
                         checkNodeFormat(parts[0], parts[1]);
-                        checkParentExists(parts[1]);
+
+                        if(!parts[1].equals(root))
+                        {
+                            checkParentExists(parts[1]);
+                            checkParentNotLeaf(parts[1]);
+                        }
+                        
                         checkDuplicate(parts[0]);
                         
                         //Identify position in tree
@@ -98,6 +104,7 @@ public class ReadFile
                     }   
                     catch(InvalidFormatException e)
                     {
+                        reader.close();
                         throw e;
                     }
                 }
@@ -111,7 +118,7 @@ public class ReadFile
                         if(isRootLeafNode)
                         {
                             //Build/Validate power categories
-                            power = buildPowerCategories(line);
+                            power = buildPowerCategories(parts);
 
                             //Default value for node depth is 1
                             treeDepth = 1;
@@ -122,35 +129,65 @@ public class ReadFile
                             //Add node
                             cityNetwork.addNode(newNode);
                         }
+                        else
+                        {
+                            //Initial validations
+                            checkNodeFormat(parts[0], parts[1]);
 
-                        //Initial validations
-                        //checkLeafNodeFormat(parts[0], parts[1]);
-                        checkParentExists(parts[1]);
-                        checkDuplicate(parts[0]);
+                            if(!parts[1].equals(root))
+                            {
+                                checkParentExists(parts[1]);
+                                checkParentNotLeaf(parts[1]);
+                            }
+                            
+                            checkDuplicate(parts[0]);
 
-                        //Build/Validate power categories
+                            //Build/Validate power categories
+                            power = buildPowerCategories(parts);
 
+                            //Identify position in tree
+                            treeDepth = checkDepth(parts[1]);
 
+                            //Create new node
+                            newNode = new PowerUsage(parts[0], parts[1], treeDepth, power);
+
+                            //Add node
+                            cityNetwork.addNode(newNode);
+                        }
                     }
                     catch(InvalidFormatException e)
                     {
+                        reader.close();
                         throw e;
                     }
                 }
                 else
                 {
+                    reader.close();
                     customError = "\n- Too many power categories.\n";
                     throw new InvalidFormatException(defaultError + customError);
                 }
             }
             else
             {
+                reader.close();
                 customError = "\n- Input file must not contain blank lines.\n";
                 throw new InvalidFormatException(defaultError + customError);
             }
 
             line = reader.readLine(); //Read next line
+
+            //Check that no lines follow a root leaf node entry
+            if(isRootLeafNode && line != null)
+            {
+                reader.close();
+                customError = "\n- If Root Node is also a Leaf Node, then no other " +
+                                "Child Nodes should exist.\n";
+                throw new InvalidFormatException(defaultError + customError);
+            }
         }
+
+        reader.close();
     }
 
     /**
@@ -227,9 +264,22 @@ public class ReadFile
         //Error state if it doesn't exist
         if(!exists)
         {
-            customError = "\n- Parent Node input doesn't exist in Network.\n";
+            customError = "\n- A Child Node without a Parent cannot exist in the Network.\n";
             throw new InvalidFormatException(defaultError + customError);
         }
+    }
+
+    private void checkParentNotLeaf(String parent) throws InvalidFormatException
+    {
+        Node parentNode;
+
+        parentNode = cityNetwork.findNode(parent);
+
+        if(parentNode.isLeaf())
+        {
+            customError = "\n- A Leaf Node cannot have any children.\n";
+            throw new InvalidFormatException(defaultError + customError);
+        }        
     }
 
     private void checkDuplicate(String name) throws InvalidFormatException
@@ -243,15 +293,26 @@ public class ReadFile
 
     private int checkDepth(String parent)
     {
-        Node parentNode;
         int depth;
 
         depth = 1;
 
         if(!parent.equals(root))
         {
+            depth += recursiveCheckDepth(parent, depth);
+        }
+
+        return depth;
+    }
+    
+    private int recursiveCheckDepth(String parent, int depth)
+    {
+        Node parentNode;
+
+        if(!parent.equals(root))
+        {
             parentNode = cityNetwork.findNode(parent);
-            depth += checkDepth(parentNode.getParent());
+            depth += recursiveCheckDepth(parentNode.getParent(), depth);
         }
 
         return depth;
@@ -271,39 +332,14 @@ public class ReadFile
 
         return isRootLeafNode;
     }
+   
 
-    /*private boolean checkRootLeafNode(String[] parts) throws InvalidFormatException
+    private PowerCategory buildPowerCategories(String[] parts) throws InvalidFormatException
     {
-        boolean isRootLeafNode = true;
-        customError = "\n- Power consumption category not in valid format";
-
-        if(!parts[0].equals(root))
-        {
-            isRootLeafNode = false;
-        }
-        else
-        {
-            for(int i = 1; i < parts.length; i++)
-            {
-                if(!parts[i].contains("="))
-                {
-                    throw new InvalidFormatException(defaultError + customError);
-                }    
-            }
-        }
-
-        return isRootLeafNode;
-    }*/
-
-    
-
-    private PowerCategory buildPowerCategories(String line) throws InvalidFormatException
-    {
-        String[] parts, category;
+        String[] category;
         PowerCategory consumption;
         Double power;
 
-        parts = line.split(",");
         consumption = new ConcretePowerCategory();
 
         for(int i = 2; i < parts.length; i++)
@@ -311,10 +347,16 @@ public class ReadFile
             //Isolate power category data from line
             category = parts[i].split("=");
 
+            //Identify if "=" isn't used
+            if(category.length < 2)
+            {
+                customError = "\n- Invalid Power Category input.\n";
+                throw new InvalidFormatException(defaultError + customError);
+            }
+
             //Check input is in a real number format
             try
             {
-                
                 power = Double.parseDouble(category[1]);
             }
             catch(NumberFormatException e)

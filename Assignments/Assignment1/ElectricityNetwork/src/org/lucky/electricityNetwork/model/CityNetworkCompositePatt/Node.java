@@ -11,4 +11,6 @@ public interface Node
     public String getNodeValues();
 
     public Node findNode(String name);
+
+    public boolean isLeaf();
 }

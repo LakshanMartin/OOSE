@@ -48,18 +48,5 @@ public class Display
         System.out.println("Weekend evening   : " + totalPower[5]);
         System.out.println("Heatwave          : " + totalPower[6]);
         System.out.println("Special event     : " + totalPower[7] + "\n");
-
-    }
-
-    public void displayData()
-    {
-        List<Node> network = cityNetwork.getNetworkList();
-
-        System.out.println(cityNetwork.getParent());
-
-        for(int i = 0; i < network.size(); i++)
-        {
-            System.out.println(network.get(i).getNodeValues());
-        }        
     }
 }

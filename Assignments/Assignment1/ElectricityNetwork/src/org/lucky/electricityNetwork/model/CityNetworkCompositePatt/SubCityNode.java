@@ -55,4 +55,10 @@ public class SubCityNode implements Node
 
         return found;
     }
+    
+    @Override
+    public boolean isLeaf()
+    {
+        return false;
+    }
 }

@@ -89,6 +89,12 @@ public class CityNode implements Node
 
         return null;
     }    
+    
+    @Override
+    public boolean isLeaf()
+    {
+        return false;
+    }
 
     public boolean checkParentNodes(String input)
     {
