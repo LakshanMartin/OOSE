@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.PowerCategory;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.*;
+import org.lucky.electricityNetwork.controller.CityNodeController;
 
 /**
  * This class is responsible for the generation of data to build the City
@@ -17,6 +18,7 @@ public class DataGeneration
     private String root;
     private int treeDepth;
     private CityNode cityNetwork;
+    private CityNodeController cont;
     private DataPool data;
 
     //CONSTRUCTOR
@@ -25,6 +27,7 @@ public class DataGeneration
         this.root = root;
         this.treeDepth = genRandInt(1, 5); //Random tree depth [1-5]
         cityNetwork = new CityNode(root);
+        cont = new CityNodeController();
         data = new DataPool();
     }    
 
@@ -179,6 +182,7 @@ public class DataGeneration
 
         //Add to tree
         cityNetwork.addNode(newNode); 
+        cont.updateTotalPower(newNode.getNodeValues(), cityNetwork);
     }
 
     /**
@@ -248,6 +252,7 @@ public class DataGeneration
 
             //Add to tree
             cityNetwork.addNode(leafNode);
+            cont.updateTotalPower(leafNode.getNodeValues(), cityNetwork);
         }
     }
 }

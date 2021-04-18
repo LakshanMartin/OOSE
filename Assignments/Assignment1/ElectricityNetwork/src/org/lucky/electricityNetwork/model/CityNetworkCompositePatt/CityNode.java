@@ -3,21 +3,17 @@ package org.lucky.electricityNetwork.model.CityNetworkCompositePatt;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.lucky.electricityNetwork.controller.CityNodeController;
 
 public class CityNode implements Node
 {
     private String rootName;
     private List<Node> network;
-    private CityNodeController controller;
     private double[] totalPower;
 
     public CityNode(String name)
     {
         rootName = name;
         network = new ArrayList<>();
-        
-        controller = new CityNodeController();
         totalPower = new double[8];
         Arrays.fill(totalPower, 0.0);
 
@@ -33,6 +29,12 @@ public class CityNode implements Node
             totalPower[6] = 0.0     Heatwave
             totalPower[7] = 0.0     Special event
         */
+    }
+
+    //MUTATORS
+    public void updateTotalPower(double[] totalPower) 
+    {
+        this.totalPower = totalPower;
     }
 
     //ACCESSORS
@@ -125,6 +127,5 @@ public class CityNode implements Node
     public void addNode(Node newNode)
     {
         network.add(newNode);
-        totalPower = controller.updateTotalPower(newNode.getNodeValues(), totalPower);
     }    
 }

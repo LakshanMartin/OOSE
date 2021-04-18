@@ -2,17 +2,22 @@ package org.lucky.electricityNetwork.controller;
 
 import java.util.List;
 
-import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.Node;
+import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.*;
 
 public class CityNodeController 
 {
     //Empty Constructor
     public CityNodeController(){}
 
-    public double[] updateTotalPower(String nodeValues, double[] totalPower)
+    //public double[] updateTotalPower(String nodeValues, double[] totalPower)
+    public void updateTotalPower(String nodeValues, CityNode network)
     {
         String[] line, powerValues;
+        double[] totalPower;
         Double addPower;
+
+        //Retrieve network's current Total Power values
+        totalPower = network.getTotalPower();
 
         line = nodeValues.split(",");
 
@@ -70,7 +75,8 @@ public class CityNodeController
             }
         }
 
-        return totalPower;
+        //return totalPower;
+        network.updateTotalPower(totalPower);
     }
 
     public String buildNetworkStr(String root, List<Node> network)

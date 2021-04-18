@@ -8,12 +8,14 @@ import java.util.List;
 
 import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.*;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.*;
+import org.lucky.electricityNetwork.controller.CityNodeController;
 
 public class ReadFile 
 {
     private String defaultError;
     private String customError;
     private CityNode cityNetwork;
+    private CityNodeController cont;
     private String root;
 
     //CONSTRUCTOR
@@ -22,6 +24,7 @@ public class ReadFile
         defaultError = "\nERROR: Input file is in an invalid format!";
         customError = null;
         cityNetwork = null;
+        cont = new CityNodeController();
         root = null;
     }
 
@@ -128,6 +131,7 @@ public class ReadFile
                             
                             //Add node
                             cityNetwork.addNode(newNode);
+                            cont.updateTotalPower(newNode.getNodeValues(), cityNetwork);
                         }
                         else
                         {
@@ -153,6 +157,7 @@ public class ReadFile
 
                             //Add node
                             cityNetwork.addNode(newNode);
+                            cont.updateTotalPower(newNode.getNodeValues(), cityNetwork);
                         }
                     }
                     catch(InvalidFormatException e)
