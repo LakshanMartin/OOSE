@@ -29,11 +29,11 @@ public class MainApp
             case 0: 
                 System.out.println(
                     "\nINSTRUCTIONS" +
-                    "\nTo run the program please enter either of the following options:" +
-                    "\n1. java -jar ElectricityNetwork.jar -g -d" +
-                    "\n2. java -jar ElectricityNetwork.jar -g -w [outputFilename].csv" +
-                    "\n3. java -jar ElectricityNetwork.jar -r [inputFilename].csv -d" +
-                    "\n4. java -jar ElectricityNetwork.jar -r [inputFilename].csv -w [outputFilename].csv" +
+                    "\nTo run the program please enter either of the following commands:" +
+                    "\n   java -jar ElectricityNetwork.jar -g -d" +
+                    "\n   java -jar ElectricityNetwork.jar -g -w [outputFilename].csv" +
+                    "\n   java -jar ElectricityNetwork.jar -r [inputFilename].csv -d" +
+                    "\n   java -jar ElectricityNetwork.jar -r [inputFilename].csv -w [outputFilename].csv" +
                     "\n\nARGUMENT DEFINITIONS:" +
                     "\n -g = Generate random data" +
                     "\n -r = Read data from csv file" +
@@ -65,9 +65,11 @@ public class MainApp
             case 3:
                 try
                 {
+                    //Validate arguments
                     readArgs = new ThreeArgs();
-                    input = readArgs.validateArgs(args, check);
-                    runThreeArgs(input, args);
+                    readArgs.validateArgs(args, check);
+
+                    runThreeArgs(args);
                 }
                 catch(ArgsException e)
                 {
@@ -78,9 +80,11 @@ public class MainApp
             case 4:
                 try
                 {
+                    //Validate arguments
                     readArgs = new FourArgs();
-                    input = readArgs.validateArgs(args, check);
-                    runFourArgs(input, args);
+                    readArgs.validateArgs(args, check);
+                    
+                    runFourArgs(args);
                 }
                 catch(ArgsException e)
                 {
@@ -97,6 +101,11 @@ public class MainApp
         
     }
 
+    /**
+     * Creates a DataGeneration object used to generate data and build the City
+     * Network tree.
+     * @return Generated tree
+     */
     private static CityNode generateData()
     {
         DataGeneration dataGen;
@@ -111,34 +120,36 @@ public class MainApp
 
     /**
      * This method identifies which arg contains the filenames based on 
-     * expected order of validated args entered. This is done by having input
-     * identify what was in arg[0].
+     * expected order of validated args entered, and performs the relevant 
+     * function. This is done by identifyng what was value is in arg[0].
      * EXAMPLE:
      *      if arg[0] = -g
      *          Then except valid args entered would be in the format:
      *              [-g -w outputdata.csv]
      *      Therefore, filename will be found in arg[2].
-     * @param input Identify of first arg entered by user
      * @param args Full array of args entered
      */
-    private static void runThreeArgs(String input, String[] args)
+    private static void runThreeArgs(String[] args)
     {
         CityNode cityNetwork;
         Display display;
 
-        switch(input)
+        switch(args[0])
         {
-            case "g":
+            //Expected format: -g -w outputdata.csv
+            case "-g":
                 cityNetwork = generateData();
                 writeFile(cityNetwork, args[2]);
             break;
 
-            case "w":
+            //Expected format: -w outputdata.csv -g
+            case "-w":
                 cityNetwork = generateData();
                 writeFile(cityNetwork, args[1]);
             break;
 
-            case "r":
+            //Expected format: -r inputdata.csv -d
+            case "-r":
                 cityNetwork = readFile(args[1]);
 
                 if(cityNetwork != null)
@@ -149,7 +160,8 @@ public class MainApp
                 }
             break;
 
-            case "d":
+            //Expected format: -d -r inputdata.csv
+            case "-d":
                 cityNetwork = readFile(args[2]);
 
                 if(cityNetwork != null)
@@ -162,13 +174,20 @@ public class MainApp
         }
     }
 
-    private static void runFourArgs(String input, String[] args)
+    /**
+     * This method performs the same function as runThreeArgs(), except that it
+     * works for four arguments. Please see comment for runThreeArgs() for
+     * further details. 
+     * @param args
+     */
+    private static void runFourArgs(String[] args)
     {
         CityNode cityNetwork;
 
-        switch(input)
+        switch(args[0])
         {
-            case "r":
+            //Expected format: -r inputdata.csv -w outputdata.csv
+            case "-r":
                 cityNetwork = readFile(args[1]);
 
                 if(cityNetwork != null)
@@ -177,7 +196,8 @@ public class MainApp
                 }
             break;
 
-            case "w":
+            //Expected format: -w outputdata.csv -r inputdata.csv
+            case "-w":
                 cityNetwork = readFile(args[3]);
 
                 if(cityNetwork != null)
@@ -188,6 +208,12 @@ public class MainApp
         }
     }
 
+    /**
+     * The method creates a WriteFile object used to write the City Network
+     * tree structure and total power consumption to file.
+     * @param network Tree structure
+     * @param filename output filename
+     */
     private static void writeFile(CityNode network, String filename)
     {
         WriteFile wf;
@@ -204,6 +230,12 @@ public class MainApp
         }
     }
 
+    /**
+     * This method creates a ReadFile object used to read data in from a file
+     * and build a City network tree structure.
+     * @param filename
+     * @return Tree structure
+     */
     private static CityNode readFile(String filename)
     {
         ReadFile rf;

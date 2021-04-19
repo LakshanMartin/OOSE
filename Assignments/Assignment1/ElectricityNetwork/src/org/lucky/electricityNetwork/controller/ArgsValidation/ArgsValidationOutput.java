@@ -1,7 +1,8 @@
 package org.lucky.electricityNetwork.controller.ArgsValidation;
 
 /**
- * Collection of error command line argument handling related methods
+ * Collection of error messages relating command line argument validations to 
+ * be output to the user.
  */
 public class ArgsValidationOutput
 {

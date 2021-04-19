@@ -1,8 +1,6 @@
 package org.lucky.electricityNetwork.controller.FileIO;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -12,6 +10,7 @@ import org.lucky.electricityNetwork.controller.CityNodeController;
 
 public class ReadFile 
 {
+    //CLASS FIELDS
     private String defaultError;
     private String customError;
     private CityNode cityNetwork;
@@ -29,11 +28,21 @@ public class ReadFile
     }
 
     //ACCESSOR
+    /**
+     * Method to used once all the data has been validated and read in.
+     * @return Tree structure 
+     */
     public CityNode getCityNetwork()
     {
         return cityNetwork;
     }
 
+    /**
+     * 
+     * @param filename
+     * @throws IOException
+     * @throws InvalidFormatException
+     */
     public void readFile(String filename) throws IOException, InvalidFormatException
     {
         BufferedReader reader;
