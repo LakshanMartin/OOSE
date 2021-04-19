@@ -1,13 +1,16 @@
 package org.lucky.electricityNetwork.model.DataGen;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.*;
 
+/**
+ * This class contains the lists of all preset data pools to be used when
+ * the application is required to generate it's own data to build the tree.
+ */
 public class DataPool 
 {
+    //CLASS FIELDS
     private List<String> depthTwo;
     private List<String> depthThree;
     private List<String> depthFour;
@@ -15,6 +18,7 @@ public class DataPool
     private List<String> depthSix;
     private PowerCategory consumption;
 
+    //CONSTRUCTOR
     public DataPool()
     {
         genDepthTwoPool();
@@ -134,6 +138,13 @@ public class DataPool
         return consumption;
     }
 
+    //SUPPORTING METHODS ------------------------------------------------------
+    /**
+     * Generates a random real number of the range [0-1000]. The decimal portion
+     * of the real number is found by generating a random number between [0-99],
+     * then dividing by 100 to create decimal value to be added to base number.
+     * @return
+     */
     private double randUsage()
     {
         Random rand = new Random();

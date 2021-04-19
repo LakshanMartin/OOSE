@@ -4,12 +4,21 @@ import java.util.List;
 
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.*;
 
+/**
+ * This class contains any supporting methods used to manipulate data within
+ * the CityNode object.
+ */
 public class CityNodeController 
 {
     //Empty Constructor
     public CityNodeController(){}
 
-    //public double[] updateTotalPower(String nodeValues, double[] totalPower)
+    /**
+     * Utilise the CityNode methods to retrieve and update the total power data
+     * of the network.
+     * @param nodeValues data used to update the total power
+     * @param network
+     */
     public void updateTotalPower(String nodeValues, CityNode network)
     {
         String[] line, powerValues;
@@ -75,10 +84,16 @@ public class CityNodeController
             }
         }
 
-        //return totalPower;
         network.updateTotalPower(totalPower);
     }
 
+    /**
+     * Recursive wrapper method used to build the string representation of the 
+     * Tree structure with required indentations.
+     * @param root
+     * @param network
+     * @return
+     */
     public String buildNetworkStr(String root, List<Node> network)
     {
         Node buildFrom;
@@ -86,29 +101,38 @@ public class CityNodeController
         int depth;
         StringBuilder networkStr = new StringBuilder(root + "\n");
 
+        //Loop through list to add node names to string
         for(int i = 0; i < network.size(); i++)
         {
-            buildFrom = network.get(i); 
-            currName = buildFrom.getName(); 
-            currParent = buildFrom.getParent(); 
-            depth = buildFrom.getDepth(); 
+            buildFrom = network.get(i); //Retrieve node
+            currName = buildFrom.getName(); //Retrieve node name
+            currParent = buildFrom.getParent(); //Retrieve node's parent name
+            depth = buildFrom.getDepth(); //Retrieve node depth
 
             if(currParent.equals(root))
             {
-                //Add tabs based on depth of node
+                //Add indentation based on depth of node
                 for(int j = 0; j < depth; j++)
                 {
                     networkStr.append("    "); //Indentation to represent child/leaf node
                 }
 
-                networkStr.append(currName + "\n");
+                networkStr.append(currName + "\n"); //Add node name to string
                 networkStr.append(recursiveBuildStr(currName, network, i+1));
             }
         }
 
-        return networkStr.toString();
+        return networkStr.toString(); //Completed string representing tree structure
     }
 
+    /**
+     * Recursive method that adds indentations based on node depth as it calls
+     * itself through each node's parent. 
+     * @param parent 
+     * @param network
+     * @param index
+     * @return
+     */
     private String recursiveBuildStr(String parent, List<Node> network, int index)
     {
         Node buildFrom;
@@ -123,9 +147,9 @@ public class CityNodeController
             currParent = buildFrom.getParent(); 
             depth = buildFrom.getDepth(); 
 
-            if(currParent.equals(parent))
+            if(currParent.equals(parent)) //Base case
             {
-                //Add tabs based on depth of node
+                //Add indentation based on depth of node
                 for(int j = 1; j < depth; j++)
                 {
                     networkStr.append("    ");  //Indentation to represent child/leaf node
@@ -138,35 +162,4 @@ public class CityNodeController
 
         return networkStr.toString();
     }
-
-    /*
-        Outer Node tracker(city, network):
-        node[0] = northside, city, 2 - MATCH
-        node[1] = southside, city, 2 - MATCH
-
-        Inner Node tracker 1(northside, network, 1):
-        node[1] = southside, city, 2 - NO MATCH
-        node[2] = building1, northside, 3 - MATCH
-
-        Inner Node tracker 2(building1, network, 3):
-        node[3] = building2, southside, 3 - NO MATCH
-        node[4] = building3, southside, 3 - NO MATCH
-
-        -------------------------------------
-        Inner Node tracker 1(southside, network, 2):
-        node[2] = building1, northside, 3 - NO MATCH
-        node[3] = building2, southside, 3 - MATCH
-        node[4] = building3, southside, 3 - MATCH
-
-        Inner Node tracker 2(building2, network, 4):
-        node[4] = building3, southside, 3 - NO MATCH 
-
-        Output:
-        city
-            northside
-                building1
-            southside
-                building2
-                building3        
-    */
 }

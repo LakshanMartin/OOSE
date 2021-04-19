@@ -1,24 +1,33 @@
 package org.lucky.electricityNetwork.model.CityNetworkCompositePatt;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+/**
+ * This class represents the City Power Network tree structure. It serves as
+ * the Composite class as a part of the Composite Design Pattern.
+ */
 public class CityNode implements Node
 {
+    //CLASS FIELDS
     private String rootName;
     private List<Node> network;
     private double[] totalPower;
 
+    /**
+     * CONSTRUCTOR
+     * REFERENCE: GeeksforGeeks. Arrays.fill() in Java Examples.
+     *            https://www.geeksforgeeks.org/arrays-fill-java-examples/
+     *            Accessed 10/04/2021.
+     * @param name
+     */
     public CityNode(String name)
     {
         rootName = name;
         network = new ArrayList<>();
         totalPower = new double[8];
-        Arrays.fill(totalPower, 0.0);
-
+        Arrays.fill(totalPower, 0.0); //See reference note
         /*
-        Initial totalPower array is setup as follows to represent power 
+        Initially totalPower array is setup as follows to represent power 
         consumption by category:
             totalPower[0] = 0.0     Weekday morning
             totalPower[1] = 0.0     Weekday afternoon
@@ -32,6 +41,10 @@ public class CityNode implements Node
     }
 
     //MUTATORS
+    /**
+     * Updates the total power array
+     * @param totalPower
+     */
     public void updateTotalPower(double[] totalPower) 
     {
         this.totalPower = totalPower;
@@ -72,6 +85,7 @@ public class CityNode implements Node
         return totalPower;
     }
 
+    // SUPPORT METHODS --------------------------------------------------------
     /**
      * Find and return specific node by name
      * REFERENCE: Cooper, David. Lecture 4: Object Relationships. Slide 43.
@@ -91,13 +105,21 @@ public class CityNode implements Node
 
         return null;
     }    
-    
+
+    /**
+     * Used as part of Node class implementation.
+     */
     @Override
     public boolean isLeaf()
     {
         return false;
     }
 
+    /**
+     * Identifies if parent node exists in the list.
+     * @param input
+     * @return
+     */
     public boolean checkParentNodes(String input)
     {
         Node toCheck;
@@ -111,6 +133,7 @@ public class CityNode implements Node
         {
             for(int i = 0; i < network.size(); i++)
             {
+                //Retrieve node to check if it's name matches input
                 toCheck = network.get(i);
                 
                 if(toCheck.getName().equals(input))
@@ -124,6 +147,10 @@ public class CityNode implements Node
         return exists;
     }
 
+    /**
+     * Add's a new node to the network list
+     * @param newNode
+     */
     public void addNode(Node newNode)
     {
         network.add(newNode);

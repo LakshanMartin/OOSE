@@ -1,11 +1,18 @@
 package org.lucky.electricityNetwork.model.CityNetworkCompositePatt;
 
+/**
+ * This is a leaf component class as a part of the Composite Design Pattern.
+ * It contains all the data relevent to the sub nodes of the City Network
+ * tree, specifically the node name and the node's parent name.
+ */
 public class SubCityNode implements Node
 {
+    //CLASS FIELDS
     private String name;
     private String parent;
     private int depth;
 
+    //CONSTRUCTOR
     public SubCityNode(String name, String parent, int depth)
     {
         this.name = name;
@@ -13,6 +20,7 @@ public class SubCityNode implements Node
         this.depth = depth;
     }
 
+    //ACCESSORS
     @Override
     public String getName()
     {
@@ -37,6 +45,7 @@ public class SubCityNode implements Node
         return name + "," + parent;
     }
 
+    //SUPPORTING METHODS ------------------------------------------------------
     /**
      * Find and return specific node by name
      * @param name

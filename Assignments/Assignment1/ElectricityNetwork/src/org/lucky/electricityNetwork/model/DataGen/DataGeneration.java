@@ -1,8 +1,6 @@
 package org.lucky.electricityNetwork.model.DataGen;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.PowerCategory;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.*;
@@ -37,9 +35,7 @@ public class DataGeneration
         return cityNetwork;
     }
 
-    /*************************************************************************/
-    //SUPPORTING METHODS
-
+    //SUPPORTING METHODS ------------------------------------------------------
     /**
      * Method used to generate a random int within a range specified
      * @param min

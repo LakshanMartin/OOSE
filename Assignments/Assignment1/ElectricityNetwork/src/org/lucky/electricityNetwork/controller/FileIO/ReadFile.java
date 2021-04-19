@@ -37,11 +37,12 @@ public class ReadFile
         return cityNetwork;
     }
 
+    //SUPPORTING METHODS 
     /**
-     * 
+     * Read data in from a csv file to be used to build the Tree structure
      * @param filename
      * @throws IOException
-     * @throws InvalidFormatException
+     * @throws InvalidFormatException Custom exception
      */
     public void readFile(String filename) throws IOException, InvalidFormatException
     {
@@ -58,7 +59,7 @@ public class ReadFile
         file = new File(dir, filename);
         reader = new BufferedReader(new FileReader(file));
         
-        line = reader.readLine();
+        line = reader.readLine(); //Read 1st line to identify root node
 
         parts = line.split(",");
         isRootLeafNode = false;
@@ -114,10 +115,11 @@ public class ReadFile
                         //Add node
                         cityNetwork.addNode(newNode);
                     }   
+                    //Catch exceptions thrown from Validation methods
                     catch(InvalidFormatException e)
                     {
                         reader.close();
-                        throw e;
+                        throw e; 
                     }
                 }
                 else if(len <= 10) //LEAF-NODES
@@ -129,7 +131,7 @@ public class ReadFile
 
                         if(isRootLeafNode)
                         {
-                            //Build/Validate power categories
+                            //Validate and build power categories
                             power = buildPowerCategories(parts);
 
                             //Default value for node depth is 1
@@ -138,13 +140,13 @@ public class ReadFile
                             //Create new node
                             newNode = new PowerUsage(root, root, treeDepth, power);  
                             
-                            //Add node
+                            //Add node and update total power consumption for network
                             cityNetwork.addNode(newNode);
                             cont.updateTotalPower(newNode.getNodeValues(), cityNetwork);
                         }
                         else
                         {
-                            //Initial validations
+                            //Validations
                             checkNodeFormat(parts[0], parts[1]);
 
                             if(!parts[1].equals(root))
@@ -155,7 +157,7 @@ public class ReadFile
                             
                             checkDuplicate(parts[0]);
 
-                            //Build/Validate power categories
+                            //Validate and build power categories
                             power = buildPowerCategories(parts);
 
                             //Identify position in tree
@@ -164,15 +166,16 @@ public class ReadFile
                             //Create new node
                             newNode = new PowerUsage(parts[0], parts[1], treeDepth, power);
 
-                            //Add node
+                            //Add node and update total power consumption for network
                             cityNetwork.addNode(newNode);
                             cont.updateTotalPower(newNode.getNodeValues(), cityNetwork);
                         }
                     }
+                    //Catch exceptions thrown from Validation methods
                     catch(InvalidFormatException e)
                     {
                         reader.close();
-                        throw e;
+                        throw e; 
                     }
                 }
                 else
@@ -215,7 +218,7 @@ public class ReadFile
         {
             if(!parts[0].contains("=")) //Must not be a power category string
             {
-                root = parts[0]; //Set root node variable
+                root = parts[0]; //Set root variable
                 cityNetwork = new CityNode(root); //Create root node
             }
             else
@@ -232,9 +235,15 @@ public class ReadFile
         }
     }
 
+    /**
+     * Validate the format of the node name and it's parent name
+     * @param name
+     * @param parent
+     * @throws InvalidFormatException
+     */
     private void checkNodeFormat(String name, String parent) throws InvalidFormatException
     {
-        if(name.contains("=") || parent.contains("="))
+        if(name.contains("=") || parent.contains("=")) //Expected format: [node],[parent]
         {
             customError = "\n- Input must be in format: [Node],[Parent].\n";
             throw new InvalidFormatException(defaultError + customError);
@@ -246,13 +255,18 @@ public class ReadFile
         }
     }
 
+    /**
+     * Validate that the parent of a node exists in the list.
+     * @param parent
+     * @throws InvalidFormatException
+     */
     private void checkParentExists(String parent) throws InvalidFormatException
     {
         List<Node> networkList;
         Node toCheck;
         boolean exists = false;
 
-        networkList = cityNetwork.getNetworkList();
+        networkList = cityNetwork.getNetworkList(); //Retrieve network list
         
         //Check if parents exists in network list
         for(int i = 0; i < networkList.size(); i++)
@@ -283,19 +297,29 @@ public class ReadFile
         }
     }
 
+    /**
+     * Validate that a node's parent isn't listed as a leaf node
+     * @param parent
+     * @throws InvalidFormatException
+     */
     private void checkParentNotLeaf(String parent) throws InvalidFormatException
     {
         Node parentNode;
 
-        parentNode = cityNetwork.findNode(parent);
+        parentNode = cityNetwork.findNode(parent); //Retrieve parent node
 
-        if(parentNode.isLeaf())
+        if(parentNode.isLeaf()) //Identify if it's a leaf node
         {
             customError = "\n- A Leaf Node cannot have any children.\n";
             throw new InvalidFormatException(defaultError + customError);
         }        
     }
 
+    /**
+     * Validate that the node name is unique and doesn't already exist in network
+     * @param name
+     * @throws InvalidFormatException
+     */
     private void checkDuplicate(String name) throws InvalidFormatException
     {
         if(cityNetwork.findNode(name) != null)
@@ -305,11 +329,16 @@ public class ReadFile
         }
     }
 
+    /**
+     * Wrapper method used for recursive algorithm to check depth of a node
+     * @param parent
+     * @return
+     */
     private int checkDepth(String parent)
     {
         int depth;
 
-        depth = 1;
+        depth = 1; 
 
         if(!parent.equals(root))
         {
@@ -319,19 +348,36 @@ public class ReadFile
         return depth;
     }
     
+    /**
+     * Recursive method to incrementally count the depth of a node by tracing 
+     * it's parent node back to the root node.
+     * @param parent
+     * @param depth
+     * @return
+     */
     private int recursiveCheckDepth(String parent, int depth)
     {
         Node parentNode;
 
-        if(!parent.equals(root))
+        if(!parent.equals(root)) //Base case
         {
-            parentNode = cityNetwork.findNode(parent);
-            depth += recursiveCheckDepth(parentNode.getParent(), depth);
+            parentNode = cityNetwork.findNode(parent); //Retrieve parent node
+            depth += recursiveCheckDepth(parentNode.getParent(), depth); //Recursive call
         }
 
         return depth;
     }
 
+    /**
+     * Identify if the node is actually a root leaf node.
+     * NOTE: As this case was not specifically defined in the assignment notes, 
+     *       I have made the assumption that root-leaf nodes will be represented
+     *       in the following format:
+     *          city, city, da=23.0,...
+     * @param name
+     * @param parent
+     * @return true if is Root leaf node
+     */
     private boolean checkRootLeafNode(String name, String parent)
     {
         boolean isRootLeafNode = false;
@@ -347,15 +393,22 @@ public class ReadFile
         return isRootLeafNode;
     }
    
-
+    /**
+     * Validate input data and use Decorator Design Pattern to build and return
+     * Power Category object.
+     * @param parts
+     * @return
+     * @throws InvalidFormatException
+     */
     private PowerCategory buildPowerCategories(String[] parts) throws InvalidFormatException
     {
         String[] category;
         PowerCategory consumption;
         Double power;
 
-        consumption = new ConcretePowerCategory();
+        consumption = new ConcretePowerCategory(); //Create base object
 
+        //Loop through any elements founds after [name],[parent]
         for(int i = 2; i < parts.length; i++)
         {
             //Isolate power category data from line
@@ -378,7 +431,8 @@ public class ReadFile
                 customError = "\n- Power consumption should be a real number.\n";
                 throw new InvalidFormatException(defaultError + customError);
             }
-
+            
+            //Add power consumption category decorations
             switch(category[0])
             {
                 case "dm":
@@ -419,6 +473,7 @@ public class ReadFile
             }
         }
 
+        //Return decorated Power Category object
         return consumption;        
     }
 }

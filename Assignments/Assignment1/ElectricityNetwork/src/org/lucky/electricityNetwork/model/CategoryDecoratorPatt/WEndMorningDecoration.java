@@ -1,5 +1,9 @@
 package org.lucky.electricityNetwork.model.CategoryDecoratorPatt;
 
+/**
+ * This is the Weekend Morning decoration of the Decorator Design Pattern
+ * implementation of the Power Category class.
+ */
 public class WEndMorningDecoration extends CategoryDecorator
 {
     private Double usage;

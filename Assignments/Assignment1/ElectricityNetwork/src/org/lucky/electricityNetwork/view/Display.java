@@ -3,9 +3,12 @@ package org.lucky.electricityNetwork.view;
 import java.util.List;
 
 import org.lucky.electricityNetwork.controller.CityNodeController;
-import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.CityNode;
-import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.Node;
+import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.*;
 
+/**
+ * This class contains all the methods used to display data to the user through
+ * the command line interface terminal.
+ */
 public class Display 
 {
     //CLASS FIELDS
@@ -19,6 +22,9 @@ public class Display
         cont = new CityNodeController();
     }
     
+    /**
+     * Output to the terminal the full City Network tree structure.
+     */
     public void displayNetwork()
     {
         String output, root;
@@ -33,6 +39,9 @@ public class Display
         System.out.println(output);
     }
 
+    /**
+     * Output to the terminal the total power consumption of the City Network.
+     */
     public void displayPowerConsumption()
     {
         double[] totalPower;
