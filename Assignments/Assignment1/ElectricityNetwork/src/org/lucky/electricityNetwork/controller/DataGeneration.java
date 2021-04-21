@@ -1,10 +1,10 @@
-package org.lucky.electricityNetwork.model.DataGen;
+package org.lucky.electricityNetwork.controller;
 
 import java.util.*;
 
+import org.lucky.electricityNetwork.model.DataPool;
 import org.lucky.electricityNetwork.model.CategoryDecoratorPatt.PowerCategory;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.*;
-import org.lucky.electricityNetwork.controller.CityNodeController;
 
 /**
  * This class is responsible for the generation of data to build the City

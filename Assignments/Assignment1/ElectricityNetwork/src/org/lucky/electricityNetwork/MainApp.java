@@ -2,11 +2,11 @@ package org.lucky.electricityNetwork;
 
 import java.io.IOException;
 
+import org.lucky.electricityNetwork.controller.DataGeneration;
 import org.lucky.electricityNetwork.controller.ArgsStratDesignPatt.*;
 import org.lucky.electricityNetwork.controller.ArgsValidation.*;
 import org.lucky.electricityNetwork.controller.FileIO.*;
 import org.lucky.electricityNetwork.model.CityNetworkCompositePatt.CityNode;
-import org.lucky.electricityNetwork.model.DataGen.DataGeneration;
 import org.lucky.electricityNetwork.view.Display;
 
 
@@ -20,7 +20,6 @@ public class MainApp
     {
         ReadArgs readArgs;
         ArgsValidation check = new ArgsValidation();
-        String input;
         Display display;
         CityNode cityNetwork;
 

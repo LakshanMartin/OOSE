@@ -1,4 +1,4 @@
-package org.lucky.electricityNetwork.model.DataGen;
+package org.lucky.electricityNetwork.model;
 
 import java.util.*;
 
