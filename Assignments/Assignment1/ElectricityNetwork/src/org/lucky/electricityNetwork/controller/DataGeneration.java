@@ -23,7 +23,6 @@ public class DataGeneration
     public DataGeneration(String root)
     {
         this.root = root;
-        this.treeDepth = genRandInt(1, 5); //Random tree depth [1-5]
         cityNetwork = new CityNode(root);
         cont = new CityNodeController();
         data = new DataPool();
@@ -57,6 +56,9 @@ public class DataGeneration
         int numChild;
         List<String> names;
         String[] newParents, oldParents; 
+
+        //GENERATE RANDOM TREE DEPTH [1-5]
+        treeDepth = genRandInt(1, 5); 
 
         //SETUP REQUIRED TO ADD NODES
         numChild = genRandInt(2, 5); //Randomly generate number of child nodes to create

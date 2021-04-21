@@ -82,7 +82,7 @@ java -jar ElectricityNetwork.java -r inputdata.csv -w outputdata.csv
 
 ## Additional Notes
 
-1. Given that the assignment specification did not explicitly describe how 'Root-Leaf Nodes' should be represented, I have made an assumption to represent it in the following format:
+1. Given that the assignment specification did not explicitly describe how 'Root-Leaf Nodes' should be represented, I have made an assumption to represent it in the following format for the input and output csv files:
 
    ```
    city 
@@ -90,6 +90,13 @@ java -jar ElectricityNetwork.java -r inputdata.csv -w outputdata.csv
    ```
 
    The above format is only applicable to Root-Leaf Nodes. Any other input, where the node name and node parent name are the same, will result in an error output.
+
+   Display of a Root-Leaf Node is represented as follows:
+
+   ```bash
+   city
+   	city
+   ```
 
 2. To reiterate, all input csv files must be stored in the `/resources` directory prior to executing the application with the `-r` tag.
 

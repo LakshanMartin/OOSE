@@ -13,6 +13,7 @@ public class ReadFile
     //CLASS FIELDS
     private String defaultError;
     private String customError;
+    private String exit;
     private CityNode cityNetwork;
     private CityNodeController cont;
     private String root;
@@ -22,6 +23,7 @@ public class ReadFile
     {
         defaultError = "\nERROR: Input file is in an invalid format!";
         customError = null;
+        exit = "\nExiting to Terminal...\n";
         cityNetwork = null;
         cont = new CityNodeController();
         root = null;
@@ -81,7 +83,7 @@ public class ReadFile
         {
             reader.close();
             customError = "\n- Root Node must at least have a leaf node with power consumption values.\n";
-            throw new InvalidFormatException(defaultError + customError);
+            throw new InvalidFormatException(defaultError + customError + exit);
         }
 
         while(line != null && !isRootLeafNode) //Read following lines
@@ -182,14 +184,14 @@ public class ReadFile
                 {
                     reader.close();
                     customError = "\n- Too many power categories.\n";
-                    throw new InvalidFormatException(defaultError + customError);
+                    throw new InvalidFormatException(defaultError + customError + exit);
                 }
             }
             else
             {
                 reader.close();
                 customError = "\n- Input file must not contain blank lines.\n";
-                throw new InvalidFormatException(defaultError + customError);
+                throw new InvalidFormatException(defaultError + customError + exit);
             }
 
             line = reader.readLine(); //Read next line
@@ -200,7 +202,7 @@ public class ReadFile
                 reader.close();
                 customError = "\n- If Root Node is also a Leaf Node, then no other " +
                                 "Child Nodes should exist.\n";
-                throw new InvalidFormatException(defaultError + customError);
+                throw new InvalidFormatException(defaultError + customError + exit);
             }
         }
 
@@ -224,14 +226,14 @@ public class ReadFile
             else
             {
                 customError = "\n- Root node can't be a power category.\n";
-                throw new InvalidFormatException(defaultError + customError);
+                throw new InvalidFormatException(defaultError + customError + exit);
             }
         }
         else
         {
             customError = "\n- First line from input file must be a single " +
                             "String representing the Root Node.\n";
-            throw new InvalidFormatException(defaultError + customError);
+            throw new InvalidFormatException(defaultError + customError + exit);
         }
     }
 
@@ -246,12 +248,12 @@ public class ReadFile
         if(name.contains("=") || parent.contains("=")) //Expected format: [node],[parent]
         {
             customError = "\n- Input must be in format: [Node],[Parent].\n";
-            throw new InvalidFormatException(defaultError + customError);
+            throw new InvalidFormatException(defaultError + customError + exit);
         }
         else if(name.equals(parent))
         {
             customError = "\n- Node name and Parent name can't be the same.\n";
-            throw new InvalidFormatException(defaultError + customError);
+            throw new InvalidFormatException(defaultError + customError + exit);
         }
     }
 
@@ -293,7 +295,7 @@ public class ReadFile
         if(!exists)
         {
             customError = "\n- A Child Node without a Parent cannot exist in the Network.\n";
-            throw new InvalidFormatException(defaultError + customError);
+            throw new InvalidFormatException(defaultError + customError + exit);
         }
     }
 
@@ -311,7 +313,7 @@ public class ReadFile
         if(parentNode.isLeaf()) //Identify if it's a leaf node
         {
             customError = "\n- A Leaf Node cannot have any children.\n";
-            throw new InvalidFormatException(defaultError + customError);
+            throw new InvalidFormatException(defaultError + customError + exit);
         }        
     }
 
@@ -325,7 +327,7 @@ public class ReadFile
         if(cityNetwork.findNode(name) != null)
         {
             customError = "\n- Each Node input must be unique.\n";
-            throw new InvalidFormatException(defaultError + customError);
+            throw new InvalidFormatException(defaultError + customError + exit);
         }
     }
 
@@ -418,7 +420,7 @@ public class ReadFile
             if(category.length < 2)
             {
                 customError = "\n- Invalid Power Category input.\n";
-                throw new InvalidFormatException(defaultError + customError);
+                throw new InvalidFormatException(defaultError + customError + exit);
             }
 
             //Check input is in a real number format
@@ -429,7 +431,7 @@ public class ReadFile
             catch(NumberFormatException e)
             {
                 customError = "\n- Power consumption should be a real number.\n";
-                throw new InvalidFormatException(defaultError + customError);
+                throw new InvalidFormatException(defaultError + customError + exit);
             }
             
             //Add power consumption category decorations
@@ -469,7 +471,7 @@ public class ReadFile
 
                 default:
                     customError = "\n- Invalid Power Category input.\n";
-                    throw new InvalidFormatException(defaultError + customError);
+                    throw new InvalidFormatException(defaultError + customError + exit);
             }
         }
 
