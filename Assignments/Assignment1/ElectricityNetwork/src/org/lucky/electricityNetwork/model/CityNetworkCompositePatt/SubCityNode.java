@@ -1,7 +1,7 @@
 package org.lucky.electricityNetwork.model.CityNetworkCompositePatt;
 
 /**
- * This is a leaf component class as a part of the Composite Design Pattern.
+ * This is a child component class as a part of the Composite Design Pattern.
  * It contains all the data relevent to the sub nodes of the City Network
  * tree, specifically the node name and the node's parent name.
  */

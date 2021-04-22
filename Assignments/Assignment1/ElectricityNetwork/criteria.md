@@ -1,10 +1,10 @@
 # Marking Criteria
 
-This document contains my response to the specified marking criteria of the assignment. Justification of my design choices will be discussed. 
+This document contains my response to the specific marking criteria of the assignment. Justification of my design choices will be discussed. 
 
 
 
-## 1.
+## 1. Use of Containers
 
 ### Primary Container
 
@@ -12,10 +12,10 @@ The primary container I decided to use to represent the Electricity Network was 
 
 However, I had initially thought of utilising a HashMap. This being due to the simple code required for searching for a key/value pair and it's fast performance. As part of my input validation, I implemented several methods that required identify and comparing existing data in the network. This is what lead me to believe that the use of a HashMap would be quite beneficial. 
 
-The reason why I finally decided on using an ArrayList to contain the network data, was due to how I implemented a recursive algorithm to build a String variable to represent the Tree structure of the network. This algorithm required the use of the classic for-loop to iterate through the network data list based on an increment index value.  Please see the following methods within the ```/controller/CityNodeController``` class for examples of the above mentioned recursive algorithm:
+The reason why I finally decided on using an ArrayList to contain the network data, was due to how I implemented a recursive algorithm to build a String variable to represent the Tree structure of the network. This algorithm required the use of the classic for-loop to iterate through the network data list based on a varying index value.  Please see the following methods within the ```/controller/CityNodeController``` class for examples of the above mentioned recursive algorithm:
 
-- buildNetworkStr()
-- recursiveBuildStr()
+- ```buildNetworkStr()```
+- ```recursiveBuildStr()```
 
 Essentially, I valued use of the classic for-loop, for it's ability to change the starting point of the loop, over the speed and convenience of the HashMap. 
 
@@ -23,7 +23,7 @@ Essentially, I valued use of the classic for-loop, for it's ability to change th
 
 #### Data Pools
 
-I decided to use ArrayLists to contain the pool of data that would be used when generating the network data without an input file. This decision was based on the fact that it would prove to be easier to add data to the pool if I was required to do so. A simple call to the lists add() would be all that is required. Also, given that the data pools do not require any search-like function, I believed that HashMap was unnecessary. Please see ```DataPool.java``` in the Model package for examples.
+I decided to use ArrayLists to contain the pool of data that would be used when generating the network data without an input file. This decision was based on the fact that it would prove to be easier to add data to the pool if I was required to do so. A simple call to the lists add() would be all that is required. Also, given that the data pools do not require any search-like function, I believed that other container forms, such as HashMap, were unnecessary. Please see ```DataPool.java``` in the Model package for examples.
 
 #### Total Power Consumption
 
@@ -35,7 +35,7 @@ The array utilisation can be seen in the ```updateTotalPower()``` method in the 
 
 
 
-## 2.
+## 2. Package/class/interface/method responsibilities
 
 I have utilised the MVC design pattern and have therefore, split the application classes into three main packages:
 
@@ -45,12 +45,14 @@ I have utilised the MVC design pattern and have therefore, split the application
 
 I have also isolated classes that represent the implementation of particular design patterns into sub-packages as well. 
 
+The starting point of the application, ```MainApp```, remains outside of the MVC packages.
+
 ### Model
 
-All classes that maintain the application data are found within the Model package. As such the following sub-packages exists within too:
+All classes that maintain the application data are found within the Model package. As such the following sub-packages exists within it too:
 
-- CategoryDecoratorPatt - Decorator pattern design used for containing power consumption data.
-- CityNetworkCompositePatt - Composite pattern design used for creating nodes of the network tree.
+- ```CategoryDecoratorPatt``` - Decorator pattern design used for containing power consumption data.
+- ```CityNetworkCompositePatt``` - Composite pattern design used for creating nodes of the network tree.
 
 ### View
 
@@ -62,7 +64,7 @@ All other classes, except for MainApp, are found within the Controller package.
 
 
 
-## 3.
+## 3. Error handling
 
 I created two separate custom Exceptions to handle the following user input validations:
 
@@ -73,9 +75,35 @@ Exceptions that are caught output a custom error message relevant to the particu
 
 
 
-## 4.
+## 4. Strategy Pattern
+
+I decided to implement the Strategy Pattern design to manage the command line arguments that the user inputs. This seemed appropriate as the user could enter the application settings in three different forms - two, three and four arguments. To read all three of these cases would require the same two parameters, this being the args array and an ArgsValidation object. However, the validation process will differ depending on the number of arguments entered by the user. 
+
+To demonstrate the Strategy Pattern design, I created a ReadArgs interface to be implemented by three separate classes. These classes will then perform separate tasks specific to their requirements. For example, in the event a user enters two command line arguments:
+
+- ```java
+  ReadArgs readArgs = new TwoArgs(); //ReadArgs object is created using the TwoArgs class implementation.
+  ```
+
+Now this form of the ReadArgs class can call on the validation process specific to the event where the user enters two arguments. A same process is executed in the event the user enters three or four command line arguments, except with calls to there respective implementation classes (ThreeArgs, FourArgs).
+
+As a result of this implementation, the MainApp class only needs to only know about one of the three implementation classes when it is executed. Thus, promoting low coupling between the MainApp class and the three ReadArgs implementation classes. 
 
 
 
+## 5. Composite Pattern
+
+Given that the composite pattern is used to create a tree like structure of objects, it made sense to use this pattern to build the city electricity network using "nodes" in the following manner:
+
+- ```Node``` - Base component to be implemented by the below mentioned classes.
+- ```CityNode``` - Composite class that builds the tree structure.
+- ```SubCityNode``` - Child component class containing node name and parent node name.
+- ```PowerUsage``` - Leaf component classes containing node name, parent node name, and power consumption values.
+
+With this setup, the base of the tree is created when the CityNode is instantiated. Building the tree is done by adding objects of the SubCityNode and PowerUsage. Now with the implementation of the two concrete classes, SubCityNode and PowerUsage, the CityNode class is able to build the tree to any size/depth required. 
 
 
+
+## 6. UML
+
+The UML class design for this application clearly illustrates the separation of classes into the corresponding MVC packages. Additional design patterns used are also contained within their own sub-package. The diagram has been updated to reflect the current version of the application, as at submission date.

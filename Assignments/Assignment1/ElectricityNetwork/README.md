@@ -82,7 +82,12 @@ java -jar ElectricityNetwork.java -r inputdata.csv -w outputdata.csv
 
 ## Additional Notes
 
-1. Given that the assignment specification did not explicitly describe how 'Root-Leaf Nodes' should be represented, I have made an assumption to represent it in the following format for the input and output csv files:
+1. PDF versions of the following documents have been created in the event reading Markdown documents are not suitable:
+
+   - README.md
+   - criteria.md
+
+2. Given that the assignment specification did not explicitly describe how 'Root-Leaf Nodes' should be represented, I have made an assumption to represent it in the following format for the input and output csv files:
 
    ```
    city 
@@ -98,7 +103,6 @@ java -jar ElectricityNetwork.java -r inputdata.csv -w outputdata.csv
    	city
    ```
 
-2. To reiterate, all input csv files must be stored in the `/resources` directory prior to executing the application with the `-r` tag.
+3. To reiterate, all input csv files must be stored in the `/resources` directory prior to executing the application with the `-r` tag.
 
-3. To reiterate, all output csv files will be saved to the `/resources` directory.
-
+4. To reiterate, all output csv files will be saved to the `/resources` directory.
