@@ -39,7 +39,15 @@ public class CommandValidation
     
     public void validateOnePartCommand(String[] command) throws CommandException
     {
+        switch(command[0])
+        {
+            case "P": case "E": case "S":
+                //Just checking
+            break;
 
+            default:
+                throw new CommandException("Invalid command");
+        }
     }
     
     private double validateDouble(String toCheck) throws NumberFormatException
