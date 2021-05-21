@@ -6,11 +6,11 @@ public class EarthComm
 
     public String pollCommand()
     {
-        return "";
+        return "D 10.0";
     }
 
     public void sendMessage(String msg)
     {
-
+        System.out.println(msg);
     }
 }

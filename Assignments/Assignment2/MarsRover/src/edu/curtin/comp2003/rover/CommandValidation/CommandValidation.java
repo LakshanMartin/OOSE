@@ -15,7 +15,8 @@ public class CommandValidation
             switch(command[0])
             {
                 case "D":
-                    validateDouble(command[1]);
+                    value = validateDouble(command[1]);
+                    validateDistance(value);
                 break;
 
                 case "T":
@@ -64,6 +65,14 @@ public class CommandValidation
         }
 
         return value;
+    }
+
+    private void validateDistance(double distance) throws CommandException
+    {
+        if(distance < 0.0)
+        {
+            throw new CommandException("Invalid Distance");
+        }
     }
 
     private void validateAngle(double angle) throws CommandException
