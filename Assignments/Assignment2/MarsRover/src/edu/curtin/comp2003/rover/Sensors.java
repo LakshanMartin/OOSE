@@ -21,6 +21,6 @@ public class Sensors
 
     public byte[] takePhoto()
     {
-        return new byte[10];
+        return new byte[]{72, 101, 108, 108, 111};
     }
 }

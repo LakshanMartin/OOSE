@@ -16,7 +16,7 @@ public class ApiData implements Subject
     private Set<ApiObserver> obs;
     private String command;
     private double temp, vis, light, totalDist;
-    private byte[] soilResults;
+    private byte[] photo, soilResults;
 
     public ApiData(EarthComm eComm, Sensors sens, EngineSystem engSys, SoilAnalyser soil)
     {
@@ -29,14 +29,17 @@ public class ApiData implements Subject
         temp = 0.0;
         vis = 0.0;
         light = 0.0;
+        photo = null;
         totalDist = 0.0;
         soilResults = null;
     }
+
     @Override
     public void addObserver(ApiObserver ob) 
     {
         obs.add(ob);
     }
+
     @Override
     public void removeObserver(ApiObserver ob) 
     {
@@ -56,9 +59,8 @@ public class ApiData implements Subject
         for(ApiObserver ob : obs)
         {
             ob.updateComm(command);
-            ob.updateSensors(temp, vis, light);
+            ob.updateVisibility(vis);
             ob.updateDistance(totalDist);
-            ob.updateSoilAnalysis(soilResults);
         }
 
         //Sleep 5 seconds after notifying observers - REFERENCED code.
@@ -76,8 +78,8 @@ public class ApiData implements Subject
     {
         String inCommand;
 
-        while(true)
-        {
+        //while(true)
+        //{
             try
             {
                 //Retrieve & validate updated command values
@@ -85,16 +87,11 @@ public class ApiData implements Subject
                 validateCommand(inCommand);    
                 this.command = inCommand;    
 
-                //Retrieve updated sensor values
-                this.temp = sens.readTemperature();
+                //Retrieve updated visibility value
                 this.vis = sens.readVisibility();
-                this.light = sens.readLightLevel();
 
                 //Retrieve updated distance values
                 this.totalDist = engSys.getDistanceDriven();
-
-                //Retrieve updated soil result values
-                this.soilResults = soil.pollAnalysis();
 
                 //Update Observers
                 notifyObservers();
@@ -103,7 +100,7 @@ public class ApiData implements Subject
             {
                 eComm.sendMessage(e.getMessage());
             }
-        }
+        //}
     } 
     
     private void validateCommand(String command) throws CommandException
