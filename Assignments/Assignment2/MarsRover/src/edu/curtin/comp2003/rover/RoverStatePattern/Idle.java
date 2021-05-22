@@ -1,6 +1,5 @@
 package edu.curtin.comp2003.rover.RoverStatePattern;
 
-import edu.curtin.comp2003.rover.EngineSystem;
 import edu.curtin.comp2003.rover.Rover;
 
 public class Idle implements RoverState
@@ -8,17 +7,19 @@ public class Idle implements RoverState
     //CONSTRUCTOR
     public Idle(){}
 
+    /**
+     * Three steps performed:
+     *  1. Set Rover's travel target
+     *  2. Command rover to drive
+     *  3. Set Rover State to Driving
+     */
     @Override
-    public void drive(Rover context) 
+    public void drive(Rover context, double newDist)
     {
-        String[] command;
-        double travelDist, totalDist;
-        EngineSystem engSys;
+        double totalDist;
 
-        command = context.getCommand().split(" ");
-        travelDist = Double.parseDouble(command[1]);
         totalDist = context.getTotalDist();
-        engSys = context.apiData.getEngSys();
+        context.setTravelTarget(totalDist + newDist);
 
         context.commandDrive(); //Action
         context.setState(new Driving()); //Update State

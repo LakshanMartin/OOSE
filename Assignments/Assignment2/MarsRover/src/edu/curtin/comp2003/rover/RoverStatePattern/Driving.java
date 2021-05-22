@@ -7,32 +7,44 @@ public class Driving implements RoverState
     //CONSTRUCTOR
     public Driving(){}
 
+	/**
+	 * Adjust the Rover's travel target
+	 */
 	@Override
-	public void drive(Rover context) {
+	public void drive(Rover context, double newDist)
+	{
+		double currDist, newTarget;
+
+		currDist = context.getTotalDist(); 
+		newTarget = currDist + newDist; 
+
+		context.setTravelTarget(newTarget);
+	}
+
+	@Override
+	public void turn(Rover context) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void turn(Rover context) {
+	public void takePhoto(Rover context) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void takePhoto(Rover context) {
+	public void reportEnvironment(Rover context) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void reportEnvironment(Rover context) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void analyseSoil(Rover context) {
+	public void analyseSoil(Rover context) 
+	{
 		// TODO Auto-generated method stub
 		
 	}

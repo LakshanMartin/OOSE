@@ -69,7 +69,7 @@ public class CommandValidation
 
     private void validateDistance(double distance) throws CommandException
     {
-        if(distance < 0.0)
+        if(distance <= 0.0)
         {
             throw new CommandException("Invalid Distance");
         }

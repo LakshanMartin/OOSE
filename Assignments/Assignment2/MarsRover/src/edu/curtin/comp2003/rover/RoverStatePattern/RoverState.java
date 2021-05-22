@@ -4,7 +4,7 @@ import edu.curtin.comp2003.rover.Rover;
 
 public interface RoverState 
 {
-    void drive(Rover context);
+    void drive(Rover context, double newDist);
     void turn(Rover context);
     void takePhoto(Rover context);
     void reportEnvironment(Rover context);

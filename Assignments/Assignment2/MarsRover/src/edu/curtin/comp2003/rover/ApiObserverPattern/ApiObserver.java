@@ -4,5 +4,4 @@ public interface ApiObserver
 {
     public void updateComm(String command);
     public void updateVisibility(double vis);
-    public void updateDistance(double totalDist);
 }

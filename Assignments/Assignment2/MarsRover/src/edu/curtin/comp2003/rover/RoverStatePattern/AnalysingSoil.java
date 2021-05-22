@@ -4,13 +4,24 @@ import edu.curtin.comp2003.rover.Rover;
 
 public class AnalysingSoil implements RoverState
 {
-    //CONSTRUCTOR
-    public AnalysingSoil(){}
+    String errorMsg;
 
+    //CONSTRUCTOR
+    public AnalysingSoil()
+    {
+        errorMsg = "\n! I'm sorry, Dave. I'm afraid I can't do that..."; 
+    }
+
+    /**
+     * Generate error message for invalid command to Drive
+     */
     @Override
-    public void drive(Rover context) {
-        // TODO Auto-generated method stub
+    public void drive(Rover context, double newDist) 
+    {
+        String error;
         
+        error = "\n[Cannot start Driving while performing soil analysis]\n";
+        context.sendMessage(errorMsg + error);
     }
 
     @Override
@@ -36,8 +47,5 @@ public class AnalysingSoil implements RoverState
         // TODO Auto-generated method stub
         
     }
-
-    
-
 
 }

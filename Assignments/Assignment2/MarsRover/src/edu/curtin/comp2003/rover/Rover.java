@@ -3,6 +3,7 @@ package edu.curtin.comp2003.rover;
 import java.util.Base64;
 
 import edu.curtin.comp2003.rover.ApiObserverPattern.*;
+import edu.curtin.comp2003.rover.CommandValidation.CommandException;
 import edu.curtin.comp2003.rover.RoverStatePattern.Idle;
 import edu.curtin.comp2003.rover.RoverStatePattern.RoverState;
 
@@ -14,7 +15,7 @@ public class Rover implements ApiObserver
     private SoilAnalyser soil;
     private ApiData apiData;
     private String command;
-    private double temp, vis, light, totalDist;
+    private double temp, vis, light, totalDist, travelTarget;
     private byte[] photo, soilResults;
     
     private RoverState state;
@@ -54,21 +55,15 @@ public class Rover implements ApiObserver
         this.vis = vis;
     }
 
-    @Override
-    public void updateDistance(double totalDist) 
-    {
-        this.totalDist = totalDist;    
-    }
-
     // STATE METHODS ----------------------------------------------------------
     public void setState(RoverState newState)
     {
         state = newState;
     }
     
-    public void drive() 
+    public void drive(double newDist) 
     {
-        state.drive(this);
+        state.drive(this, newDist);  
     }
 
     public void turn() 
@@ -91,6 +86,12 @@ public class Rover implements ApiObserver
         state.analyseSoil(this);        
     }
 
+    //MUTATORS
+    public void setTravelTarget(double travelTarget)
+    {
+        this.travelTarget = travelTarget;
+    }
+
     // ACESSORS ---------------------------------------------------------------
     public String getCommand()
     {
@@ -100,6 +101,11 @@ public class Rover implements ApiObserver
     public double getTotalDist()
     {
         return totalDist;
+    }
+
+    public double getTravelTarget()
+    {
+        return travelTarget;
     }
 
     // SUPPORTING METHODS -----------------------------------------------------
@@ -113,7 +119,7 @@ public class Rover implements ApiObserver
         switch(commandID[0])
         {
             case "D":
-                drive();
+                drive(Double.parseDouble(commandID[1]));
             break;
 
             case "T":
@@ -134,16 +140,27 @@ public class Rover implements ApiObserver
         }
     }
 
-    public void commandDrive(String[] command)
+    /**
+     * Send return message to Earth
+     * @param msg
+     */
+    public void sendMessage(String msg)
     {
-        double toTravel;
+        eComm.sendMessage(msg);
+    }
 
-        toTravel = Double.parseDouble(command[1]);
+    public void commandDrive()
+    {
+        engSys.startDriving();
 
-        while(totalDist - toTravel != 0.0)
+        while(totalDist < travelTarget)
         {
-            //
+            totalDist = engSys.getDistanceDriven();
         }
+
+        engSys.stopDriving();
+        setState(new Idle());
+        sendMessage("D");
     }
 
     /**

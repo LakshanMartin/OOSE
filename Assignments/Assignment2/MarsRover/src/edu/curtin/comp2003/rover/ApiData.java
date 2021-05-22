@@ -14,21 +14,18 @@ public class ApiData implements Subject
 {
     private EarthComm eComm;
     private Sensors sens;
-    private EngineSystem engSys;
     private Set<ApiObserver> obs;
     private String command;
-    private double vis, totalDist;
+    private double vis;
 
-    public ApiData(EarthComm eComm, Sensors sens, EngineSystem engSys)
+    public ApiData(EarthComm eComm, Sensors sens)
     {
         this.eComm = eComm;
         this.sens = sens;
-        this.engSys = engSys;
-        
+
         obs = new HashSet<>();
         command = "";
         vis = 0.0;
-        totalDist = 0.0;
     }
 
     // OBSERVER METHODS -------------------------------------------------------
@@ -58,7 +55,6 @@ public class ApiData implements Subject
         {
             ob.updateComm(command);
             ob.updateVisibility(vis);
-            ob.updateDistance(totalDist);
         }
 
         //Sleep 5 seconds after notifying observers - REFERENCED CODE.
@@ -88,9 +84,6 @@ public class ApiData implements Subject
 
                 //Retrieve updated visibility value
                 this.vis = sens.readVisibility();
-
-                //Retrieve updated distance values
-                this.totalDist = engSys.getDistanceDriven();
 
                 //Update Observers
                 notifyObservers();
