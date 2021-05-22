@@ -4,8 +4,15 @@ import edu.curtin.comp2003.rover.Rover;
 
 public class Driving implements RoverState
 {
+	String defaultError;
+    String customError;
+
     //CONSTRUCTOR
-    public Driving(){}
+    public Driving()
+	{
+		defaultError = "\n! I'm sorry, Dave. I'm afraid I can't do that..."; 
+        customError = "";
+	}
 
 	/**
 	 * Adjust the Rover's travel target
@@ -21,31 +28,22 @@ public class Driving implements RoverState
 		context.setTravelTarget(newTarget);
 	}
 
+	/**
+	 * Command Rover to Turn
+	 */
 	@Override
-	public void turn(Rover context) 
+	public void turn(Rover context, double newAngle) 
 	{
-		// TODO Auto-generated method stub
-		
+		context.commandTurn(newAngle);	
 	}
 
-	@Override
-	public void takePhoto(Rover context) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void reportEnvironment(Rover context) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
+	/**
+	 * Generate error message for invalid command to Start Analysing Soil
+	 */
 	@Override
 	public void analyseSoil(Rover context) 
 	{
-		// TODO Auto-generated method stub
-		
+		customError = "\n[Cannot start Soil Analysis while Driving]\n";
+		context.sendMessage(defaultError + customError);	
 	}
 }

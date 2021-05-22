@@ -11,7 +11,7 @@ public class Sensors
 
     public double readVisibility()
     {
-        return 10.0;
+        return 5.1;
     }
 
     public double readLightLevel()

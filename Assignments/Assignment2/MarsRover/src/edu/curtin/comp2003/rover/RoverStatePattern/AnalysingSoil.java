@@ -4,12 +4,14 @@ import edu.curtin.comp2003.rover.Rover;
 
 public class AnalysingSoil implements RoverState
 {
-    String errorMsg;
+    String defaultError;
+    String customError;
 
     //CONSTRUCTOR
     public AnalysingSoil()
     {
-        errorMsg = "\n! I'm sorry, Dave. I'm afraid I can't do that..."; 
+        defaultError = "\n! I'm sorry, Dave. I'm afraid I can't do that..."; 
+        customError = "";
     }
 
     /**
@@ -18,34 +20,27 @@ public class AnalysingSoil implements RoverState
     @Override
     public void drive(Rover context, double newDist) 
     {
-        String error;
-        
-        error = "\n[Cannot start Driving while performing soil analysis]\n";
-        context.sendMessage(errorMsg + error);
+        customError = "\n[Cannot start Driving while performing Soil Analysis]\n";
+        context.sendMessage(defaultError + customError);
     }
 
+    /**
+     * Generate error message for invalid command to Turn
+     */
     @Override
-    public void turn(Rover context) {
-        // TODO Auto-generated method stub
-        
+    public void turn(Rover context, double newAngle) 
+    {
+        customError = "\n[Cannot turn while performing Soil Analysis]\n";
+        context.sendMessage(defaultError + customError);        
     }
 
+    /**
+     * Generate error message for invalid command to Start Analysing Soil
+     */
     @Override
-    public void takePhoto(Rover context) {
-        // TODO Auto-generated method stub
-        
+    public void analyseSoil(Rover context) 
+    {
+        customError = "\n[Cannot start Soil Analysis while already performing Soil Analysis]\n";
+        context.sendMessage(defaultError + customError);
     }
-
-    @Override
-    public void reportEnvironment(Rover context) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void analyseSoil(Rover context) {
-        // TODO Auto-generated method stub
-        
-    }
-
 }

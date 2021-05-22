@@ -2,10 +2,8 @@ package edu.curtin.comp2003.rover;
 
 import java.util.Base64;
 
-import edu.curtin.comp2003.rover.ApiObserverPattern.*;
-import edu.curtin.comp2003.rover.CommandValidation.CommandException;
-import edu.curtin.comp2003.rover.RoverStatePattern.Idle;
-import edu.curtin.comp2003.rover.RoverStatePattern.RoverState;
+import edu.curtin.comp2003.rover.ApiObserverPattern.ApiObserver;
+import edu.curtin.comp2003.rover.RoverStatePattern.*;
 
 public class Rover implements ApiObserver
 {
@@ -36,11 +34,14 @@ public class Rover implements ApiObserver
         totalDist = 0.0;
         soilResults = null;
 
-        apiData.addObserver(this); //Add Rover as an Observer
-        state = new Idle(); //Initial State of Rover
+        this.apiData.addObserver(this); //Add Rover as an Observer
+        state = new Stopped(); //Initial State of Rover
     }
 
     // OBSERVER METHODS -------------------------------------------------------
+    /**
+     * Updating Commands for next set of instructions from Earth
+     */
     @Override
     public void updateComm(String command) 
     {
@@ -49,10 +50,21 @@ public class Rover implements ApiObserver
         readCommand();
     }
 
+    /**
+     * Updating Environment Status report to check if Visibility is within set 
+     * thresholds.  
+     */
     @Override
-    public void updateVisibility(double vis) 
+    public void updateEnvironment(double temp, double vis, double light) 
     {
+        this.temp = temp;
         this.vis = vis;
+        this.light = light;
+
+        if(vis < 4.0 || vis > 5.0)
+        {
+            sendMessage("E " + temp + " " + vis + " " + light);
+        }
     }
 
     // STATE METHODS ----------------------------------------------------------
@@ -61,27 +73,17 @@ public class Rover implements ApiObserver
         state = newState;
     }
     
-    public void drive(double newDist) 
+    private void drive(double newDist) 
     {
         state.drive(this, newDist);  
     }
 
-    public void turn() 
+    private void turn(double newAngle) 
     {
-        state.turn(this);
+        state.turn(this, newAngle);
     }
 
-    public void takePhoto() 
-    {
-        state.takePhoto(this);
-    }
-
-    public void reportEnvironment() 
-    {
-        state.reportEnvironment(this);
-    }
-
-    public void analyseSoil() 
+    private void analyseSoil() 
     {
         state.analyseSoil(this);        
     }
@@ -123,19 +125,19 @@ public class Rover implements ApiObserver
             break;
 
             case "T":
-
+                turn(Double.parseDouble(commandID[1]));
             break;
 
             case "P":
-
+                commandTakePhoto();
             break;
 
             case "E":
-
+                commandReportEnvironment();
             break;
 
             case "S":
-
+                analyseSoil();
             break;
         }
     }
@@ -149,9 +151,16 @@ public class Rover implements ApiObserver
         eComm.sendMessage(msg);
     }
 
+    /**
+     * Rover keeps driving until totalDist >= travelTarget then:
+     *  - Stops driving
+     *  - Rover State set to Idle
+     *  - Sends return message to Earth
+     */
     public void commandDrive()
     {
-        engSys.startDriving();
+        engSys.startDriving(); //Action
+        setState(new Driving()); //Update State
 
         while(totalDist < travelTarget)
         {
@@ -159,18 +168,79 @@ public class Rover implements ApiObserver
         }
 
         engSys.stopDriving();
-        setState(new Idle());
+        setState(new Stopped()); //Update State
         sendMessage("D");
     }
 
     /**
-     * Return Base64 encoded image data of photo taken
-     * @return
+     * Rover turns based on newAngle
+     * @param newAngle
      */
-    public String getPhoto()
+    public void commandTurn(double newAngle)
     {
-        return Base64.getEncoder().encodeToString(photo);
+        engSys.turn(newAngle);
     }
 
-    
+    /**
+     * Rover takes a photo. Photo is encoded in Base64. Encoded photo is sent
+     * back to Earth through return message.
+     */
+    private void commandTakePhoto()
+    {
+        String encodedPhoto;
+
+        photo = sens.takePhoto();
+        encodedPhoto = Base64.getEncoder().encodeToString(photo);
+        
+        sendMessage("P " + encodedPhoto);
+    }
+
+    /**
+     * Rover reads current environment status and returns report message back
+     * to Earth.
+     */
+    private void commandReportEnvironment()
+    {
+        temp = sens.readTemperature();
+        vis = sens.readVisibility();
+        light = sens.readLightLevel();
+
+        sendMessage("E " + temp + " " + vis + " " + light);
+    }
+
+    /**
+     * Rover starts analysing soil and returns report message back to Earth
+     *  
+     * REFERENCES: Stopak, J. "How to delay code execution in Java". 
+     *             https://www.baeldung.com/java-delay-code-execution
+     *             (accessed 21 May 2021).
+     */
+    public void commandSoilAnalysis()
+    {
+        String encodedSoilResults;
+
+        soil.startAnalysis(); //Action
+        setState(new AnalysingSoil()); //Update State
+
+        while(soilResults == null)
+        {
+            soilResults = soil.pollAnalysis(); //Poll until results returned
+
+            //Sleep 2 seconds after polling - REFERENCED CODE.
+            try
+            {
+                Thread.sleep(1000 * 2);
+            }
+            catch(InterruptedException e)
+            {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        setState(new Stopped()); //Update State 
+        encodedSoilResults = Base64.getEncoder().encodeToString(soilResults);
+        soilResults = null; //Reset back to null for next analysis
+
+        sendMessage("S " + encodedSoilResults);
+    }
 }

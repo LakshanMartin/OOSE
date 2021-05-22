@@ -16,7 +16,7 @@ public class ApiData implements Subject
     private Sensors sens;
     private Set<ApiObserver> obs;
     private String command;
-    private double vis;
+    private double temp, vis, light;
 
     public ApiData(EarthComm eComm, Sensors sens)
     {
@@ -25,7 +25,9 @@ public class ApiData implements Subject
 
         obs = new HashSet<>();
         command = "";
+        temp = 0.0;
         vis = 0.0;
+        light = 0.0;
     }
 
     // OBSERVER METHODS -------------------------------------------------------
@@ -54,7 +56,7 @@ public class ApiData implements Subject
         for(ApiObserver ob : obs)
         {
             ob.updateComm(command);
-            ob.updateVisibility(vis);
+            ob.updateEnvironment(temp, vis, light);
         }
 
         //Sleep 5 seconds after notifying observers - REFERENCED CODE.
@@ -82,8 +84,10 @@ public class ApiData implements Subject
                 validateCommand(inCommand);    
                 this.command = inCommand;    
 
-                //Retrieve updated visibility value
+                //Retrieve updated enviroment values
+                this.temp = sens.readTemperature();
                 this.vis = sens.readVisibility();
+                this.light = sens.readLightLevel();
 
                 //Update Observers
                 notifyObservers();
