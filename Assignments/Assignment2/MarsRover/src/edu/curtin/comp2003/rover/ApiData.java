@@ -7,33 +7,31 @@ import edu.curtin.comp2003.rover.ApiObserverPattern.*;
 import edu.curtin.comp2003.rover.CommandValidation.*;
 import edu.curtin.comp2003.rover.CommandsStrategyPattern.*;
 
+/**
+ * This class is used for constant polling of the Rover API.
+ */
 public class ApiData implements Subject
 {
     private EarthComm eComm;
     private Sensors sens;
     private EngineSystem engSys;
-    private SoilAnalyser soil;
     private Set<ApiObserver> obs;
     private String command;
-    private double temp, vis, light, totalDist;
-    private byte[] photo, soilResults;
+    private double vis, totalDist;
 
-    public ApiData(EarthComm eComm, Sensors sens, EngineSystem engSys, SoilAnalyser soil)
+    public ApiData(EarthComm eComm, Sensors sens, EngineSystem engSys)
     {
         this.eComm = eComm;
         this.sens = sens;
         this.engSys = engSys;
-        this.soil = soil;
+        
         obs = new HashSet<>();
         command = "";
-        temp = 0.0;
         vis = 0.0;
-        light = 0.0;
-        photo = null;
         totalDist = 0.0;
-        soilResults = null;
     }
 
+    // OBSERVER METHODS -------------------------------------------------------
     @Override
     public void addObserver(ApiObserver ob) 
     {
@@ -63,7 +61,7 @@ public class ApiData implements Subject
             ob.updateDistance(totalDist);
         }
 
-        //Sleep 5 seconds after notifying observers - REFERENCED code.
+        //Sleep 5 seconds after notifying observers - REFERENCED CODE.
         try
         {
             Thread.sleep(1000 * 5);
@@ -74,6 +72,7 @@ public class ApiData implements Subject
         }
     }
 
+    // SUPPORTING METHODS -----------------------------------------------------
     public void updateApi()
     {
         String inCommand;

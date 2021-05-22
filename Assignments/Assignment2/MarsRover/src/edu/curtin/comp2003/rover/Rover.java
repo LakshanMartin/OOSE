@@ -8,14 +8,25 @@ import edu.curtin.comp2003.rover.RoverStatePattern.RoverState;
 
 public class Rover implements ApiObserver
 {
+    private EarthComm eComm;
+    private Sensors sens;
+    private EngineSystem engSys;
+    private SoilAnalyser soil;
+    private ApiData apiData;
     private String command;
     private double temp, vis, light, totalDist;
     private byte[] photo, soilResults;
-    private ApiData apiData;
+    
     private RoverState state;
 
-    public Rover(ApiData apiData)
+    public Rover(EarthComm eComm, Sensors sens, EngineSystem engSys, SoilAnalyser soil, ApiData apiData)
     {
+        this. eComm = eComm;
+        this.sens = sens;
+        this.engSys = engSys;
+        this.soil = soil;
+        this.apiData = apiData;
+
         command = "";
         temp = 0.0;
         vis = 0.0;
@@ -23,9 +34,9 @@ public class Rover implements ApiObserver
         photo = null;
         totalDist = 0.0;
         soilResults = null;
-        this.apiData = apiData;
-        apiData.addObserver(this);
-        state = new Idle();
+
+        apiData.addObserver(this); //Add Rover as an Observer
+        state = new Idle(); //Initial State of Rover
     }
 
     // OBSERVER METHODS -------------------------------------------------------
@@ -80,6 +91,17 @@ public class Rover implements ApiObserver
         state.analyseSoil(this);        
     }
 
+    // ACESSORS ---------------------------------------------------------------
+    public String getCommand()
+    {
+        return command;
+    }
+
+    public double getTotalDist()
+    {
+        return totalDist;
+    }
+
     // SUPPORTING METHODS -----------------------------------------------------
     /**
      * Identify which command for the the Rover to action.
@@ -91,7 +113,7 @@ public class Rover implements ApiObserver
         switch(commandID[0])
         {
             case "D":
-                commandDrive();
+                drive();
             break;
 
             case "T":
@@ -112,13 +134,11 @@ public class Rover implements ApiObserver
         }
     }
 
-    public void commandDrive()
+    public void commandDrive(String[] command)
     {
-        String[] strTravel;
         double toTravel;
 
-        strTravel = command.split(" ");
-        toTravel = Double.parseDouble(strTravel[1]);
+        toTravel = Double.parseDouble(command[1]);
 
         while(totalDist - toTravel != 0.0)
         {

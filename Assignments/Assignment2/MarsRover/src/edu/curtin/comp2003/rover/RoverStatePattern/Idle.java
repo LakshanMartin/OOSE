@@ -1,5 +1,6 @@
 package edu.curtin.comp2003.rover.RoverStatePattern;
 
+import edu.curtin.comp2003.rover.EngineSystem;
 import edu.curtin.comp2003.rover.Rover;
 
 public class Idle implements RoverState
@@ -10,6 +11,15 @@ public class Idle implements RoverState
     @Override
     public void drive(Rover context) 
     {
+        String[] command;
+        double travelDist, totalDist;
+        EngineSystem engSys;
+
+        command = context.getCommand().split(" ");
+        travelDist = Double.parseDouble(command[1]);
+        totalDist = context.getTotalDist();
+        engSys = context.apiData.getEngSys();
+
         context.commandDrive(); //Action
         context.setState(new Driving()); //Update State
     }
