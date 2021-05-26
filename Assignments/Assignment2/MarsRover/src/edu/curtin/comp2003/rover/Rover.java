@@ -169,7 +169,7 @@ public class Rover implements ApiObserver
 
         engSys.stopDriving();
         setState(new Stopped()); //Update State
-        sendMessage("D");
+        sendMessage("D\n");
     }
 
     /**
@@ -192,7 +192,7 @@ public class Rover implements ApiObserver
         photo = sens.takePhoto();
         encodedPhoto = Base64.getEncoder().encodeToString(photo);
         
-        sendMessage("P " + encodedPhoto);
+        sendMessage("P " + encodedPhoto + "\n");
     }
 
     /**
@@ -205,7 +205,7 @@ public class Rover implements ApiObserver
         vis = sens.readVisibility();
         light = sens.readLightLevel();
 
-        sendMessage("E " + temp + " " + vis + " " + light);
+        sendMessage("E " + temp + " " + vis + " " + light + "\n");
     }
 
     /**
@@ -241,6 +241,6 @@ public class Rover implements ApiObserver
         encodedSoilResults = Base64.getEncoder().encodeToString(soilResults);
         soilResults = null; //Reset back to null for next analysis
 
-        sendMessage("S " + encodedSoilResults);
+        sendMessage("S " + encodedSoilResults + "\n");
     }
 }

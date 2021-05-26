@@ -62,7 +62,7 @@ public class ApiData implements Subject
         //Sleep 5 seconds after notifying observers - REFERENCED CODE.
         try
         {
-            Thread.sleep(1000 * 5);
+            Thread.sleep(1000 * 1);
         }
         catch(InterruptedException e)
         {
@@ -75,12 +75,20 @@ public class ApiData implements Subject
     {
         String inCommand;
 
-        //while(true)
-        //{
+        while(true)
+        {
             try
             {
                 //Retrieve & validate updated command values
                 inCommand = eComm.pollCommand();
+
+                //Catch end of commands list and break loop
+                /*if(inCommand == null)
+                {
+                    eComm.sendMessage("\nEND OF COMMANDS LIST\n");
+                    break;
+                }*/
+
                 validateCommand(inCommand);    
                 this.command = inCommand;    
 
@@ -94,9 +102,12 @@ public class ApiData implements Subject
             }
             catch(CommandException e)
             {
-                eComm.sendMessage(e.getMessage());
+                if(!e.getMessage().contains("End"))
+                {
+                    eComm.sendMessage(e.getMessage());
+                }
             }
-        //}
+        }
     } 
     
     private void validateCommand(String command) throws CommandException
@@ -106,7 +117,19 @@ public class ApiData implements Subject
         String[] toValidate;
 
         check = new CommandValidation();
-        toValidate = command.split(" ");
+
+        //Catch null values returned from 
+        try
+        {
+            toValidate = command.split(" ");
+        }
+        catch(NullPointerException e)
+        {
+            // Although exception is caught and thrown, it is essentially ignored
+            // in order to preserve the event loop. 
+            throw new CommandException("End");
+        }
+
 
         try
         {
