@@ -55,11 +55,15 @@ public class ApiData implements Subject
     {
         for(ApiObserver ob : obs)
         {
-            ob.updateComm(command);
+            if(command != null)
+            {
+                ob.updateComm(command);
+            }
+
             ob.updateEnvironment(temp, vis, light);
         }
 
-        //Sleep 5 seconds after notifying observers - REFERENCED CODE.
+        //Sleep after notifying observers - REFERENCED CODE.
         try
         {
             Thread.sleep(1000 * 1);
@@ -83,14 +87,15 @@ public class ApiData implements Subject
                 inCommand = eComm.pollCommand();
 
                 //Catch end of commands list and break loop
-                /*if(inCommand == null)
+                if(inCommand == null)
                 {
-                    eComm.sendMessage("\nEND OF COMMANDS LIST\n");
-                    break;
-                }*/
-
-                validateCommand(inCommand);    
-                this.command = inCommand;    
+                    this.command = null;
+                }
+                else
+                {
+                    validateCommand(inCommand);    
+                    this.command = inCommand; 
+                }
 
                 //Retrieve updated enviroment values
                 this.temp = sens.readTemperature();
@@ -102,10 +107,7 @@ public class ApiData implements Subject
             }
             catch(CommandException e)
             {
-                if(!e.getMessage().contains("End"))
-                {
-                    eComm.sendMessage(e.getMessage());
-                }
+                eComm.sendMessage(e.getMessage());
             }
         }
     } 
@@ -117,19 +119,7 @@ public class ApiData implements Subject
         String[] toValidate;
 
         check = new CommandValidation();
-
-        //Catch null values returned from 
-        try
-        {
-            toValidate = command.split(" ");
-        }
-        catch(NullPointerException e)
-        {
-            // Although exception is caught and thrown, it is essentially ignored
-            // in order to preserve the event loop. 
-            throw new CommandException("End");
-        }
-
+        toValidate = command.split(" ");
 
         try
         {

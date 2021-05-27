@@ -4,6 +4,8 @@ import java.util.Base64;
 
 import edu.curtin.comp2003.rover.ApiObserverPattern.ApiObserver;
 import edu.curtin.comp2003.rover.RoverStatePattern.*;
+import edu.curtin.comp2003.rover.VisibilityStatePattern.NormalVisibility;
+import edu.curtin.comp2003.rover.VisibilityStatePattern.VisibilityState;
 
 public class Rover implements ApiObserver
 {
@@ -15,8 +17,8 @@ public class Rover implements ApiObserver
     private String command;
     private double temp, vis, light, totalDist, travelTarget;
     private byte[] photo, soilResults;
-    
-    private RoverState state;
+    private RoverState roverState;
+    private VisibilityState visState;
 
     public Rover(EarthComm eComm, Sensors sens, EngineSystem engSys, SoilAnalyser soil, ApiData apiData)
     {
@@ -35,7 +37,8 @@ public class Rover implements ApiObserver
         soilResults = null;
 
         this.apiData.addObserver(this); //Add Rover as an Observer
-        state = new Stopped(); //Initial State of Rover
+        roverState = new Stopped(); //Initial State of Rover
+        visState = new NormalVisibility(); //Initial Visibility State of Rover
     }
 
     // OBSERVER METHODS -------------------------------------------------------
@@ -46,7 +49,7 @@ public class Rover implements ApiObserver
     public void updateComm(String command) 
     {
         this.command = command;
-        System.out.println("Current command: " + this.command);
+        System.out.println("New command: " + this.command);
         readCommand();
     }
 
@@ -61,37 +64,40 @@ public class Rover implements ApiObserver
         this.vis = vis;
         this.light = light;
 
-        if(vis < 4.0 || vis > 5.0)
+        if(vis < 4.0)
         {
-            sendMessage("E " + temp + " " + vis + " " + light);
+            visState.belowFourKM(this, temp, vis, light);
+        }
+        else if(vis > 5.0)
+        {
+            visState.aboveFiveKM(this, temp, vis, light);
+        }
+        else
+        {
+            visState.normal(this, temp, vis, light);
         }
     }
 
     // STATE METHODS ----------------------------------------------------------
-    public void setState(RoverState newState)
+    public void setVisibilityState(VisibilityState newState)
     {
-        state = newState;
-    }
-    
-    private void drive(double newDist) 
-    {
-        state.drive(this, newDist);  
+        visState = newState;
     }
 
-    private void turn(double newAngle) 
+    public void setRoverState(RoverState newState)
     {
-        state.turn(this, newAngle);
+        roverState = newState;
     }
 
-    private void analyseSoil() 
-    {
-        state.analyseSoil(this);        
-    }
-
-    //MUTATORS
+    //MUTATORS ----------------------------------------------------------------
     public void setTravelTarget(double travelTarget)
     {
         this.travelTarget = travelTarget;
+    }
+
+    public void setTotalDist(double updated)
+    {
+        this.totalDist = updated;
     }
 
     // ACESSORS ---------------------------------------------------------------
@@ -117,15 +123,20 @@ public class Rover implements ApiObserver
     private void readCommand()
     {
         String[] commandID = command.split(" ");
-
+        double value;
+        
         switch(commandID[0])
         {
             case "D":
-                drive(Double.parseDouble(commandID[1]));
+                //drive(Double.parseDouble(commandID[1]));
+                value = Double.parseDouble(commandID[1]);
+                roverState.drive(this, value);
             break;
 
             case "T":
-                turn(Double.parseDouble(commandID[1]));
+                //turn(Double.parseDouble(commandID[1]));
+                value = Double.parseDouble(commandID[1]);
+                roverState.turn(this, value);
             break;
 
             case "P":
@@ -137,7 +148,8 @@ public class Rover implements ApiObserver
             break;
 
             case "S":
-                analyseSoil();
+                //analyseSoil();
+                roverState.analyseSoil(this);
             break;
         }
     }
@@ -160,15 +172,25 @@ public class Rover implements ApiObserver
     public void commandDrive()
     {
         engSys.startDriving(); //Action
-        setState(new Driving()); //Update State
+        setRoverState(new Driving()); //Update State
 
         while(totalDist < travelTarget)
         {
             totalDist = engSys.getDistanceDriven();
-        }
 
+            //Sleep for 3 seconds to simulate time taken to travel.
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch(InterruptedException e)
+            {
+                Thread.currentThread().interrupt();
+            }
+        }
+        
         engSys.stopDriving();
-        setState(new Stopped()); //Update State
+        setRoverState(new Stopped()); //Update State
         sendMessage("D\n");
     }
 
@@ -179,6 +201,7 @@ public class Rover implements ApiObserver
     public void commandTurn(double newAngle)
     {
         engSys.turn(newAngle);
+        sendMessage("T\n");
     }
 
     /**
@@ -220,7 +243,7 @@ public class Rover implements ApiObserver
         String encodedSoilResults;
 
         soil.startAnalysis(); //Action
-        setState(new AnalysingSoil()); //Update State
+        setRoverState(new AnalysingSoil()); //Update State
 
         while(soilResults == null)
         {
@@ -237,7 +260,7 @@ public class Rover implements ApiObserver
             }
         }
 
-        setState(new Stopped()); //Update State 
+        setRoverState(new Stopped()); //Update State 
         encodedSoilResults = Base64.getEncoder().encodeToString(soilResults);
         soilResults = null; //Reset back to null for next analysis
 
