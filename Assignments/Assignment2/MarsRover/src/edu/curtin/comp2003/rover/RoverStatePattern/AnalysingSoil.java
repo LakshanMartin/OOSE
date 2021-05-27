@@ -18,10 +18,16 @@ public class AnalysingSoil implements RoverState
      * Generate error message for invalid command to Drive
      */
     @Override
-    public void drive(Rover context, double newDist) 
+    public void startDriving(Rover context, double newDist) 
     {
         customError = "\n[Cannot start Driving while performing Soil Analysis]\n";
         context.sendMessage(defaultError + customError);
+    }
+
+    @Override
+    public void stopDriving(Rover context)
+    {
+        //Do nothing. Wouldn't be Driving.     
     }
 
     /**

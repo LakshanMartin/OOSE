@@ -16,7 +16,7 @@ public class MainApp
         engSys = new EngineSystem();
         soil = new SoilAnalyser();
         
-        apiData = new ApiData(eComm, sens);
+        apiData = new ApiData(eComm, sens, engSys, soil);
         rover = new Rover(eComm, sens, engSys, soil, apiData);
 
         apiData.updateApi();

@@ -17,7 +17,8 @@ public class Sensors
     public double readVisibility()
     {
         double[] visList = new double[]{
-            5.1, 6.0, 4.1, 4.5, 2.0, 4.0, 4.2, 4.3, 4.5, 5.7, 4.3, 3.0
+            4.0, 4.1, 4.2, 4.3, 4.4, 4.5
+            //5.1, 6.0, 4.1, 4.5, 2.0, 4.0, 4.2, 4.3, 4.5, 5.7, 4.3, 3.0
         };
 
         if(visCount == visList.length - 1)

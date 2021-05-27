@@ -14,20 +14,26 @@ public class ApiData implements Subject
 {
     private EarthComm eComm;
     private Sensors sens;
+    private EngineSystem engSys;
+    private SoilAnalyser soil;
     private Set<ApiObserver> obs;
     private String command;
-    private double temp, vis, light;
+    private double temp, vis, light, totalDist;
+    private byte[] soilResults;
 
-    public ApiData(EarthComm eComm, Sensors sens)
+    public ApiData(EarthComm eComm, Sensors sens, EngineSystem engSys, SoilAnalyser soil)
     {
         this.eComm = eComm;
         this.sens = sens;
+        this.engSys = engSys;
+        this.soil = soil;
 
         obs = new HashSet<>();
         command = "";
         temp = 0.0;
         vis = 0.0;
         light = 0.0;
+        totalDist = 0.0;
     }
 
     // OBSERVER METHODS -------------------------------------------------------
@@ -61,6 +67,8 @@ public class ApiData implements Subject
             }
 
             ob.updateEnvironment(temp, vis, light);
+            ob.updateTotalDistance(totalDist);
+            ob.updateSoilResults(soilResults);
         }
 
         //Sleep after notifying observers - REFERENCED CODE.
@@ -101,6 +109,12 @@ public class ApiData implements Subject
                 this.temp = sens.readTemperature();
                 this.vis = sens.readVisibility();
                 this.light = sens.readLightLevel();
+
+                //Retrieve total distance travelled
+                this.totalDist = engSys.getDistanceDriven();
+
+                //Retrieve soil analysis results
+                this.soilResults = soil.pollAnalysis();
 
                 //Update Observers
                 notifyObservers();

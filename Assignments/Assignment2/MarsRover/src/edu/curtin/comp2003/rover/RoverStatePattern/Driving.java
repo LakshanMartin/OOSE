@@ -18,7 +18,7 @@ public class Driving implements RoverState
 	 * Adjust the Rover's travel target
 	 */
 	@Override
-	public void drive(Rover context, double newDist)
+	public void startDriving(Rover context, double newDist)
 	{
 		double currDist, newTarget;
 
@@ -27,6 +27,13 @@ public class Driving implements RoverState
 
 		context.setTravelTarget(newTarget);
 	}
+
+	@Override
+    public void stopDriving(Rover context)
+    {
+		context.commandStopDriving();
+		context.setRoverState(new Stopped());
+    }
 
 	/**
 	 * Command Rover to Turn

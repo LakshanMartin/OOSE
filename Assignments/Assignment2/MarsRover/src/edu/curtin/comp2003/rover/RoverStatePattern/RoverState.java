@@ -8,7 +8,8 @@ import edu.curtin.comp2003.rover.Rover;
  */
 public interface RoverState 
 {
-    void drive(Rover context, double newDist);
+    void startDriving(Rover context, double newDist);
+    void stopDriving(Rover context);
     void turn(Rover context, double newAngle);
     void analyseSoil(Rover context);
 }

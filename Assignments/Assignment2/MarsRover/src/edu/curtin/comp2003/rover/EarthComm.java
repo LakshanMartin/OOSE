@@ -11,7 +11,7 @@ public class EarthComm
         String[] commList = new String[]{
             //"D 10.0"
             //"E", "D 10.0", "E", "D 5.0"
-            "D 10.0", "D 5.0"
+            "D 10.0", "E", "D 5.0"
         };
 
         if(commCount == commList.length - 1)

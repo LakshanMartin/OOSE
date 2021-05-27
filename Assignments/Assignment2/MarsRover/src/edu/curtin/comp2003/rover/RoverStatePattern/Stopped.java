@@ -11,10 +11,17 @@ public class Stopped implements RoverState
      *  Set Rover's travel target. Command rover to Drive
      */
     @Override
-    public void drive(Rover context, double newDist)
+    public void startDriving(Rover context, double newDist)
     {
         context.setTravelTarget(context.getTotalDist() + newDist);
-        context.commandDrive();
+        context.commandStartDriving();
+        context.setRoverState(new Driving());
+    }
+
+    @Override
+    public void stopDriving(Rover context)
+    {
+        //Do nothing
     }
 
     /**

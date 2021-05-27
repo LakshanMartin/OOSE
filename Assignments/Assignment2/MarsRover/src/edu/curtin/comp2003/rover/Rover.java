@@ -38,7 +38,7 @@ public class Rover implements ApiObserver
 
         this.apiData.addObserver(this); //Add Rover as an Observer
         roverState = new Stopped(); //Initial State of Rover
-        visState = new NormalVisibility(); //Initial Visibility State of Rover
+        visState = new NormalVisibility(); //Initial Visibility State
     }
 
     // OBSERVER METHODS -------------------------------------------------------
@@ -49,7 +49,7 @@ public class Rover implements ApiObserver
     public void updateComm(String command) 
     {
         this.command = command;
-        System.out.println("New command: " + this.command);
+        System.out.println("\nNew command: " + this.command);
         readCommand();
     }
 
@@ -76,6 +76,23 @@ public class Rover implements ApiObserver
         {
             visState.normal(this, temp, vis, light);
         }
+    }
+
+    @Override
+    public void updateTotalDistance(double totalDist)
+    {
+        this.totalDist = totalDist;
+
+        if(totalDist >= travelTarget)
+        {
+            roverState.stopDriving(this);
+        }
+    }
+
+    @Override
+    public void updateSoilResults(byte[] soilResults)
+    {
+        this.soilResults = soilResults;
     }
 
     // STATE METHODS ----------------------------------------------------------
@@ -130,7 +147,7 @@ public class Rover implements ApiObserver
             case "D":
                 //drive(Double.parseDouble(commandID[1]));
                 value = Double.parseDouble(commandID[1]);
-                roverState.drive(this, value);
+                roverState.startDriving(this, value);
             break;
 
             case "T":
@@ -164,33 +181,19 @@ public class Rover implements ApiObserver
     }
 
     /**
-     * Rover keeps driving until totalDist >= travelTarget then:
-     *  - Stops driving
-     *  - Rover State set to Idle
-     *  - Sends return message to Earth
+     * Command the Rover to start driving
      */
-    public void commandDrive()
+    public void commandStartDriving()
     {
-        engSys.startDriving(); //Action
-        setRoverState(new Driving()); //Update State
+        engSys.startDriving();
+    }
 
-        while(totalDist < travelTarget)
-        {
-            totalDist = engSys.getDistanceDriven();
-
-            //Sleep for 3 seconds to simulate time taken to travel.
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch(InterruptedException e)
-            {
-                Thread.currentThread().interrupt();
-            }
-        }
-        
+    /**
+     * Command the Rover to stop driving and send return message
+     */
+    public void commandStopDriving()
+    {
         engSys.stopDriving();
-        setRoverState(new Stopped()); //Update State
         sendMessage("D\n");
     }
 

@@ -2,6 +2,8 @@ package edu.curtin.comp2003.rover.ApiObserverPattern;
 
 public interface ApiObserver 
 {
-    public void updateComm(String command);
-    public void updateEnvironment(double temp, double vis, double light);
+    void updateComm(String command);
+    void updateEnvironment(double temp, double vis, double light);
+    void updateTotalDistance(double totalDist);
+    void updateSoilResults(byte[] soilResults);
 }
