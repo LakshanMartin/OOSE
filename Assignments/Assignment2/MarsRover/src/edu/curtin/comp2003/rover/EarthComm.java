@@ -9,9 +9,10 @@ public class EarthComm
     public String pollCommand()
     {
         String[] commList = new String[]{
-            //"D 10.0"
+            //"D 10.0", "D 5.0", "P", "S", "E"
             //"E", "D 10.0", "E", "D 5.0"
-            "D 10.0", "E", "D 5.0"
+            //"D 10.0", "S", "T 150.0", "D 5.0"
+            "D 10.0", "T 10.0"
         };
 
         if(commCount == commList.length - 1)

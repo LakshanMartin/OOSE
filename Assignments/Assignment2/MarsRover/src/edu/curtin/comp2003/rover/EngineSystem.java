@@ -24,7 +24,8 @@ public class EngineSystem
     public double getDistanceDriven()
     {
         double[] distList = new double[]{
-            0.0, 0.0, 10.0, 5.0, 1.0, 1.0, 1.0, 1.0, 1.0
+            1.0, 1.0, 10.0, 15.0, 15.0, 15.0, 15.0, 15.0 , 15.0, 15.0, 15.0
+            //0.0, 0.0, 10.0, 5.0, 1.0, 1.0, 1.0, 1.0, 10.0
         };
 
         if(distCount == distList.length - 1)

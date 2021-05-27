@@ -14,8 +14,8 @@ public class Stopped implements RoverState
     public void startDriving(Rover context, double newDist)
     {
         context.setTravelTarget(context.getTotalDist() + newDist);
-        context.commandStartDriving();
-        context.setRoverState(new Driving());
+        context.commandStartDriving(); //Action
+        context.setRoverState(new Driving()); //Update State
     }
 
     @Override
@@ -39,6 +39,7 @@ public class Stopped implements RoverState
     @Override
     public void analyseSoil(Rover context) 
     {
-        context.commandSoilAnalysis();
+        context.commandSoilAnalysis(); //Action
+        context.setRoverState(new AnalysingSoil()); //Update State
     }
 }

@@ -92,7 +92,17 @@ public class Rover implements ApiObserver
     @Override
     public void updateSoilResults(byte[] soilResults)
     {
+        String encodedSoilResults;
+
         this.soilResults = soilResults;
+
+        if(this.soilResults != null)
+        {
+            encodedSoilResults = Base64.getEncoder().encodeToString(soilResults);
+            this.soilResults = null; //reset back to null
+            sendMessage("S " + encodedSoilResults + "\n");
+            setRoverState(new Stopped()); //Update Rover State
+        }
     }
 
     // STATE METHODS ----------------------------------------------------------
@@ -112,25 +122,10 @@ public class Rover implements ApiObserver
         this.travelTarget = travelTarget;
     }
 
-    public void setTotalDist(double updated)
-    {
-        this.totalDist = updated;
-    }
-
     // ACESSORS ---------------------------------------------------------------
-    public String getCommand()
-    {
-        return command;
-    }
-
     public double getTotalDist()
     {
         return totalDist;
-    }
-
-    public double getTravelTarget()
-    {
-        return travelTarget;
     }
 
     // SUPPORTING METHODS -----------------------------------------------------
@@ -145,13 +140,11 @@ public class Rover implements ApiObserver
         switch(commandID[0])
         {
             case "D":
-                //drive(Double.parseDouble(commandID[1]));
                 value = Double.parseDouble(commandID[1]);
                 roverState.startDriving(this, value);
             break;
 
             case "T":
-                //turn(Double.parseDouble(commandID[1]));
                 value = Double.parseDouble(commandID[1]);
                 roverState.turn(this, value);
             break;
@@ -165,7 +158,6 @@ public class Rover implements ApiObserver
             break;
 
             case "S":
-                //analyseSoil();
                 roverState.analyseSoil(this);
             break;
         }
@@ -204,7 +196,6 @@ public class Rover implements ApiObserver
     public void commandTurn(double newAngle)
     {
         engSys.turn(newAngle);
-        sendMessage("T\n");
     }
 
     /**
@@ -235,38 +226,10 @@ public class Rover implements ApiObserver
     }
 
     /**
-     * Rover starts analysing soil and returns report message back to Earth
-     *  
-     * REFERENCES: Stopak, J. "How to delay code execution in Java". 
-     *             https://www.baeldung.com/java-delay-code-execution
-     *             (accessed 21 May 2021).
+     * Rover starts analysing soil.
      */
     public void commandSoilAnalysis()
     {
-        String encodedSoilResults;
-
-        soil.startAnalysis(); //Action
-        setRoverState(new AnalysingSoil()); //Update State
-
-        while(soilResults == null)
-        {
-            soilResults = soil.pollAnalysis(); //Poll until results returned
-
-            //Sleep 2 seconds after polling - REFERENCED CODE.
-            try
-            {
-                Thread.sleep(1000 * 2);
-            }
-            catch(InterruptedException e)
-            {
-                Thread.currentThread().interrupt();
-            }
-        }
-
-        setRoverState(new Stopped()); //Update State 
-        encodedSoilResults = Base64.getEncoder().encodeToString(soilResults);
-        soilResults = null; //Reset back to null for next analysis
-
-        sendMessage("S " + encodedSoilResults + "\n");
+        soil.startAnalysis(); 
     }
 }
