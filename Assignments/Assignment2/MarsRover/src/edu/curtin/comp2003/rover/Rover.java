@@ -4,6 +4,8 @@ import java.util.Base64;
 
 import edu.curtin.comp2003.rover.ApiObserverPattern.ApiObserver;
 import edu.curtin.comp2003.rover.RoverStatePattern.*;
+import edu.curtin.comp2003.rover.VisibilityStatePattern.AboveFiveVisibility;
+import edu.curtin.comp2003.rover.VisibilityStatePattern.BelowFourVisibility;
 import edu.curtin.comp2003.rover.VisibilityStatePattern.NormalVisibility;
 import edu.curtin.comp2003.rover.VisibilityStatePattern.VisibilityState;
 
@@ -223,6 +225,24 @@ public class Rover implements ApiObserver
         light = sens.readLightLevel();
 
         sendMessage("E " + temp + " " + vis + " " + light + "\n");
+    
+        reassessVisibilityState();
+    }
+
+    private void reassessVisibilityState()
+    {
+        if(vis < 4.0)
+        {
+            setVisibilityState(new BelowFourVisibility());
+        }
+        else if(vis > 5.0)
+        {
+            setVisibilityState(new AboveFiveVisibility());
+        }
+        else
+        {
+            setVisibilityState(new NormalVisibility());
+        }
     }
 
     /**

@@ -74,7 +74,7 @@ public class ApiData implements Subject
         //Sleep after notifying observers - REFERENCED CODE.
         try
         {
-            Thread.sleep(1000 * 1);
+            Thread.sleep(1000);
         }
         catch(InterruptedException e)
         {

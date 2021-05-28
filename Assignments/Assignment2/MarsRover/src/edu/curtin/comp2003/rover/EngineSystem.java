@@ -2,18 +2,19 @@ package edu.curtin.comp2003.rover;
 
 public class EngineSystem 
 {
-    private int distCount = -1;
+    private boolean driving = false;
+    private double dist = 0.0;
 
     public EngineSystem(){}
 
     public void startDriving()
     {
-
+        driving = true;
     }   
     
     public void stopDriving()
     {
-
+        driving = false;
     }
 
     public void turn(double angle)
@@ -23,20 +24,12 @@ public class EngineSystem
 
     public double getDistanceDriven()
     {
-        double[] distList = new double[]{
-            1.0, 1.0, 10.0, 15.0, 15.0, 15.0, 15.0, 15.0 , 15.0, 15.0, 15.0
-            //0.0, 0.0, 10.0, 5.0, 1.0, 1.0, 1.0, 1.0, 10.0
-        };
-
-        if(distCount == distList.length - 1)
+        if(driving)
         {
-            return distList[distList.length - 1];
+            //dist++;
+            dist += 2.0;
         }
-        else
-        {
-            distCount++;
 
-            return distList[distCount];
-        }
+        return dist;
     }
 }

@@ -17,8 +17,14 @@ public class Sensors
     public double readVisibility()
     {
         double[] visList = new double[]{
-            4.0, 4.1, 4.2, 4.3, 4.4, 4.5
-            //5.1, 6.0, 4.1, 4.5, 2.0, 4.0, 4.2, 4.3, 4.5, 5.7, 4.3, 3.0
+            // Test normal visibility range
+            //4.0, 4.1, 4.2, 4.3, 4.4, 4.5
+
+            // Test visibility crossing 4km threshold
+            //4.0, 3.5, 3.6, 4.0
+
+            // Test visibility crossing 5km threshold
+            4.0, 5.0, 16.0, 15.0, 5.1, 4.5, 5.1, 5.5, 6.0, 7.0
         };
 
         if(visCount == visList.length - 1)

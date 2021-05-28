@@ -1,40 +1,31 @@
 package edu.curtin.comp2003.rover;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SoilAnalyser 
 {
-    private int soilCount = -1;
+    private boolean started = false;
 
     public SoilAnalyser(){}
 
     public void startAnalysis()
     {
-
+        started = true;
     }   
     
     public byte[] pollAnalysis()
     {
         byte[] result = new byte[]{
-            10, 12, 21
+            10, 12, 21, 123, 124
         };
 
-        List<byte[]> list = new ArrayList<>();
-        list.add(null);
-        list.add(null);
-        list.add(null);
-        list.add(result);
-        list.add(null);
-
-        if(soilCount == list.size() - 1)
+        if(!started)
         {
-            return list.get(list.size() - 1);
+            return null;
         }
         else
         {
-            soilCount++;
-            return list.get(soilCount);
+            started = false;
+
+            return result;
         }
     }
 }
