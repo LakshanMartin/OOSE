@@ -2,6 +2,10 @@ package edu.curtin.comp2003.rover.RoverStatePattern;
 
 import edu.curtin.comp2003.rover.Rover;
 
+/**
+ * This class implements the RoverState interface and represents the state the
+ * Rover is in while Analysing Soil, and handles state dependent methods.
+ */
 public class Stopped implements RoverState
 {
     //CONSTRUCTOR
@@ -18,6 +22,9 @@ public class Stopped implements RoverState
         context.setRoverState(new Driving()); //Update State
     }
 
+    /**
+     * This method does nothing in this state, as the Rover is already stopped.
+     */
     @Override
     public void stopDriving(Rover context)
     {

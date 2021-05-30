@@ -99,7 +99,7 @@ public class ApiData implements Subject
         {
             try
             {
-                //Retrieve & validate updated command values
+                //Retrieve command value
                 inCommand = eComm.pollCommand();
 
                 //No need to validate command if it is NULL
@@ -129,7 +129,7 @@ public class ApiData implements Subject
             }
             catch(CommandException e)
             {
-                eComm.sendMessage(e.getMessage());
+                eComm.sendMessage(e.getMessage()); //Send error message
             }
         }
     } 

@@ -4,10 +4,7 @@ import java.util.Base64;
 
 import edu.curtin.comp2003.rover.ApiObserverPattern.ApiObserver;
 import edu.curtin.comp2003.rover.RoverStatePattern.*;
-import edu.curtin.comp2003.rover.VisibilityStatePattern.AboveFiveVisibility;
-import edu.curtin.comp2003.rover.VisibilityStatePattern.BelowFourVisibility;
-import edu.curtin.comp2003.rover.VisibilityStatePattern.NormalVisibility;
-import edu.curtin.comp2003.rover.VisibilityStatePattern.VisibilityState;
+import edu.curtin.comp2003.rover.VisibilityStatePattern.*;
 
 public class Rover implements ApiObserver
 {
@@ -22,7 +19,8 @@ public class Rover implements ApiObserver
     private RoverState roverState;
     private VisibilityState visState;
 
-    public Rover(EarthComm eComm, Sensors sens, EngineSystem engSys, SoilAnalyser soil, ApiData apiData)
+    public Rover(EarthComm eComm, Sensors sens, EngineSystem engSys, 
+    SoilAnalyser soil, ApiData apiData, Stopped stopped, NormalVisibility normal)
     {
         this. eComm = eComm;
         this.sens = sens;
@@ -38,8 +36,8 @@ public class Rover implements ApiObserver
         totalDist = 0.0;
 
         this.apiData.addObserver(this); //Add Rover as an Observer
-        roverState = new Stopped(); //Initial State of Rover
-        visState = new NormalVisibility(); //Initial Visibility State
+        roverState = stopped; //Initial State of Rover
+        visState = normal; //Initial Visibility State
     }
 
     // OBSERVER METHODS -------------------------------------------------------
@@ -50,7 +48,6 @@ public class Rover implements ApiObserver
     public void updateComm(String command) 
     {
         this.command = command;
-        System.out.println("\nNew command: " + this.command);
         readCommand();
     }
 

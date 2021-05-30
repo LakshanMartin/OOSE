@@ -24,7 +24,7 @@ public class EarthComm
 
             // TEST SOIL ANALYSIS COMMANDS ------------------------------------
             // Test error states during Soil Analysis
-            //"S", "D 10.0", "S", "T -150.0", "S", "S"
+            "S", "D 10.0", "S", "T -150.0", "S", "S"
 
             // Test valid commands during Soil Analysis
             //"S", "E", "S", "P"

@@ -66,7 +66,7 @@ public class CommandValidation
         switch(command[0])
         {
             case "P": case "E": case "S":
-                //Just checking
+                //Just checking...
             break;
 
             default:

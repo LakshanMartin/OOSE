@@ -2,6 +2,11 @@ package edu.curtin.comp2003.rover.VisibilityStatePattern;
 
 import edu.curtin.comp2003.rover.Rover;
 
+/**
+ * This class implements the VisibilityState interface and represents the 
+ * visibility state the Rover is in while visibility is within acceptable 
+ * range (4km - 5km).
+ */
 public class NormalVisibility implements VisibilityState
 {
     @Override
@@ -23,5 +28,4 @@ public class NormalVisibility implements VisibilityState
         context.sendMessage("E " + temp + " " + vis + " " + light + "\n");
         context.setVisibilityState(new AboveFiveVisibility());
     }
-    
 }

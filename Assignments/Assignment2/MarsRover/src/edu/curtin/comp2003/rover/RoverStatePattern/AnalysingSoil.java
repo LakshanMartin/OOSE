@@ -2,6 +2,10 @@ package edu.curtin.comp2003.rover.RoverStatePattern;
 
 import edu.curtin.comp2003.rover.Rover;
 
+/**
+ * This class implements the RoverState interface and represents the state the
+ * Rover is in while Analysing Soil, and handles state dependent methods. 
+ */
 public class AnalysingSoil implements RoverState
 {
     String defaultError;
@@ -24,6 +28,10 @@ public class AnalysingSoil implements RoverState
         context.sendMessage(defaultError + customError);
     }
 
+    /**
+     * This method does nothing in this State, as the Rover wouldn't be driving
+     * in the first place if it was Analysing Soil.
+     */
     @Override
     public void stopDriving(Rover context)
     {

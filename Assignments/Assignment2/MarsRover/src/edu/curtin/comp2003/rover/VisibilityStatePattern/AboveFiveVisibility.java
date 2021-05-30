@@ -2,6 +2,10 @@ package edu.curtin.comp2003.rover.VisibilityStatePattern;
 
 import edu.curtin.comp2003.rover.Rover;
 
+/**
+ * This class implements the VisibilityState interface and represents the 
+ * visibility state the Rover is in while visibility is above 5 km.
+ */
 public class AboveFiveVisibility implements VisibilityState
 {
     @Override

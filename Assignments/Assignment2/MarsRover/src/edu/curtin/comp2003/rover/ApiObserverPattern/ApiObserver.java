@@ -1,5 +1,8 @@
 package edu.curtin.comp2003.rover.ApiObserverPattern;
 
+/**
+ * This interface is implemented by Rover class, which is the Observers.
+ */
 public interface ApiObserver 
 {
     void updateComm(String command);

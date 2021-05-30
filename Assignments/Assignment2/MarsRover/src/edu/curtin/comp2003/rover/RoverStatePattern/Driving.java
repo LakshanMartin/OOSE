@@ -2,6 +2,10 @@ package edu.curtin.comp2003.rover.RoverStatePattern;
 
 import edu.curtin.comp2003.rover.Rover;
 
+/**
+ * This class implements the RoverState interface and represents the state the
+ * Rover is in while Driving, handles state dependent methods. 
+ */
 public class Driving implements RoverState
 {
 	String defaultError;
@@ -23,16 +27,19 @@ public class Driving implements RoverState
 		double currDist, newTarget;
 
 		currDist = context.getTotalDist(); 
-		newTarget = currDist + newDist; 
+		newTarget = currDist + newDist; //Calculate new travel target 
 
-		context.setTravelTarget(newTarget);
+		context.setTravelTarget(newTarget); //Set new travel target
 	}
 
+	/**
+	 * Command Rover to stop driving.
+	 */
 	@Override
     public void stopDriving(Rover context)
     {
-		context.commandStopDriving();
-		context.setRoverState(new Stopped());
+		context.commandStopDriving(); //Action
+		context.setRoverState(new Stopped()); //Update State
     }
 
 	/**
