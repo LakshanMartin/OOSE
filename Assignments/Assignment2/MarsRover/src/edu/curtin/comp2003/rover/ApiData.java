@@ -164,7 +164,7 @@ public class ApiData implements Subject
                 break;
 
                 default:
-                    throw new CommandException("Invalid command");
+                    throw new CommandException("\"" + command + "\"" + " - Invalid command");
             }
         }
         catch(CommandException e)

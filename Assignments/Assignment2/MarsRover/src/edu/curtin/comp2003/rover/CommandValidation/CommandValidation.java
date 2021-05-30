@@ -37,12 +37,12 @@ public class CommandValidation
                 break;
 
                 default:
-                    throw new CommandException("Invalid command");
+                    throw new CommandException("\"" + command[0] + " " + command[1] + "\"" + " - Invalid command");
             }
         }
         catch(NumberFormatException e) //Catch non-number values
         {
-            throw new CommandException(e.getMessage());
+            throw new CommandException("\"" + command[0] + " " + command[1] + "\"" + " - Invalid command");
         }
         catch(CommandException e)
         {
@@ -70,7 +70,7 @@ public class CommandValidation
             break;
 
             default:
-                throw new CommandException("Invalid command");
+                throw new CommandException("\"" + command[0] + "\"" + " - Invalid command");
         }
     }
 
@@ -105,7 +105,7 @@ public class CommandValidation
     {
         if(distance <= 0.0)
         {
-            throw new CommandException("Invalid Distance");
+            throw new CommandException("\"D " + distance + "\"" + " - Invalid Distance");
         }
     }
 
@@ -125,7 +125,7 @@ public class CommandValidation
 
         if(toCheck.compareTo(min) < 0 || toCheck.compareTo(max) > 0)
         {
-            throw new CommandException("Invalid Turn angle");
+            throw new CommandException("\"T " + angle + "\"" + " - Invalid Turn angle");
         }
     }
 }

@@ -10,7 +10,7 @@ public class EarthComm
     {
         String[] commList = new String[]{
             // TEST INVALID COMMANDS
-            //"X", "D 0.0" 
+            "X f", "D f" 
             
             // TEST DRIVE COMMANDS --------------------------------------------
             // subsequent "D" commands
@@ -24,7 +24,7 @@ public class EarthComm
 
             // TEST SOIL ANALYSIS COMMANDS ------------------------------------
             // Test error states during Soil Analysis
-            "S", "D 10.0", "S", "T -150.0", "S", "S"
+            //"S", "D 10.0", "S", "T -150.0", "S", "S"
 
             // Test valid commands during Soil Analysis
             //"S", "E", "S", "P"
