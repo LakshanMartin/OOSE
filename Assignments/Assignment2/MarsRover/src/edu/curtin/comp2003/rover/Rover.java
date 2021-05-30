@@ -18,7 +18,7 @@ public class Rover implements ApiObserver
     private ApiData apiData;
     private String command;
     private double temp, vis, light, totalDist, travelTarget;
-    private byte[] photo, soilResults;
+    private byte[] photo;
     private RoverState roverState;
     private VisibilityState visState;
 
@@ -36,7 +36,6 @@ public class Rover implements ApiObserver
         light = 0.0;
         photo = null;
         totalDist = 0.0;
-        soilResults = null;
 
         this.apiData.addObserver(this); //Add Rover as an Observer
         roverState = new Stopped(); //Initial State of Rover
@@ -45,7 +44,7 @@ public class Rover implements ApiObserver
 
     // OBSERVER METHODS -------------------------------------------------------
     /**
-     * Updating Commands for next set of instructions from Earth
+     * Update Commands for next set of instructions from Earth
      */
     @Override
     public void updateComm(String command) 
@@ -56,7 +55,7 @@ public class Rover implements ApiObserver
     }
 
     /**
-     * Updating Environment Status report to check if Visibility is within set 
+     * Update Environment Status report to check if Visibility is within set 
      * thresholds.  
      */
     @Override
@@ -80,31 +79,28 @@ public class Rover implements ApiObserver
         }
     }
 
+    /**
+     * Update Total Distance travelled 
+     */
     @Override
     public void updateTotalDistance(double totalDist)
     {
         this.totalDist = totalDist;
 
-        if(totalDist >= travelTarget)
-        {
-            roverState.stopDriving(this);
-        }
+        checkTravelTarget();
     }
 
+    /**
+     * Update soil analysis results
+     */
     @Override
     public void updateSoilResults(byte[] soilResults)
     {
         String encodedSoilResults;
-
-        this.soilResults = soilResults;
-
-        if(this.soilResults != null)
-        {
-            encodedSoilResults = Base64.getEncoder().encodeToString(soilResults);
-            this.soilResults = null; //reset back to null
-            sendMessage("S " + encodedSoilResults + "\n");
-            setRoverState(new Stopped()); //Update Rover State
-        }
+        
+        encodedSoilResults = Base64.getEncoder().encodeToString(soilResults);
+        sendMessage("S " + encodedSoilResults + "\n"); //Send encoded results
+        setRoverState(new Stopped()); //Update Rover State
     }
 
     // STATE METHODS ----------------------------------------------------------
@@ -132,7 +128,7 @@ public class Rover implements ApiObserver
 
     // SUPPORTING METHODS -----------------------------------------------------
     /**
-     * Identify which command for the the Rover to action.
+     * Identify which command the Rover should action.
      */
     private void readCommand()
     {
@@ -142,12 +138,12 @@ public class Rover implements ApiObserver
         switch(commandID[0])
         {
             case "D":
-                value = Double.parseDouble(commandID[1]);
+                value = Double.parseDouble(commandID[1]); //Convert to double
                 roverState.startDriving(this, value);
             break;
 
             case "T":
-                value = Double.parseDouble(commandID[1]);
+                value = Double.parseDouble(commandID[1]); //Convert to double
                 roverState.turn(this, value);
             break;
 
@@ -183,6 +179,17 @@ public class Rover implements ApiObserver
     }
 
     /**
+     * Check whether the Rover has travelled the requested distance
+     */
+    private void checkTravelTarget()
+    {
+        if(totalDist >= travelTarget)
+        {
+            roverState.stopDriving(this);
+        }
+    }
+
+    /**
      * Command the Rover to stop driving and send return message
      */
     public void commandStopDriving()
@@ -211,7 +218,7 @@ public class Rover implements ApiObserver
         photo = sens.takePhoto();
         encodedPhoto = Base64.getEncoder().encodeToString(photo);
         
-        sendMessage("P " + encodedPhoto + "\n");
+        sendMessage("P " + encodedPhoto + "\n"); //Send encoded photo data
     }
 
     /**
@@ -226,9 +233,12 @@ public class Rover implements ApiObserver
 
         sendMessage("E " + temp + " " + vis + " " + light + "\n");
     
-        reassessVisibilityState();
+        reassessVisibilityState(); 
     }
 
+    /**
+     * Set visibility state based on latest visibility status.
+     */
     private void reassessVisibilityState()
     {
         if(vis < 4.0)

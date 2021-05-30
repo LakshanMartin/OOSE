@@ -2,10 +2,7 @@ package edu.curtin.comp2003.rover;
 
 public class Sensors 
 {
-    private int tempCount = -1;
     private int visCount = -1;
-    private int lightCount = -1;
-    private int photoCount = -1;
 
     public Sensors(){}
 

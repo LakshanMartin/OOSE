@@ -26,8 +26,8 @@ public class EngineSystem
     {
         if(driving)
         {
-            //dist++;
-            dist += 2.0;
+            dist += 0.1;
+            System.out.println("\nODOMETER: " + dist + "\n");
         }
 
         return dist;

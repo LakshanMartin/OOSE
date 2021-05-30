@@ -21,6 +21,7 @@ public class ApiData implements Subject
     private double temp, vis, light, totalDist;
     private byte[] soilResults;
 
+    //CONSTRUCTOR
     public ApiData(EarthComm eComm, Sensors sens, EngineSystem engSys, SoilAnalyser soil)
     {
         this.eComm = eComm;
@@ -61,20 +62,24 @@ public class ApiData implements Subject
     {
         for(ApiObserver ob : obs)
         {
-            if(command != null)
+            if(command != null) //Ignored if no command received
             {
                 ob.updateComm(command);
             }
 
             ob.updateEnvironment(temp, vis, light);
             ob.updateTotalDistance(totalDist);
-            ob.updateSoilResults(soilResults);
+
+            if(soilResults != null) //Ignored if there are no results
+            {
+                ob.updateSoilResults(soilResults);
+            }
         }
 
         //Sleep after notifying observers - REFERENCED CODE.
         try
         {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
         catch(InterruptedException e)
         {
@@ -83,6 +88,9 @@ public class ApiData implements Subject
     }
 
     // SUPPORTING METHODS -----------------------------------------------------
+    /**
+     * Method used to constantly poll the API for required information.
+     */
     public void updateApi()
     {
         String inCommand;
@@ -94,18 +102,18 @@ public class ApiData implements Subject
                 //Retrieve & validate updated command values
                 inCommand = eComm.pollCommand();
 
-                //Catch end of commands list and break loop
+                //No need to validate command if it is NULL
                 if(inCommand == null)
                 {
                     this.command = null;
                 }
                 else
                 {
-                    validateCommand(inCommand);    
-                    this.command = inCommand; 
+                    validateCommand(inCommand); //Validation process   
+                    this.command = inCommand; //Set new command value
                 }
 
-                //Retrieve updated enviroment values
+                //Retrieve updated environment values
                 this.temp = sens.readTemperature();
                 this.vis = sens.readVisibility();
                 this.light = sens.readLightLevel();
@@ -126,6 +134,12 @@ public class ApiData implements Subject
         }
     } 
     
+    /**
+     * Identifies and validates command based on whether it has one part 
+     * ("S", "P", "E") or two parts ("D 10.5", "T 150.0").
+     * @param command
+     * @throws CommandException
+     */
     private void validateCommand(String command) throws CommandException
     {
         ReadCommand readComm;

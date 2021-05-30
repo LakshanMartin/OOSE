@@ -9,9 +9,12 @@ public class EarthComm
     public String pollCommand()
     {
         String[] commList = new String[]{
+            // TEST INVALID COMMANDS
+            //"X", "D 0.0" 
+            
             // TEST DRIVE COMMANDS --------------------------------------------
             // subsequent "D" commands
-            //"D 10.0", "D 5.0"
+            //"D 1.5", "P", "E", "P", "D 5.2"
 
             // Test error states while Driving
             //"D 10.0", "S"
@@ -26,7 +29,7 @@ public class EarthComm
             // Test valid commands during Soil Analysis
             //"S", "E", "S", "P"
 
-            "E", "E", "E"
+            //"E"
         };
 
         if(commCount == commList.length - 1)
