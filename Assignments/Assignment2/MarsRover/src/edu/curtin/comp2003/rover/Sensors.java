@@ -21,10 +21,10 @@ public class Sensors
             //4.0, 3.5, 3.6, 4.0
 
             // Test visibility crossing 5km threshold
-            4.5, 4.2, 5.0, 5.1, 4.7, 5.5, 6.0, 5.0            
+            //4.5, 4.2, 5.0, 5.1, 4.7, 5.5, 6.0, 5.0            
 
             // Test visibility crossing both thresholds
-            //4.0, 5.0, 16.0, 15.0, 5.1, 4.5, 5.1, 5.5, 6.0, 7.0, 4.5
+            4.0, 3.5, 5.0, 16.0, 15.0, 5.1, 4.5, 5.1, 5.5, 6.0, 7.0, 4.5
         };
 
         if(visCount == visList.length - 1)

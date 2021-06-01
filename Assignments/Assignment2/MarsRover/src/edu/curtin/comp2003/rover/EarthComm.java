@@ -14,10 +14,10 @@ public class EarthComm
             
             // TEST DRIVE COMMANDS --------------------------------------------
             // subsequent "D" commands
-            "D 1.5", "P", "E", "P", "D 1.0",
+            //"D 1.5", "P", "E", "P", "D 1.0",
 
             // Test error states while Driving
-            //"S",
+            //"D 1.0", "S",
 
             // Test valid commands while Driving
             //"D 1.0", "T -120.0", "E", "P",
@@ -29,9 +29,10 @@ public class EarthComm
             // Test valid commands during Soil Analysis
             //"S", "E", "S", "P",
 
-            //"E", "E", "E"
+            // TEST VISIBILITY THRESHOLDS
+            //"E", "E", "E",
 
-            "D"
+            "D" //Last command
         };
 
         if(commCount == commList.length - 1)

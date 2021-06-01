@@ -12,8 +12,8 @@ public class MainApp
         EngineSystem engSys;
         SoilAnalyser soil;
         ApiData apiData;
-        RoverState stopped;
-        VisibilityState normal;
+        RoverState roverState;
+        VisibilityState visState;
         Rover rover;
         
         eComm = new EarthComm();
@@ -22,9 +22,9 @@ public class MainApp
         soil = new SoilAnalyser();
         apiData = new ApiData(eComm, sens, engSys, soil); //Dependency injector
         
-        stopped = new Stopped();
-        normal = new NormalVisibility();
-        rover = new Rover(eComm, sens, engSys, soil, apiData, stopped, normal); //Dependency injector
+        roverState = new Stopped();
+        visState = new NormalVisibility();
+        rover = new Rover(eComm, sens, engSys, soil, apiData, roverState, visState); //Dependency injector
 
         apiData.updateApi();
     }    
