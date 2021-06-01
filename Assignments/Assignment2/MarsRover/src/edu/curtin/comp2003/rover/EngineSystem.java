@@ -1,9 +1,12 @@
 package edu.curtin.comp2003.rover;
 
+import java.math.BigDecimal;
+
 public class EngineSystem 
 {
     private boolean driving = false;
-    private double dist = 0.0;
+    //private double dist = 0.0;
+    private BigDecimal dist = BigDecimal.valueOf(0.0);
 
     public EngineSystem(){}
 
@@ -26,10 +29,11 @@ public class EngineSystem
     {
         if(driving)
         {
-            dist += 0.1;
+            //dist += 0.1;
+            dist = dist.add(BigDecimal.valueOf(0.1));
             System.out.println("\nODOMETER: " + dist + "\n");
         }
 
-        return dist;
+        return dist.doubleValue();
     }
 }

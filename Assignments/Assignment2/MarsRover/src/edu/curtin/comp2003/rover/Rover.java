@@ -20,7 +20,7 @@ public class Rover implements ApiObserver
     private VisibilityState visState;
 
     public Rover(EarthComm eComm, Sensors sens, EngineSystem engSys, 
-    SoilAnalyser soil, ApiData apiData, Stopped stopped, NormalVisibility normal)
+    SoilAnalyser soil, ApiData apiData, RoverState stopped, VisibilityState normal)
     {
         this. eComm = eComm;
         this.sens = sens;
@@ -228,7 +228,7 @@ public class Rover implements ApiObserver
         vis = sens.readVisibility();
         light = sens.readLightLevel();
 
-        sendMessage("E " + temp + " " + vis + " " + light + "\n");
+        sendMessage("E command " + temp + " " + vis + " " + light + "\n");
     
         reassessVisibilityState(); 
     }

@@ -11,7 +11,8 @@ public class CommandException extends Exception
 {
     public CommandException(String error)
     {
-        super("! I'm sorry, Dave. I'm afraid I can't do that..." + 
-                "\n[" + error + "]\n");
+        super("! " + error + "\n");
+        //super("! I'm sorry, Dave. I'm afraid I can't do that..." + 
+        //        "\n[" + error + "]\n");
     }    
 }

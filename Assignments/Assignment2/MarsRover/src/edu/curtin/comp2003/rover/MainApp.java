@@ -1,7 +1,7 @@
 package edu.curtin.comp2003.rover;
 
-import edu.curtin.comp2003.rover.RoverStatePattern.Stopped;
-import edu.curtin.comp2003.rover.VisibilityStatePattern.NormalVisibility;
+import edu.curtin.comp2003.rover.RoverStatePattern.*;
+import edu.curtin.comp2003.rover.VisibilityStatePattern.*;
 
 public class MainApp 
 {
@@ -12,8 +12,8 @@ public class MainApp
         EngineSystem engSys;
         SoilAnalyser soil;
         ApiData apiData;
-        Stopped stopped;
-        NormalVisibility normal;
+        RoverState stopped;
+        VisibilityState normal;
         Rover rover;
         
         eComm = new EarthComm();

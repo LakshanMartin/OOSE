@@ -8,15 +8,8 @@ import edu.curtin.comp2003.rover.Rover;
  */
 public class Driving implements RoverState
 {
-	String defaultError;
-    String customError;
-
     //CONSTRUCTOR
-    public Driving()
-	{
-		defaultError = "\n! I'm sorry, Dave. I'm afraid I can't do that..."; 
-        customError = "";
-	}
+    public Driving() {}
 
 	/**
 	 * Adjust the Rover's travel target
@@ -57,7 +50,6 @@ public class Driving implements RoverState
 	@Override
 	public void analyseSoil(Rover context) 
 	{
-		customError = "\n[Cannot start Soil Analysis while Driving]\n";
-		context.sendMessage(defaultError + customError);	
+		context.sendMessage("! S");	
 	}
 }
