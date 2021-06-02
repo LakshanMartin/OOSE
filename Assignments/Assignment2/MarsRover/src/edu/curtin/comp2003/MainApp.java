@@ -4,6 +4,20 @@ import edu.curtin.comp2003.RoverStatePattern.*;
 import edu.curtin.comp2003.VisibilityStatePattern.*;
 import edu.curtin.comp2003.rover.*;
 
+/**
+ * Object Oriented Software Engineering - COMP2003
+ * Assignment 2
+ * Semester 1, 2021
+ * 
+ * Purpose: This application is an implementation of a control system for a 
+ *          Mars Rover, which receives commands and is controlled through an
+ *          externally produced API. These API classes can be found in the 
+ *          /rover directory.
+ * 
+ * Author: Lakshan Martin
+ * ID: 13983521
+ * Submission Date: 2nd June 2021 
+ */
 public class MainApp 
 {
     public static void main(String[] args)
