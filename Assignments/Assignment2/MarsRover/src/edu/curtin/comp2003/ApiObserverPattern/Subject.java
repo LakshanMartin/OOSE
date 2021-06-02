@@ -1,4 +1,4 @@
-package edu.curtin.comp2003.rover.ApiObserverPattern;
+package edu.curtin.comp2003.ApiObserverPattern;
 
 /**
  * This class is implemented by the Subject/Event-Source class, which is the 

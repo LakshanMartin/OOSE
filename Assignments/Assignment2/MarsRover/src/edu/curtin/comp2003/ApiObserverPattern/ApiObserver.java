@@ -1,4 +1,4 @@
-package edu.curtin.comp2003.rover.ApiObserverPattern;
+package edu.curtin.comp2003.ApiObserverPattern;
 
 /**
  * This interface is implemented by Rover class, which is the Observers.

@@ -1,6 +1,6 @@
-package edu.curtin.comp2003.rover.VisibilityStatePattern;
+package edu.curtin.comp2003.VisibilityStatePattern;
 
-import edu.curtin.comp2003.rover.Rover;
+import edu.curtin.comp2003.Rover;
 
 /**
  * This class implements the VisibilityState interface and represents the 

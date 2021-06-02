@@ -1,4 +1,4 @@
-package edu.curtin.comp2003.rover.CommandValidation;
+package edu.curtin.comp2003.CommandValidation;
 
 /**
  * Custom exception to handle invalid commands received.
@@ -12,7 +12,5 @@ public class CommandException extends Exception
     public CommandException(String error)
     {
         super("! " + error + "\n");
-        //super("! I'm sorry, Dave. I'm afraid I can't do that..." + 
-        //        "\n[" + error + "]\n");
     }    
 }

@@ -1,7 +1,8 @@
-package edu.curtin.comp2003.rover;
+package edu.curtin.comp2003;
 
-import edu.curtin.comp2003.rover.RoverStatePattern.*;
-import edu.curtin.comp2003.rover.VisibilityStatePattern.*;
+import edu.curtin.comp2003.RoverStatePattern.*;
+import edu.curtin.comp2003.VisibilityStatePattern.*;
+import edu.curtin.comp2003.rover.*;
 
 public class MainApp 
 {
@@ -24,8 +25,9 @@ public class MainApp
         
         roverState = new Stopped();
         visState = new NormalVisibility();
-        rover = new Rover(eComm, sens, engSys, soil, apiData, roverState, visState); //Dependency injector
+        rover = new Rover(eComm, sens, engSys, soil, roverState, visState); //Dependency injector
 
+        apiData.addObserver(rover);
         apiData.updateApi();
     }    
 }

@@ -1,4 +1,4 @@
-package edu.curtin.comp2003.rover.CommandValidation;
+package edu.curtin.comp2003.CommandValidation;
 
 import java.math.BigDecimal;
 

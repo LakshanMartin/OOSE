@@ -1,18 +1,22 @@
-package edu.curtin.comp2003.rover;
+package edu.curtin.comp2003;
 
 import java.util.Base64;
 
-import edu.curtin.comp2003.rover.ApiObserverPattern.ApiObserver;
-import edu.curtin.comp2003.rover.RoverStatePattern.*;
-import edu.curtin.comp2003.rover.VisibilityStatePattern.*;
+import edu.curtin.comp2003.ApiObserverPattern.ApiObserver;
+import edu.curtin.comp2003.RoverStatePattern.*;
+import edu.curtin.comp2003.VisibilityStatePattern.*;
+import edu.curtin.comp2003.rover.*;
 
+/**
+ * This class represents the state and actions that can be performed by the 
+ * Rover.
+ */
 public class Rover implements ApiObserver
 {
     private EarthComm eComm;
     private Sensors sens;
     private EngineSystem engSys;
     private SoilAnalyser soil;
-    private ApiData apiData;
     private String command;
     private double temp, vis, light, totalDist, travelTarget;
     private byte[] photo;
@@ -20,13 +24,12 @@ public class Rover implements ApiObserver
     private VisibilityState visState;
 
     public Rover(EarthComm eComm, Sensors sens, EngineSystem engSys, 
-    SoilAnalyser soil, ApiData apiData, RoverState roverState, VisibilityState visState)
+    SoilAnalyser soil, RoverState roverState, VisibilityState visState)
     {
         this. eComm = eComm;
         this.sens = sens;
         this.engSys = engSys;
         this.soil = soil;
-        this.apiData = apiData;
 
         command = "";
         temp = 0.0;
@@ -35,7 +38,6 @@ public class Rover implements ApiObserver
         photo = null;
         totalDist = 0.0;
 
-        this.apiData.addObserver(this); //Add Rover as an Observer
         this.roverState = roverState; //Initial State of Rover
         this.visState = visState; //Initial Visibility State
     }

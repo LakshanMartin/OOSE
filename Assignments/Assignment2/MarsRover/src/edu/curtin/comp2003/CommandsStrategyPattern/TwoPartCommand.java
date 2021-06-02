@@ -1,7 +1,6 @@
-package edu.curtin.comp2003.rover.CommandsStrategyPattern;
+package edu.curtin.comp2003.CommandsStrategyPattern;
 
-import edu.curtin.comp2003.rover.CommandValidation.CommandException;
-import edu.curtin.comp2003.rover.CommandValidation.CommandValidation;
+import edu.curtin.comp2003.CommandValidation.*;
 
 /**
  * Strategy class that handles the validation of commands with tw parts.

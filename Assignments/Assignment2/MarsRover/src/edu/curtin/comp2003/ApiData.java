@@ -1,11 +1,12 @@
-package edu.curtin.comp2003.rover;
+package edu.curtin.comp2003;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.curtin.comp2003.rover.ApiObserverPattern.*;
-import edu.curtin.comp2003.rover.CommandValidation.*;
-import edu.curtin.comp2003.rover.CommandsStrategyPattern.*;
+import edu.curtin.comp2003.ApiObserverPattern.*;
+import edu.curtin.comp2003.CommandValidation.*;
+import edu.curtin.comp2003.CommandsStrategyPattern.*;
+import edu.curtin.comp2003.rover.*;
 
 /**
  * This class is used for constant polling of the Rover API.

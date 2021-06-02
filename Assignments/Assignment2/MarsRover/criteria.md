@@ -8,6 +8,8 @@ This document contains my response to the specific marking criteria for this ass
 
 Given that the MVC system was not appropriate for this application, I opted to package parts of my software based on the individual design patterns I used and the containment of specific tasks. I felt that this appropriately isolated sections of my code into specific categories based on their use and implementation. These packages are listed below:
 
+- rover
+  - Contains all the external API classes.
 - ApiObserverPattern
   - Contains classes required to implement the Observer Design Pattern
 - CommandsStrategyPattern
@@ -51,13 +53,19 @@ In order to improve the maintainability and testability of my code, i made sure 
 
 All the core class objects are created within the `MainApp` class, and injected as required. Please see the screenshot below for example:
 
-![image-20210601124643151](/home/lucky/Documents/Uni/OOSE/Assignments/Assignment2/MarsRover/criteria.assets/image-20210601124643151.png)
+![image-20210602082837417](/home/lucky/Documents/Uni/OOSE/Assignments/Assignment2/MarsRover/criteria.assets/image-20210602082837417.png)
 
 Particularly, with the injector for the creation of the rover object, this allows the object to be tested with the full variety of Rover States (Stopped, Driving, AnalysingSoil) and Visibility States (BelowFourVisibility, NormalVisibility, AboveFiveVisibility).
 
-All the class constructors i have implemented, consists of basic data initialisation with class methods handling any extensive logic. Example of the `ApiData` constructor:
+All the class constructors i have implemented, consists of basic data initialisation with class methods handling any extensive logic. See below for examples.
+
+ `ApiData`  constructor:
 
 ![image-20210601142910603](/home/lucky/Documents/Uni/OOSE/Assignments/Assignment2/MarsRover/criteria.assets/image-20210601142910603.png)
+
+`Rover` constructor:
+
+![image-20210602082948181](/home/lucky/Documents/Uni/OOSE/Assignments/Assignment2/MarsRover/criteria.assets/image-20210602082948181.png)
 
 
 
@@ -70,9 +78,14 @@ I have utilised the Observer Pattern to identify when a new command and any addi
 - updated total distance travelled - `EngineSystem.getDistanceDriver()`
 - updated soil analysis results - `SoilAnalyser.pollAnalysis()`
 
-The `Rover` class is then the observer, that relies on the above mentioned data, in order to operate. Within each event loop, the `notifyObservers()` method is called to update the `Rover` class with the newly acquired information.
+The `Rover` class is then the single observer, that relies on the above mentioned data, in order to operate. Within each event loop, the `notifyObservers()` method is called to update the `Rover` class with the newly acquired information. 
 
-This implementation effectively decouples the `Rover` class from the `ApiData` class, as neither classes are concerned with how either of them operate. The `ApiData` class essentially acts as an intermediary for any incoming data to the `Rover` class from the external API classes.
+This implementation effectively decouples the `Rover` class from the `ApiData` class by ensuring the following is true:
+
+- Neither classes are concerned with how either of them operates. The `ApiData` class functions without any dependency on how `Rover` class works, and vice versa.
+- Neither are concerned with the others existence. The `ApiData` class makes no reference to the `Rover` class in it's constructor, and vice versa. 
+
+The `ApiData` class essentially acts as an intermediary for any incoming data to the `Rover` class from the external API classes.
 
 
 

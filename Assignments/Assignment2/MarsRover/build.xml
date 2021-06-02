@@ -4,7 +4,7 @@
     <property name="resources.dir"  value="resources"/>
     <property name="build.dir"      value="build"/>
     <property name="dist.dir"       value="dist"/>
-    <property name="main-class"     value="edu.curtin.comp2003.rover.MainApp"/>
+    <property name="main-class"     value="edu.curtin.comp2003.MainApp"/>
 
     <target name="clean">
         <delete dir="${build.dir}"/>

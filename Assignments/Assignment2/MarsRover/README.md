@@ -6,7 +6,7 @@ Semester 1, 2021
 
 Author: Lakshan Martin
 
-Submission: 1st June 2021
+Submission: 2nd June 2021
 
 
 
@@ -42,7 +42,7 @@ This application requires the inclusion of four externally produced classes:
 
 These classes must be saved in the following directory in order to run the application: `/MarsRover/src/edu/curtin/comp2003/rover/`
 
-The application can be executed with either of the commands listed below from the root directory -  `/MarsRover/`
+The application can be executed with either of the commands listed below from the root directory -  `/MarsRover`
 
 ### Ant
 
@@ -71,11 +71,11 @@ java -jar MarsRover.jar
 
    `/MarsRover/UML_Diagram.pdf`
 
-3. A document containing my responses to the marking criteria can be found in the root directors
+3. A document containing my responses to the marking criteria can be found in the root directory
 
    `/MarsRover/criteria.md`
 
-4. PDF versions of the following documents have been created in the event that reading Markdown documents are not suitable:
+4. PDF versions of the following documents have been created in the event that reading Markdown documents is not suitable:
 
    - README.md
    - criteria.md

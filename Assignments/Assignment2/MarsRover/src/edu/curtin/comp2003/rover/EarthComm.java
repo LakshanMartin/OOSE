@@ -20,7 +20,7 @@ public class EarthComm
             //"D 1.0", "S",
 
             // Test valid commands while Driving
-            //"D 1.0", "T -120.0", "E", "P",
+            "D 1.0", "T -120.0", "E", "P",
 
             // TEST SOIL ANALYSIS COMMANDS ------------------------------------
             // Test error states during Soil Analysis

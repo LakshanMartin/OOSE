@@ -1,6 +1,6 @@
-package edu.curtin.comp2003.rover.RoverStatePattern;
+package edu.curtin.comp2003.RoverStatePattern;
 
-import edu.curtin.comp2003.rover.Rover;
+import edu.curtin.comp2003.Rover;
 
 /**
  * Interface that implements methods that are dependent of the current State

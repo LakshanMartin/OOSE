@@ -1,6 +1,6 @@
-package edu.curtin.comp2003.rover.RoverStatePattern;
+package edu.curtin.comp2003.RoverStatePattern;
 
-import edu.curtin.comp2003.rover.Rover;
+import edu.curtin.comp2003.Rover;
 
 /**
  * This class implements the RoverState interface and represents the state the
